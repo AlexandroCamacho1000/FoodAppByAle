@@ -1,5 +1,6 @@
 import { useLanguage } from '../context/LanguageContext';
 import ProductCard from '../components/product/ProductCard';
+import { Link } from 'react-router-dom'; // ← AÑADE ESTE IMPORT
 
 export default function Home() {
   const { t } = useLanguage();
@@ -22,9 +23,13 @@ export default function Home() {
           {t('home.subtitle')}
         </p>
         
-        <button className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white px-8 py-3 rounded-lg hover:shadow-lg hover:shadow-[#2563EB]/30 transition-all font-medium">
+        {/* CAMBIA ESTE BOTÓN POR UN LINK */}
+        <Link 
+          to="/menu"
+          className="inline-block bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white px-8 py-3 rounded-lg hover:shadow-lg hover:shadow-[#2563EB]/30 transition-all font-medium"
+        >
           {t('home.cta')}
-        </button>
+        </Link>
       </div>
 
       {/* Sección Destacados */}
@@ -38,10 +43,14 @@ export default function Home() {
               {t('home.featuredDesc')}
             </p>
           </div>
-          <button className="text-[#2563EB] hover:text-[#1D4ED8] font-medium flex items-center gap-2">
+          {/* TAMBIÉN CAMBIA ESTE BOTÓN */}
+          <Link 
+            to="/menu"
+            className="text-[#2563EB] hover:text-[#1D4ED8] font-medium flex items-center gap-2"
+          >
             {t('viewAll')}
             <span>→</span>
-          </button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">

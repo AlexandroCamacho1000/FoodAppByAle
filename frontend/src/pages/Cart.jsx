@@ -1,67 +1,121 @@
-import { useLanguage } from '../context/LanguageContext';
-import { FaTrash, FaPlus, FaMinus } from 'react-icons/fa';
+// frontend/pages/Cart.jsx
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { useCart } from '../context/CartContext';
+import useLanguage from '../hooks/useLanguage';
+import { FaTrash, FaPlus, FaMinus, FaArrowLeft } from 'react-icons/fa';
 
 export default function Cart() {
-  const { t } = useLanguage();
+  const navigate = useNavigate();
+  const { translations, t } = useLanguage();
+  
+  const { 
+    cart,
+    removeFromCart, 
+    updateQuantity, 
+    clearCart,
+    subtotal,
+    shipping,
+    tax,
+    total,
+    totalItems,
+    isEmpty,
+    hasFreeShipping,
+    freeShippingThreshold = 100
+  } = useCart();
 
-  // Datos de ejemplo del carrito
-  const cartItems = [
-    {
-      id: 1,
-      name: t('products.saltenas.name'),
-      description: t('products.saltenas.description'),
-      price: 15,
-      quantity: 2,
-      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=150',
-    },
-    {
-      id: 2,
-      name: 'Anticuchos',
-      description: 'Brochetas de corazón de res marinadas',
-      price: 28,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150',
-    },
-    {
-      id: 3,
-      name: 'Sillpancho',
-      description: 'Arroz, papa dorada, carne empanizada',
-      price: 42,
-      quantity: 1,
-      image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=150',
-    },
-  ];
+  const handleQuantityChange = async (productId, newQuantity) => {
+    if (newQuantity < 1) {
+      await removeFromCart(productId);
+    } else {
+      await updateQuantity(productId, newQuantity);
+    }
+  };
 
-  const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-  const shipping = 15;
-  const tax = subtotal * 0.13;
-  const total = subtotal + shipping + tax;
+  const handleCheckout = () => {
+    if (isEmpty) {
+      alert(t('cart.emptyCheckoutError') || 'Tu carrito está vacío');
+      return;
+    }
+    navigate('/checkout');
+  };
+
+  // Función para obtener traducciones de forma segura
+  const getTranslation = (key, defaultValue) => {
+    const keys = key.split('.');
+    let value = translations;
+    
+    for (const k of keys) {
+      if (value && typeof value === 'object' && k in value) {
+        value = value[k];
+      } else {
+        return defaultValue;
+      }
+    }
+    
+    if (typeof value === 'string' && value.includes('{count}')) {
+      return value.replace('{count}', totalItems);
+    }
+    
+    if (typeof value === 'string' && value.includes('{amount}')) {
+      const amountLeft = (freeShippingThreshold - subtotal).toFixed(2);
+      return value.replace('{amount}', amountLeft);
+    }
+    
+    return value || defaultValue;
+  };
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold text-[#1E293B] mb-8">{t('cart.title')}</h1>
+    <div className="container mx-auto px-4 py-8 md:py-12">
+      <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        {getTranslation('cart.title', 'Carrito de Compras')}
+      </h1>
+      <p className="text-gray-600 mb-8">
+        {getTranslation('cart.itemsCount', `Tienes ${totalItems} productos`)}
+      </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Lista de productos */}
         <div className="lg:col-span-2">
-          {cartItems.length > 0 ? (
-            <div className="space-y-6">
-              {cartItems.map((item) => (
+          {!isEmpty ? (
+            <div className="space-y-4">
+              {cart.map((item) => (
                 <div
                   key={item.id}
-                  className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] p-6 flex items-center gap-6"
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 flex flex-col sm:flex-row gap-4"
                 >
                   {/* Imagen */}
-                  <div className="w-24 h-24 bg-gradient-to-br from-[#DBEAFE] to-[#E0F2FE] rounded-lg flex-shrink-0"></div>
+                  <div className="w-full sm:w-24 h-48 sm:h-24 bg-gradient-to-br from-blue-50 to-pink-50 rounded-lg flex-shrink-0 overflow-hidden">
+                    {item.image ? (
+                      <img 
+                        src={item.image} 
+                        alt={item.name}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-2xl">🍽️</span>
+                      </div>
+                    )}
+                  </div>
 
                   {/* Detalles */}
                   <div className="flex-grow">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="font-bold text-lg text-[#1E293B]">{item.name}</h3>
-                        <p className="text-sm text-[#64748B] mt-1">{item.description}</p>
+                        <h3 className="font-bold text-lg text-gray-900">{item.name}</h3>
+                        <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                          {item.description}
+                        </p>
+                        <div className="mt-2 text-blue-600 font-medium">
+                          Bs. {item.price?.toFixed(2) || '0.00'}
+                        </div>
                       </div>
-                      <button className="text-[#94A3B8] hover:text-[#DC2626]">
+                      <button 
+                        onClick={() => removeFromCart(item.id)}
+                        className="text-gray-400 hover:text-red-600 p-2"
+                        aria-label="Eliminar"
+                      >
                         <FaTrash />
                       </button>
                     </div>
@@ -69,83 +123,148 @@ export default function Cart() {
                     <div className="flex justify-between items-center mt-4">
                       {/* Contador */}
                       <div className="flex items-center gap-3">
-                        <button className="w-8 h-8 rounded-full border border-[#CBD5E1] text-[#475569] hover:border-[#2563EB] flex items-center justify-center">
+                        <button 
+                          onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
+                          className="w-8 h-8 rounded-full border border-gray-300 text-gray-700 hover:border-blue-500 hover:text-blue-600 flex items-center justify-center transition-colors"
+                        >
                           <FaMinus size={12} />
                         </button>
-                        <span className="font-medium w-8 text-center">{item.quantity}</span>
-                        <button className="w-8 h-8 rounded-full border border-[#CBD5E1] text-[#475569] hover:border-[#2563EB] flex items-center justify-center">
+                        <span className="font-medium w-8 text-center text-gray-900">
+                          {item.quantity}
+                        </span>
+                        <button 
+                          onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
+                          className="w-8 h-8 rounded-full border border-gray-300 text-gray-700 hover:border-blue-500 hover:text-blue-600 flex items-center justify-center transition-colors"
+                        >
                           <FaPlus size={12} />
                         </button>
                       </div>
 
-                      {/* Precio */}
+                      {/* Subtotal */}
                       <div className="text-right">
-                        <div className="text-2xl font-bold text-[#2563EB]">
-                          Bs. {item.price * item.quantity}
-                        </div>
-                        <div className="text-sm text-[#94A3B8]">
-                          Bs. {item.price} c/u
+                        <div className="text-xl font-bold text-blue-600">
+                          Bs. {((item.price || 0) * item.quantity).toFixed(2)}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
+
+              {/* Botón para vaciar carrito */}
+              <div className="flex justify-end pt-4">
+                <button
+                  onClick={clearCart}
+                  className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
+                >
+                  {getTranslation('cart.clear', 'Vaciar Carrito')}
+                </button>
+              </div>
             </div>
           ) : (
-            <div className="bg-gradient-to-br from-[#F8FAFC] to-[#F1F5F9] rounded-2xl p-12 text-center border border-[#E2E8F0]">
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-full flex items-center justify-center mb-6">
+            <div className="bg-gradient-to-br from-gray-50 to-blue-50 rounded-2xl p-8 md:p-12 text-center border border-gray-200">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-blue-500 to-pink-500 rounded-full flex items-center justify-center mb-6">
                 <span className="text-3xl">🛒</span>
               </div>
-              <h3 className="text-2xl font-bold text-[#1E293B] mb-3">{t('cart.empty')}</h3>
-              <p className="text-[#64748B] mb-6">{t('cart.emptyDescription')}</p>
-              <button className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white px-8 py-3 rounded-lg font-medium">
-                {t('menu')}
-              </button>
+              <h3 className="text-2xl font-bold text-gray-900 mb-3">
+                {getTranslation('cart.empty', 'Carrito Vacío')}
+              </h3>
+              <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                {getTranslation('cart.emptyDescription', 'Agrega productos deliciosos de Bolivia a tu carrito')}
+              </p>
+              <Link
+                to="/menu"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-shadow"
+              >
+                <FaArrowLeft />
+                {getTranslation('menu', 'Ir al Menú')}
+              </Link>
             </div>
           )}
         </div>
 
         {/* Resumen del pedido */}
         <div className="lg:col-span-1">
-          <div className="bg-white rounded-xl shadow-sm border border-[#E2E8F0] p-6 sticky top-6">
-            <h2 className="text-xl font-bold text-[#1E293B] mb-6">{t('cart.summary')}</h2>
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+            <h2 className="text-xl font-bold text-gray-900 mb-6">
+              {getTranslation('cart.summary', 'Resumen del Pedido')}
+            </h2>
 
             <div className="space-y-4 mb-6">
-              <div className="flex justify-between text-[#475569]">
-                <span>{t('cart.subtotal')}</span>
-                <span className="font-medium">Bs. {subtotal}</span>
+              <div className="flex justify-between text-gray-700">
+                <span>{getTranslation('cart.subtotal', 'Subtotal')}</span>
+                <span className="font-medium">Bs. {subtotal.toFixed(2)}</span>
               </div>
-              <div className="flex justify-between text-[#475569]">
-                <span>{t('cart.shipping')}</span>
-                <span className="font-medium">Bs. {shipping}</span>
+              
+              <div className="flex justify-between text-gray-700">
+                <span>{getTranslation('cart.shipping', 'Envío')}</span>
+                <div>
+                  <span className="font-medium">Bs. {shipping.toFixed(2)}</span>
+                  {hasFreeShipping && (
+                    <span className="text-sm text-green-600 ml-2">
+                      ({getTranslation('cart.free', '¡GRATIS!')})
+                    </span>
+                  )}
+                </div>
               </div>
-              <div className="flex justify-between text-[#475569]">
-                <span>{t('cart.tax')}</span>
+              
+              <div className="flex justify-between text-gray-700">
+                <span>{getTranslation('cart.tax', 'Impuestos (13%)')}</span>
                 <span className="font-medium">Bs. {tax.toFixed(2)}</span>
               </div>
 
-              <div className="border-t border-[#E2E8F0] pt-4">
-                <div className="flex justify-between text-lg font-bold text-[#1E293B]">
-                  <span>{t('cart.total')}</span>
-                  <span>Bs. {total.toFixed(2)}</span>
+              <div className="border-t border-gray-300 pt-4">
+                <div className="flex justify-between text-lg font-bold text-gray-900">
+                  <span>{getTranslation('cart.total', 'Total')}</span>
+                  <span className="text-blue-600">Bs. {total.toFixed(2)}</span>
                 </div>
+                <p className="text-sm text-gray-500 mt-1">
+                  {getTranslation('cart.vatIncluded', 'IVA incluido')}
+                </p>
               </div>
+
+              {/* Información de envío gratis */}
+              {!hasFreeShipping && subtotal < freeShippingThreshold && (
+                <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                  <p className="text-sm text-blue-700">
+                    {getTranslation('cart.freeShippingInfo', `¡Te faltan Bs. ${(freeShippingThreshold - subtotal).toFixed(2)} para envío gratis!`)}
+                  </p>
+                </div>
+              )}
             </div>
 
-            <button className="w-full bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white py-3 rounded-lg font-medium hover:shadow-lg transition-shadow mb-4">
-              {t('cart.checkout')}
+            <button
+              onClick={handleCheckout}
+              disabled={isEmpty}
+              className={`w-full py-3 rounded-lg font-medium transition-all ${
+                isEmpty
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:from-blue-700 hover:to-blue-800'
+              }`}
+            >
+              {getTranslation('cart.checkout', 'Continuar al Pago')}
             </button>
 
-            <button className="w-full border-2 border-[#475569] text-[#475569] py-3 rounded-lg font-medium hover:bg-[#F8FAFC] transition-colors">
-              {t('cart.continue')}
-            </button>
+            <Link
+              to="/menu"
+              className="w-full mt-4 border-2 border-gray-400 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+            >
+              <FaArrowLeft />
+              {getTranslation('cart.continue', 'Seguir Comprando')}
+            </Link>
 
             {/* Info adicional */}
-            <div className="mt-6 pt-6 border-t border-[#E2E8F0]">
-              <p className="text-sm text-[#64748B]">
-                {t('cart.securityInfo')}
-              </p>
+            <div className="mt-6 pt-6 border-t border-gray-300">
+              <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
+                <span className="text-green-600">✓</span>
+                <span>{getTranslation('cart.securityInfo', 'Compra 100% segura')}</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-gray-600">
+                <span className="text-blue-600">✓</span>
+                <span>
+                  {getTranslation('cart.freeShippingThreshold', `Envío gratis en pedidos > Bs. ${freeShippingThreshold}`)}
+                </span>
+              </div>
             </div>
           </div>
         </div>
