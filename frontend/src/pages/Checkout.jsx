@@ -3,6 +3,117 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+// Clave pública de prueba de Stripe
+const stripePromise = loadStripe('pk_test_51Q0DnVP6bo7qOg3ONWkjpWzxBoSj2mQa9zdwbjRAyD0nxTxU5IGSnmX1IYi70rU6FH7m4VJKAbLRdyq9QvHWBvaY00gQddc76H');
+
+// Componente interno para formulario de tarjeta
+const CardPaymentForm = ({ total, onSuccess, onError }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    if (!stripe || !elements) {
+      return;
+    }
+
+    setProcessing(true);
+    setError(null);
+
+    try {
+      // Crear PaymentMethod
+      const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
+        type: 'card',
+        card: elements.getElement(CardElement),
+      });
+
+      if (paymentMethodError) {
+        throw new Error(paymentMethodError.message);
+      }
+
+      // Simular éxito para testing
+      setTimeout(() => {
+        setProcessing(false);
+        onSuccess({
+          paymentMethodId: paymentMethod.id,
+          brand: paymentMethod.card.brand,
+          last4: paymentMethod.card.last4
+        });
+      }, 1500);
+
+    } catch (err) {
+      setError(err.message);
+      setProcessing(false);
+      onError(err.message);
+    }
+  };
+
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: '#424770',
+        '::placeholder': {
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#9e2146',
+      },
+    },
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="p-4 border border-slate-300 rounded-lg bg-white">
+        <label className="block text-sm font-medium text-slate-700 mb-3">
+          Información de la tarjeta
+        </label>
+        <div className="p-3 border border-slate-300 rounded-lg bg-slate-50">
+          <CardElement options={cardElementOptions} />
+        </div>
+        {error && (
+          <p className="text-red-500 text-sm mt-2">{error}</p>
+        )}
+      </div>
+
+      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+        <div className="flex items-center gap-3 mb-2">
+          <span className="text-blue-600">🔒</span>
+          <p className="text-sm text-blue-700 font-medium">Pago seguro con Stripe</p>
+        </div>
+        <p className="text-xs text-blue-600">
+          Tu información de tarjeta está encriptada y nunca toca nuestros servidores.
+        </p>
+      </div>
+
+      <button
+        type="submit"
+        disabled={!stripe || processing}
+        className={`w-full py-3 rounded-lg font-medium transition-all ${
+          !stripe || processing
+            ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+            : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-lg'
+        }`}
+      >
+        {processing ? (
+          <span className="flex items-center justify-center gap-2">
+            <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+            Procesando pago...
+          </span>
+        ) : (
+          `Pagar Bs. ${total.toFixed(2)}`
+        )}
+      </button>
+    </form>
+  );
+};
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -21,6 +132,8 @@ const Checkout = () => {
   
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [cardPaymentSuccess, setCardPaymentSuccess] = useState(false);
+  const [cardDetails, setCardDetails] = useState(null);
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -66,7 +179,7 @@ const Checkout = () => {
     }
   }, [isEmpty, navigate, step]);
   
-  // CALCULAR errores usando useMemo (NO dentro de isFormValid)
+  // CALCULAR errores usando useMemo
   const calculatedErrors = useMemo(() => {
     const newErrors = {};
     
@@ -130,7 +243,6 @@ const Checkout = () => {
   // Función CON alerts para cuando el usuario hace click
   const validateStep1 = () => {
     if (!isFormValid) {
-      // Mostrar solo el primer error
       const firstErrorKey = Object.keys(calculatedErrors)[0];
       if (firstErrorKey && calculatedErrors[firstErrorKey]) {
         alert(calculatedErrors[firstErrorKey]);
@@ -142,12 +254,37 @@ const Checkout = () => {
     return true;
   };
   
+  // Función para manejar éxito de pago con tarjeta
+  const handleCardPaymentSuccess = (paymentDetails) => {
+    setCardPaymentSuccess(true);
+    setCardDetails(paymentDetails);
+    setPaymentMethod('card');
+    
+    // Mostrar confirmación
+    alert(`¡Pago exitoso! Tarjeta ${paymentDetails.brand} terminada en ${paymentDetails.last4}`);
+    
+    // No avanzar automáticamente, el usuario debe hacer clic en "Revisar pedido"
+  };
+
+  const handleCardPaymentError = (error) => {
+    alert(`Error en el pago: ${error}`);
+  };
+  
   const handleNextStep = () => {
     if (step === 1) {
       if (validateStep1()) {
         setStep(2);
       }
     } else if (step === 2) {
+      // Para tarjeta, necesitamos procesar pago primero
+      if (paymentMethod === 'card' && !cardPaymentSuccess) {
+        // El formulario Stripe manejará esto
+        return;
+      }
+      // Para otros métodos o tarjeta ya exitosa, ir al paso 3
+      setStep(3);
+    } else if (step === 3) {
+      // FINALIZAR - Aquí sí procesamos el pedido
       handlePlaceOrder();
     }
   };
@@ -155,11 +292,33 @@ const Checkout = () => {
   const handlePlaceOrder = () => {
     setLoading(true);
     
+    // Guardar pedido en localStorage para que AdminOrders pueda acceder
+    const orderId = `BOL-${Date.now().toString().slice(-6)}`;
+    const orderData = {
+      id: orderId,
+      items: cart,
+      shippingInfo: formData,
+      paymentMethod: paymentMethod,
+      cardDetails: cardPaymentSuccess ? cardDetails : null,
+      subtotal: subtotal,
+      shipping: shipping,
+      tax: tax,
+      total: total,
+      status: 'pending',
+      date: new Date().toISOString(),
+      estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
+    };
+    
+    // Guardar en localStorage con prefijo 'order_'
+    const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    existingOrders.push(orderData);
+    localStorage.setItem('orders', JSON.stringify(existingOrders));
+    
+    // Limpiar carrito después de un delay
     setTimeout(() => {
-      const orderId = `BOL-${Date.now().toString().slice(-6)}`;
-      
       clearCart();
       
+      // Redirigir a confirmación con los datos del pedido
       navigate('/order-confirmation', {
         state: {
           orderId,
@@ -173,7 +332,9 @@ const Checkout = () => {
           customerName: formData.fullName,
           address: `${formData.address}, ${formData.city}`,
           items: cart.length,
-          paymentMethod
+          paymentMethod,
+          cardDetails: cardPaymentSuccess ? cardDetails : null,
+          orderData: orderData // Enviar datos completos
         }
       });
       
@@ -413,7 +574,10 @@ const Checkout = () => {
                       ? 'border-blue-500 bg-blue-50' 
                       : 'border-slate-200 hover:border-slate-300'
                   }`}
-                  onClick={() => setPaymentMethod('cash')}
+                  onClick={() => {
+                    setPaymentMethod('cash');
+                    setCardPaymentSuccess(false);
+                  }}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -441,7 +605,10 @@ const Checkout = () => {
                       ? 'border-blue-500 bg-blue-50' 
                       : 'border-slate-200 hover:border-slate-300'
                   }`}
-                  onClick={() => setPaymentMethod('qr')}
+                  onClick={() => {
+                    setPaymentMethod('qr');
+                    setCardPaymentSuccess(false);
+                  }}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -475,6 +642,62 @@ const Checkout = () => {
                       </div>
                     )}
                   </div>
+                  
+                  {/* Opción: Tarjeta de crédito/débito */}
+                  <div className={`p-6 border-2 rounded-xl transition-all ${
+                    paymentMethod === 'card' 
+                      ? 'border-purple-500 bg-purple-50' 
+                      : 'border-slate-200'
+                  }`}>
+                    <div 
+                      className="flex items-center justify-between cursor-pointer"
+                      onClick={() => {
+                        setPaymentMethod('card');
+                        setCardPaymentSuccess(false);
+                      }}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                          paymentMethod === 'card' ? 'bg-purple-100 text-purple-600' : 'bg-slate-100 text-slate-600'
+                        }`}>
+                          💳
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-lg text-slate-900">Tarjeta de crédito/débito</h3>
+                          <p className="text-slate-600">Visa, Mastercard, American Express</p>
+                        </div>
+                      </div>
+                      {paymentMethod === 'card' && (
+                        <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center">
+                          ✓
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Mostrar formulario Stripe solo si tarjeta está seleccionada */}
+                    {paymentMethod === 'card' && (
+                      <div className="mt-6">
+                        <Elements stripe={stripePromise}>
+                          <CardPaymentForm 
+                            total={total}
+                            onSuccess={handleCardPaymentSuccess}
+                            onError={handleCardPaymentError}
+                          />
+                        </Elements>
+                        
+                        {cardPaymentSuccess && (
+                          <div className="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                            <div className="flex items-center gap-2">
+                              <span className="text-green-600">✓</span>
+                              <p className="text-green-700 font-medium">
+                                ¡Pago confirmado! {cardDetails?.brand} terminada en {cardDetails?.last4}
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
                 </div>
                 
                 {/* Información de seguridad */}
@@ -501,9 +724,26 @@ const Checkout = () => {
                     <div className="p-4 bg-slate-50 rounded-lg">
                       <p className="font-medium text-slate-900">{formData.fullName}</p>
                       <p className="text-slate-600">{formData.address}</p>
-                      <p className="text-slate-600">{formData.city}, {formData.department}</p>
+                      <p className="text-slate-600">{formData.city}, {departments.find(d => d.value === formData.department)?.label || formData.department}</p>
                       <p className="text-slate-600">{formData.phone}</p>
                       <p className="text-slate-600">{formData.email}</p>
+                    </div>
+                  </div>
+                  
+                  <div>
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">Productos</h3>
+                    <div className="space-y-3">
+                      {cart.map(item => (
+                        <div key={item.id} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                          <div>
+                            <p className="font-medium text-slate-900">{item.name}</p>
+                            <p className="text-sm text-slate-500">Cantidad: {item.quantity}</p>
+                          </div>
+                          <div className="text-slate-900 font-medium">
+                            Bs. {((item.price || 0) * item.quantity).toFixed(2)}
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                   
@@ -515,10 +755,22 @@ const Checkout = () => {
                           <span className="text-blue-600">💵</span>
                           <span className="font-medium text-slate-900">Pago en efectivo</span>
                         </>
-                      ) : (
+                      ) : paymentMethod === 'qr' ? (
                         <>
                           <span className="text-blue-600">📱</span>
                           <span className="font-medium text-slate-900">Pago con QR</span>
+                        </>
+                      ) : (
+                        <>
+                          <span className="text-purple-600">💳</span>
+                          <div>
+                            <span className="font-medium text-slate-900">Tarjeta de crédito/débito</span>
+                            {cardDetails && (
+                              <p className="text-sm text-slate-500">
+                                {cardDetails.brand} terminada en {cardDetails.last4}
+                              </p>
+                            )}
+                          </div>
                         </>
                       )}
                     </div>
@@ -585,7 +837,11 @@ const Checkout = () => {
               {/* Botón de acción - CORREGIDO */}
               <button
                 onClick={handleNextStep}
-                disabled={loading || (step === 1 && !isFormValid)}
+                disabled={
+                  loading || 
+                  (step === 1 && !isFormValid) || 
+                  (step === 2 && paymentMethod === 'card' && !cardPaymentSuccess)
+                }
                 className={`w-full mt-6 py-4 rounded-xl font-bold text-lg transition-all ${
                   loading
                     ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
@@ -599,10 +855,14 @@ const Checkout = () => {
                   </span>
                 ) : step === 1 ? (
                   'Continuar al pago'
+                ) : step === 2 && paymentMethod === 'card' && !cardPaymentSuccess ? (
+                  'Procesar pago'
                 ) : step === 2 ? (
-                  'Confirmar pedido'
-                ) : (
+                  'Revisar pedido'
+                ) : step === 3 ? (
                   'Finalizar compra'
+                ) : (
+                  'Continuar'
                 )}
               </button>
               
