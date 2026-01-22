@@ -1,4 +1,4 @@
-// frontend/src/context/AuthContext.jsx
+// frontend/src/context/AuthContext.jsx - VERSIÓN COMPLETA CORREGIDA
 import { createContext, useState, useContext, useEffect } from 'react';
 
 const AuthContext = createContext();
@@ -293,7 +293,7 @@ export const AuthProvider = ({ children }) => {
       getInviteCodes,
       deleteInviteCode,
       isAuthenticated: !!user,
-      isAdmin: user?.role === 'admin',
+      isAdmin: user?.role === 'admin' || user?.role === 'superadmin', // ← ¡CORREGIDO AQUÍ!
       isSuperadmin: user?.role === 'superadmin',
       loading
     }}>

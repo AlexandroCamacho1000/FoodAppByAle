@@ -1,6 +1,6 @@
-// frontend/src/components/layout/Navbar.jsx
+// frontend/src/components/layout/Navbar.jsx - VERSIÓN COMPLETA CORREGIDA CON useNavigate
 import { useState, useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom'; // ← useNavigate añadido
 import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
@@ -9,9 +9,10 @@ import LanguageSwitch from '../ui/LanguageSwitch';
 export default function Navbar() {
   const { t } = useLanguage();
   const { user, isAdmin, logout } = useAuth();
-  const { cart } = useCart(); // ← Cambiado de cartItems a cart
+  const { cart } = useCart();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const navigate = useNavigate(); // ← Hook añadido
 
   // Cerrar dropdown al hacer clic fuera
   useEffect(() => {
@@ -107,34 +108,58 @@ export default function Navbar() {
                       )}
                     </div>
                     
-                    <Link 
-                      to="/profile" 
-                      className="text-[#60A5FA] text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      <span className="mr-2">👤</span>
-                      {t('myProfile')}
-                    </Link>
-                    
-                    <Link 
-                      to="/my-orders" 
-                      className="text-[#60A5FA] text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
-                      onClick={() => setIsDropdownOpen(false)}
-                    >
-                      <span className="mr-2">📦</span>
-                      Mis Pedidos
-                    </Link>
-                    
+                    {/* BOTÓN PARA ADMIN - CORREGIDO */}
                     {isAdmin && (
-                      <Link 
-                        to="/admin" 
+                      <button
+                        onClick={() => {
+                          setIsDropdownOpen(false);
+                          navigate('/admin');
+                        }}
                         className="bg-yellow-500/20 text-yellow-300 text-sm p-2 hover:bg-yellow-500/30 rounded text-left block mb-1 w-full flex items-center font-semibold"
-                        onClick={() => setIsDropdownOpen(false)}
                       >
                         <span className="mr-2">⚙️</span>
                         Panel Admin
-                      </Link>
+                      </button>
                     )}
+                    
+                    {/* NUEVO: BOTÓN PARA SUPERADMIN - Generar Invitaciones */}
+                    {user?.role === 'superadmin' && (
+                      <button
+                        onClick={() => {
+                          setIsDropdownOpen(false);
+                          navigate('/create-invite');
+                        }}
+                        className="bg-purple-500/20 text-purple-300 text-sm p-2 hover:bg-purple-500/30 rounded text-left block mb-1 w-full flex items-center font-semibold border-l-4 border-purple-500"
+                      >
+                        <span className="mr-2">🔑</span>
+                        Generar Invitaciones
+                        <span className="ml-auto text-xs bg-purple-700 px-1 rounded">SUPER</span>
+                      </button>
+                    )}
+                    
+                    {/* BOTÓN PARA MI PERFIL - CORREGIDO */}
+                    <button
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        navigate('/profile');
+                      }}
+                      className="text-[#60A5FA] text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
+                    >
+                      <span className="mr-2">👤</span>
+                      {t('myProfile')}
+                    </button>
+                    
+                    {/* BOTÓN PARA MIS PEDIDOS - CORREGIDO */}
+                    <button
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        navigate('/my-orders');
+                      }}
+                      className="text-[#60A5FA] text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
+                    >
+                      <span className="mr-2">📦</span>
+                      Mis Pedidos
+                    </button>
                     
                     <div className="border-t border-[#475569] my-2"></div>
                     
