@@ -1,4 +1,4 @@
-// frontend/src/routes/index.jsx - VERSIÓN FINAL
+// frontend/src/routes/index.jsx - VERSIÓN COMPLETA CON TODAS LAS RUTAS
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Home from '../pages/Home';
@@ -19,6 +19,9 @@ import AdminLayout from '../components/admin/AdminLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminOrders from '../pages/admin/AdminOrders';
 import AdminProducts from '../pages/admin/AdminProducts';
+import AdminCustomers from '../pages/admin/AdminCustomers';
+import AdminAnalytics from '../pages/admin/AdminAnalytics';
+import AdminSettings from '../pages/admin/AdminSettings';
 
 // Importa ProtectedRoute
 import { ProtectedRoute } from '../components/ProtectedRoute';
@@ -122,6 +125,19 @@ const router = createBrowserRouter([
       {
         path: 'products',
         element: <AdminProducts />,
+      },
+      // ✅ NUEVAS RUTAS ADMIN
+      {
+        path: 'customers',
+        element: <AdminCustomers />,
+      },
+      {
+        path: 'analytics',
+        element: <AdminAnalytics />,
+      },
+      {
+        path: 'settings',
+        element: <AdminSettings />,
       },
     ],
   },
