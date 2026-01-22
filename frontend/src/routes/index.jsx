@@ -1,4 +1,4 @@
-// frontend/src/routes/index.jsx
+// frontend/src/routes/index.jsx - VERSIÓN FINAL
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Home from '../pages/Home';
@@ -9,6 +9,8 @@ import Register from '../pages/Register';
 import ProductDetail from '../pages/ProductDetail';
 import Checkout from '../pages/Checkout';
 import OrderConfirmation from '../pages/OrderConfirmation';
+import Profile from '../pages/Profile';          
+import MyOrders from '../pages/MyOrders';        
 import TestPage from '../pages/TestPage';
 import NotFound from '../pages/NotFound';
 
@@ -18,7 +20,12 @@ import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminOrders from '../pages/admin/AdminOrders';
 import AdminProducts from '../pages/admin/AdminProducts';
 
-// ✅ CORREGIDO: Este es el router para usar con RouterProvider
+// Importa ProtectedRoute
+import { ProtectedRoute } from '../components/ProtectedRoute';
+
+// Importa la nueva página de invitaciones
+import CreateInvitePage from '../pages/admin/CreateInvitePage';
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -35,10 +42,6 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <Cart />,
-      },
-      {
-        path: 'checkout',
-        element: <Checkout />,
       },
       {
         path: 'login',
@@ -60,13 +63,53 @@ const router = createBrowserRouter([
         path: 'order-confirmation',
         element: <OrderConfirmation />
       },
+      
+      // ✅ RUTAS PROTEGIDAS PARA USUARIOS AUTENTICADOS
+      {
+        path: 'profile',
+        element: (
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'my-orders',
+        element: (
+          <ProtectedRoute>
+            <MyOrders />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'checkout',
+        element: (
+          <ProtectedRoute>
+            <Checkout />
+          </ProtectedRoute>
+        )
+      },
+      
+      // ✅ NUEVA RUTA: GENERADOR DE INVITACIONES (solo superadmin)
+      {
+        path: 'create-invite',
+        element: (
+          <ProtectedRoute requireSuperadmin>
+            <CreateInvitePage />
+          </ProtectedRoute>
+        )
+      },
     ],
   },
   
-  // RUTA SEPARADA PARA ADMIN
+  // ✅ RUTA ADMIN (accesible para admin y superadmin)
   {
     path: '/admin',
-    element: <AdminLayout />,
+    element: (
+      <ProtectedRoute requireAdmin>
+        <AdminLayout />
+      </ProtectedRoute>
+    ),
     children: [
       {
         index: true,
@@ -83,7 +126,7 @@ const router = createBrowserRouter([
     ],
   },
   
-  // ✅ 404 DEBE ESTAR A NIVEL RAIZ, NO DENTRO DE LAYOUT
+  // ✅ 404
   {
     path: '*',
     element: <NotFound />,

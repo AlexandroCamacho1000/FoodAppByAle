@@ -1,147 +1,108 @@
+// frontend/src/pages/Login.jsx - MODIFICAR
 import { useState } from 'react';
-import { useLanguage } from '../context/LanguageContext';
-import { FaGoogle, FaFacebook, FaEnvelope, FaLock } from 'react-icons/fa';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext'; // <-- NUEVO
 
 export default function Login() {
-  const { t } = useLanguage();
-  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+  
+  // NUEVO: usar el contexto de autenticación
+  const { login } = useAuth();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    
+    // Validación básica
+    if (!email || !password) {
+      setError('Por favor completa todos los campos');
+      return;
+    }
+    
+    // NUEVO: usar el login del AuthContext
+    const result = login(email, password);
+    
+    if (result.success) {
+      // Redirigir a la página que intentaba acceder o al inicio
+      const redirectTo = localStorage.getItem('redirectAfterLogin') || '/';
+      localStorage.removeItem('redirectAfterLogin');
+      navigate(redirectTo);
+    } else {
+      setError('Credenciales incorrectas');
+    }
+  };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-md">
-        {/* Card */}
-        <div className="bg-white rounded-2xl shadow-xl border border-[#E2E8F0] overflow-hidden">
-          {/* Header con gradiente */}
-          <div className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white p-6 text-center">
-            <div className="w-16 h-16 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-4">
-              <span className="text-2xl">🔐</span>
+    <div className="min-h-[70vh] flex items-center justify-center px-4">
+      <div className="max-w-md w-full">
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#E2E8F0]">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold text-[#1E293B] mb-2">Iniciar Sesión</h1>
+            <p className="text-[#64748B]">Accede a tu cuenta de Bolivian Market</p>
+          </div>
+          
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+                {error}
+              </div>
+            )}
+            
+            <div>
+              <label className="block text-sm font-medium text-[#475569] mb-2">
+                Correo electrónico
+              </label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                placeholder="usuario@ejemplo.com"
+                required
+              />
             </div>
-            <h1 className="text-2xl font-bold">
-              {isLogin ? t('auth.signIn') : t('auth.signUp')}
-            </h1>
-            <p className="text-blue-100 mt-2">
-              {isLogin ? t('auth.welcomeBack') : t('auth.createAccount')}
+            
+            <div>
+              <label className="block text-sm font-medium text-[#475569] mb-2">
+                Contraseña
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                placeholder="••••••••"
+                required
+              />
+            </div>
+            
+            <button
+              type="submit"
+              className="w-full bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white py-3 rounded-lg font-medium hover:shadow-lg transition"
+            >
+              Ingresar
+            </button>
+          </form>
+          
+          <div className="mt-8 text-center">
+            <p className="text-[#64748B]">
+              ¿No tienes cuenta?{' '}
+              <Link to="/register" className="text-[#2563EB] font-medium hover:underline">
+                Regístrate aquí
+              </Link>
             </p>
           </div>
-
-          {/* Toggle Login/Register */}
-          <div className="flex border-b border-[#E2E8F0]">
-            <button
-              onClick={() => setIsLogin(true)}
-              className={`flex-1 py-4 text-center font-medium transition-colors ${
-                isLogin
-                  ? 'text-[#2563EB] border-b-2 border-[#2563EB]'
-                  : 'text-[#64748B] hover:text-[#475569]'
-              }`}
-            >
-              {t('auth.signIn')}
-            </button>
-            <button
-              onClick={() => setIsLogin(false)}
-              className={`flex-1 py-4 text-center font-medium transition-colors ${
-                !isLogin
-                  ? 'text-[#2563EB] border-b-2 border-[#2563EB]'
-                  : 'text-[#64748B] hover:text-[#475569]'
-              }`}
-            >
-              {t('auth.signUp')}
-            </button>
+          
+          {/* Credenciales de prueba para desarrollo */}
+          <div className="mt-8 p-4 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
+            <p className="text-sm font-medium text-[#475569] mb-2">Credenciales de prueba:</p>
+            <p className="text-xs text-[#64748B]">• Admin: admin@bolivianmarket.com (cualquier contraseña)</p>
+            <p className="text-xs text-[#64748B]">• Usuario: cliente@bolivia.com (cualquier contraseña)</p>
+            <p className="text-xs text-[#64748B] mt-1">• Cualquier otro email crea un usuario demo</p>
           </div>
-
-          {/* Form */}
-          <div className="p-6">
-            <form className="space-y-4">
-              {/* Email */}
-              <div>
-                <label className="block text-sm font-medium text-[#475569] mb-2">
-                  {t('auth.email')}
-                </label>
-                <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#94A3B8]">
-                    <FaEnvelope />
-                  </div>
-                  <input
-                    type="email"
-                    className="w-full pl-10 pr-4 py-3 border border-[#CBD5E1] rounded-lg focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 outline-none transition-colors"
-                    placeholder="tu@email.com"
-                  />
-                </div>
-              </div>
-
-              {/* Password */}
-              <div>
-                <label className="block text-sm font-medium text-[#475569] mb-2">
-                  {t('auth.password')}
-                </label>
-                <div className="relative">
-                  <div className="absolute left-3 top-1/2 transform -translate-y-1/2 text-[#94A3B8]">
-                    <FaLock />
-                  </div>
-                  <input
-                    type="password"
-                    className="w-full pl-10 pr-4 py-3 border border-[#CBD5E1] rounded-lg focus:border-[#2563EB] focus:ring-2 focus:ring-[#2563EB]/20 outline-none transition-colors"
-                    placeholder="••••••••"
-                  />
-                </div>
-              </div>
-
-              {/* Remember me & Forgot password */}
-              <div className="flex justify-between items-center">
-                <label className="flex items-center">
-                  <input type="checkbox" className="rounded border-[#CBD5E1] text-[#2563EB] focus:ring-[#2563EB]" />
-                  <span className="ml-2 text-sm text-[#475569]">{t('auth.rememberMe')}</span>
-                </label>
-                <a href="#" className="text-sm text-[#2563EB] hover:text-[#1D4ED8]">
-                  {t('auth.forgotPassword')}
-                </a>
-              </div>
-
-              {/* Submit button */}
-              <button
-                type="submit"
-                className="w-full bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white py-3 rounded-lg font-medium hover:shadow-lg transition-shadow"
-              >
-                {isLogin ? t('auth.signIn') : t('auth.signUp')}
-              </button>
-            </form>
-
-            {/* Divider */}
-            <div className="my-6 flex items-center">
-              <div className="flex-grow border-t border-[#E2E8F0]"></div>
-              <span className="mx-4 text-sm text-[#94A3B8]">{t('auth.orContinueWith')}</span>
-              <div className="flex-grow border-t border-[#E2E8F0]"></div>
-            </div>
-
-            {/* Social login */}
-            <div className="grid grid-cols-2 gap-3">
-              <button className="flex items-center justify-center gap-2 border border-[#CBD5E1] text-[#475569] py-3 rounded-lg hover:border-[#DB4437] hover:text-[#DB4437] transition-colors">
-                <FaGoogle />
-                <span>Google</span>
-              </button>
-              <button className="flex items-center justify-center gap-2 border border-[#CBD5E1] text-[#475569] py-3 rounded-lg hover:border-[#4267B2] hover:text-[#4267B2] transition-colors">
-                <FaFacebook />
-                <span>Facebook</span>
-              </button>
-            </div>
-
-            {/* Switch auth mode */}
-            <div className="text-center mt-6 pt-6 border-t border-[#E2E8F0]">
-              <p className="text-[#64748B]">
-                {isLogin ? t('auth.noAccount') : t('auth.hasAccount')}{' '}
-                <button
-                  onClick={() => setIsLogin(!isLogin)}
-                  className="text-[#2563EB] hover:text-[#1D4ED8] font-medium"
-                >
-                  {isLogin ? t('auth.signUp') : t('auth.signIn')}
-                </button>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Info extra */}
-        <div className="mt-6 text-center text-sm text-[#64748B]">
-          <p>{t('auth.securityNotice')}</p>
         </div>
       </div>
     </div>

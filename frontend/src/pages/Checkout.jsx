@@ -1,8 +1,9 @@
-// frontend/pages/Checkout.jsx
-import React, { useState, useEffect, useMemo } from 'react';
+// frontend/src/pages/Checkout.jsx
+import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
@@ -117,7 +118,8 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
 
 const Checkout = () => {
   const navigate = useNavigate();
-  const { translations } = useLanguage();
+  const { t } = useLanguage();
+  const { user } = useAuth();
   
   const { 
     cart,
@@ -137,7 +139,7 @@ const Checkout = () => {
   
   const [formData, setFormData] = useState({
     fullName: '',
-    email: '',
+    email: user?.email || '',
     phone: '',
     address: '',
     department: '',
@@ -172,6 +174,24 @@ const Checkout = () => {
     'ben': ['Trinidad', 'Riberalta', 'Guayaramerín', 'San Borja'],
     'pan': ['Cobija', 'Porvenir', 'Bella Flor', 'Filadelfia']
   };
+  
+  // Verificar autenticación al cargar
+  useEffect(() => {
+    if (!user) {
+      localStorage.setItem('redirectAfterLogin', '/checkout');
+      navigate('/login');
+      return;
+    }
+    
+    // Pre-llenar datos del usuario
+    if (user && !formData.fullName) {
+      setFormData(prev => ({
+        ...prev,
+        fullName: user.name || '',
+        email: user.email || ''
+      }));
+    }
+  }, [user, navigate]);
   
   useEffect(() => {
     if (isEmpty && step !== 3) {
@@ -262,8 +282,6 @@ const Checkout = () => {
     
     // Mostrar confirmación
     alert(`¡Pago exitoso! Tarjeta ${paymentDetails.brand} terminada en ${paymentDetails.last4}`);
-    
-    // No avanzar automáticamente, el usuario debe hacer clic en "Revisar pedido"
   };
 
   const handleCardPaymentError = (error) => {
@@ -290,12 +308,22 @@ const Checkout = () => {
   };
   
   const handlePlaceOrder = () => {
+    if (!user) {
+      alert('Error: Debes iniciar sesión para completar la compra.');
+      navigate('/login');
+      return;
+    }
+    
     setLoading(true);
     
-    // Guardar pedido en localStorage para que AdminOrders pueda acceder
+    // Guardar pedido en localStorage
     const orderId = `BOL-${Date.now().toString().slice(-6)}`;
     const orderData = {
       id: orderId,
+      // CRÍTICO: Asociar pedido al usuario
+      userId: user.id,
+      userEmail: user.email,
+      userName: user.name,
       items: cart,
       shippingInfo: formData,
       paymentMethod: paymentMethod,
@@ -309,10 +337,16 @@ const Checkout = () => {
       estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
     };
     
-    // Guardar en localStorage con prefijo 'order_'
+    // 1. Guardar en lista general de pedidos
     const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
     existingOrders.push(orderData);
     localStorage.setItem('orders', JSON.stringify(existingOrders));
+    
+    // 2. Guardar específicamente para este usuario
+    const userOrdersKey = `user_orders_${user.id}`;
+    const userOrders = JSON.parse(localStorage.getItem(userOrdersKey) || '[]');
+    userOrders.push(orderData);
+    localStorage.setItem(userOrdersKey, JSON.stringify(userOrders));
     
     // Limpiar carrito después de un delay
     setTimeout(() => {
@@ -334,7 +368,7 @@ const Checkout = () => {
           items: cart.length,
           paymentMethod,
           cardDetails: cardPaymentSuccess ? cardDetails : null,
-          orderData: orderData // Enviar datos completos
+          orderData: orderData
         }
       });
       
@@ -834,7 +868,7 @@ const Checkout = () => {
                 </div>
               </div>
               
-              {/* Botón de acción - CORREGIDO */}
+              {/* Botón de acción */}
               <button
                 onClick={handleNextStep}
                 disabled={
