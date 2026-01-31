@@ -1,0 +1,42 @@
+# ============================================
+# BLUEPRINT PARA DEPLOY AUTOMÁTICO EN RENDER
+# ============================================
+
+services:
+  - type: web
+    name: bolivian-market-api
+    env: node
+    region: ohio
+    plan: free
+    branch: main
+    
+    # IMPORTANTE: En Render, selecciona la carpeta "backend/"
+    rootDirectory: backend
+    
+    buildCommand: npm install
+    startCommand: npm start
+    
+    # Health check para Render
+    healthCheckPath: /api/health
+    
+    # Variables de entorno (configurar en dashboard de Render)
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: JWT_SECRET
+        generateValue: true
+      - key: FRONTEND_URL
+        value: https://bolivian-market.vercel.app
+      - key: SUPERADMIN_EMAIL
+        value: superadmin@bolivianmarket.com
+      - key: SUPERADMIN_PASSWORD
+        sync: false  # Tú la pones manualmente
+
+databases:
+  - name: bolivian-market-db
+    databaseName: bolivianmarket
+    user: bolivianmarket_user
+    plan: free
+    region: ohio
