@@ -2,12 +2,12 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import useLanguage from '../hooks/useLanguage';
+import { useLanguage } from '../context/LanguageContext';
 import { FaTrash, FaPlus, FaMinus, FaArrowLeft } from 'react-icons/fa';
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { translations, t } = useLanguage();
+  const { t } = useLanguage();
   
   const { 
     cart,
@@ -34,44 +34,19 @@ export default function Cart() {
 
   const handleCheckout = () => {
     if (isEmpty) {
-      alert(t('cart.emptyCheckoutError') || 'Tu carrito está vacío');
+      alert('Tu carrito está vacío');
       return;
     }
     navigate('/checkout');
   };
 
-  // Función para obtener traducciones de forma segura
-  const getTranslation = (key, defaultValue) => {
-    const keys = key.split('.');
-    let value = translations;
-    
-    for (const k of keys) {
-      if (value && typeof value === 'object' && k in value) {
-        value = value[k];
-      } else {
-        return defaultValue;
-      }
-    }
-    
-    if (typeof value === 'string' && value.includes('{count}')) {
-      return value.replace('{count}', totalItems);
-    }
-    
-    if (typeof value === 'string' && value.includes('{amount}')) {
-      const amountLeft = (freeShippingThreshold - subtotal).toFixed(2);
-      return value.replace('{amount}', amountLeft);
-    }
-    
-    return value || defaultValue;
-  };
-
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <h1 className="text-3xl font-bold text-gray-900 mb-2">
-        {getTranslation('cart.title', 'Carrito de Compras')}
+        {t('cart.title')}
       </h1>
       <p className="text-gray-600 mb-8">
-        {getTranslation('cart.itemsCount', `Tienes ${totalItems} productos`)}
+        {`Tienes ${totalItems} productos`}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -157,7 +132,7 @@ export default function Cart() {
                   onClick={clearCart}
                   className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                 >
-                  {getTranslation('cart.clear', 'Vaciar Carrito')}
+                  'Vaciar Carrito'
                 </button>
               </div>
             </div>
@@ -167,17 +142,17 @@ export default function Cart() {
                 <span className="text-3xl">🛒</span>
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                {getTranslation('cart.empty', 'Carrito Vacío')}
+                {t('cart.empty')}
               </h3>
               <p className="text-gray-600 mb-6 max-w-md mx-auto">
-                {getTranslation('cart.emptyDescription', 'Agrega productos deliciosos de Bolivia a tu carrito')}
+                {t('cart.emptyDescription')}
               </p>
               <Link
                 to="/menu"
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-shadow"
               >
                 <FaArrowLeft />
-                {getTranslation('menu', 'Ir al Menú')}
+                {t('menu')}
               </Link>
             </div>
           )}
@@ -187,39 +162,39 @@ export default function Cart() {
         <div className="lg:col-span-1">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
             <h2 className="text-xl font-bold text-gray-900 mb-6">
-              {getTranslation('cart.summary', 'Resumen del Pedido')}
+              {t('cart.summary')}
             </h2>
 
             <div className="space-y-4 mb-6">
               <div className="flex justify-between text-gray-700">
-                <span>{getTranslation('cart.subtotal', 'Subtotal')}</span>
+                <span>{t('cart.subtotal')}</span>
                 <span className="font-medium">Bs. {subtotal.toFixed(2)}</span>
               </div>
               
               <div className="flex justify-between text-gray-700">
-                <span>{getTranslation('cart.shipping', 'Envío')}</span>
+                <span>{t('cart.shipping')}</span>
                 <div>
                   <span className="font-medium">Bs. {shipping.toFixed(2)}</span>
                   {hasFreeShipping && (
                     <span className="text-sm text-green-600 ml-2">
-                      ({getTranslation('cart.free', '¡GRATIS!')})
+                      ('¡GRATIS!')
                     </span>
                   )}
                 </div>
               </div>
               
               <div className="flex justify-between text-gray-700">
-                <span>{getTranslation('cart.tax', 'Impuestos (13%)')}</span>
+                <span>{t('cart.tax')}</span>
                 <span className="font-medium">Bs. {tax.toFixed(2)}</span>
               </div>
 
               <div className="border-t border-gray-300 pt-4">
                 <div className="flex justify-between text-lg font-bold text-gray-900">
-                  <span>{getTranslation('cart.total', 'Total')}</span>
+                  <span>{t('cart.total')}</span>
                   <span className="text-blue-600">Bs. {total.toFixed(2)}</span>
                 </div>
                 <p className="text-sm text-gray-500 mt-1">
-                  {getTranslation('cart.vatIncluded', 'IVA incluido')}
+                  'IVA incluido'
                 </p>
               </div>
 
@@ -227,7 +202,7 @@ export default function Cart() {
               {!hasFreeShipping && subtotal < freeShippingThreshold && (
                 <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                   <p className="text-sm text-blue-700">
-                    {getTranslation('cart.freeShippingInfo', `¡Te faltan Bs. ${(freeShippingThreshold - subtotal).toFixed(2)} para envío gratis!`)}
+                    {`¡Te faltan Bs. ${(freeShippingThreshold - subtotal).toFixed(2)} para envío gratis!`}
                   </p>
                 </div>
               )}
@@ -242,7 +217,7 @@ export default function Cart() {
                   : 'bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:shadow-lg hover:from-blue-700 hover:to-blue-800'
               }`}
             >
-              {getTranslation('cart.checkout', 'Continuar al Pago')}
+              {t('cart.checkout')}
             </button>
 
             <Link
@@ -250,19 +225,19 @@ export default function Cart() {
               className="w-full mt-4 border-2 border-gray-400 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
             >
               <FaArrowLeft />
-              {getTranslation('cart.continue', 'Seguir Comprando')}
+              {t('cart.continue')}
             </Link>
 
             {/* Info adicional */}
             <div className="mt-6 pt-6 border-t border-gray-300">
               <div className="flex items-center gap-2 text-sm text-gray-600 mb-2">
                 <span className="text-green-600">✓</span>
-                <span>{getTranslation('cart.securityInfo', 'Compra 100% segura')}</span>
+                <span>{t('cart.securityInfo')}</span>
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <span className="text-blue-600">✓</span>
                 <span>
-                  {getTranslation('cart.freeShippingThreshold', `Envío gratis en pedidos > Bs. ${freeShippingThreshold}`)}
+                  {`Envío gratis en pedidos > Bs. ${freeShippingThreshold}`}
                 </span>
               </div>
             </div>
