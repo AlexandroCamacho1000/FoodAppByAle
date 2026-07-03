@@ -34,7 +34,7 @@ export default function Cart() {
 
   const handleCheckout = () => {
     if (isEmpty) {
-      alert('Tu carrito está vacío');
+      alert(t('cart.empty'))
       return;
     }
     navigate('/checkout');
@@ -46,7 +46,7 @@ export default function Cart() {
         {t('cart.title')}
       </h1>
       <p className="text-gray-600 mb-8">
-        {`Tienes ${totalItems} productos`}
+        {t('cart.itemsCount').replace('{count}', totalItems)}
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -89,7 +89,7 @@ export default function Cart() {
                       <button 
                         onClick={() => removeFromCart(item.id)}
                         className="text-gray-400 hover:text-red-600 p-2"
-                        aria-label="Eliminar"
+                        aria-label={t('cart.removeLabel')}
                       >
                         <FaTrash />
                       </button>
@@ -132,7 +132,7 @@ export default function Cart() {
                   onClick={clearCart}
                   className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50 transition-colors"
                 >
-                  'Vaciar Carrito'
+                  {t('cart.clear')}
                 </button>
               </div>
             </div>
@@ -177,7 +177,7 @@ export default function Cart() {
                   <span className="font-medium">Bs. {shipping.toFixed(2)}</span>
                   {hasFreeShipping && (
                     <span className="text-sm text-green-600 ml-2">
-                      ('¡GRATIS!')
+                      ({t('cart.free')})
                     </span>
                   )}
                 </div>
@@ -194,7 +194,7 @@ export default function Cart() {
                   <span className="text-blue-600">Bs. {total.toFixed(2)}</span>
                 </div>
                 <p className="text-sm text-gray-500 mt-1">
-                  'IVA incluido'
+                  {t('cart.vatIncluded')}
                 </p>
               </div>
 
@@ -202,7 +202,7 @@ export default function Cart() {
               {!hasFreeShipping && subtotal < freeShippingThreshold && (
                 <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
                   <p className="text-sm text-blue-700">
-                    {`¡Te faltan Bs. ${(freeShippingThreshold - subtotal).toFixed(2)} para envío gratis!`}
+                    {t('cart.freeShippingInfo').replace('{amount}', (freeShippingThreshold - subtotal).toFixed(2))}
                   </p>
                 </div>
               )}
@@ -237,7 +237,7 @@ export default function Cart() {
               <div className="flex items-center gap-2 text-sm text-gray-600">
                 <span className="text-blue-600">✓</span>
                 <span>
-                  {`Envío gratis en pedidos > Bs. ${freeShippingThreshold}`}
+                  {t('cart.freeShippingThreshold').replace('{threshold}', freeShippingThreshold)}
                 </span>
               </div>
             </div>

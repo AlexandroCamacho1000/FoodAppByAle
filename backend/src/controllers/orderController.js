@@ -1,10 +1,9 @@
 // ========== IMPORTACIÓN CORRECTA ==========
-const { Order, OrderItem } = require('../models/Order');  // ¡DIRECTAMENTE desde Order.js!
 const db = require('../models');
-const { Product, User, sequelize } = db;
+const { Order, OrderItem, Product, User, sequelize } = db;
 const { Op } = require('sequelize');
 
-// ========== FUNCIONES PARA USUARIOS ==========
+
 
 // 1. Obtener historial de pedidos del usuario actual
 const getUserOrders = async (req, res) => {

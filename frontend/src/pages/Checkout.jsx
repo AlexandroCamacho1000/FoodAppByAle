@@ -7,17 +7,16 @@ import { useAuth } from '../context/AuthContext';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 
-// Clave pública de prueba de Stripe
-const stripePromise = loadStripe('pk_test_51Q0DnVP6bo7qOg3ONWkjpWzxBoSj2mQa9zdwbjRAyD0nxTxU5IGSnmX1IYi70rU6FH7m4VJKAbLRdyq9QvHWBvaY00gQddc76H');
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
-// Componente interno para formulario de tarjeta
 const CardPaymentForm = ({ total, onSuccess, onError }) => {
+  const { t } = useLanguage();
   const stripe = useStripe();
   const elements = useElements();
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState(null);
 
-  const handleSubmit = async (event) => {
+    const handleSubmit = async (event) => {
     event.preventDefault();
     
     if (!stripe || !elements) {
@@ -28,7 +27,6 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
     setError(null);
 
     try {
-      // Crear PaymentMethod
       const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
         type: 'card',
         card: elements.getElement(CardElement),
@@ -38,15 +36,43 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
         throw new Error(paymentMethodError.message);
       }
 
-      // Simular éxito para testing
-      setTimeout(() => {
+      const token = localStorage.getItem('token');
+
+      const response = await fetch('http://localhost:5000/api/payments/create-payment-intent', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ amount: total })
+      });
+
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error || 'Error al procesar el pago');
+      }
+
+      const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(
+        data.clientSecret,
+        { payment_method: paymentMethod.id }
+      );
+
+      if (confirmError) {
+        throw new Error(confirmError.message);
+      }
+
+      if (paymentIntent.status === 'succeeded') {
         setProcessing(false);
         onSuccess({
           paymentMethodId: paymentMethod.id,
           brand: paymentMethod.card.brand,
-          last4: paymentMethod.card.last4
+          last4: paymentMethod.card.last4,
+          paymentIntentId: paymentIntent.id
         });
-      }, 1500);
+      } else {
+        throw new Error('El pago no pudo completarse');
+      }
 
     } catch (err) {
       setError(err.message);
@@ -74,7 +100,7 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="p-4 border border-slate-300 rounded-lg bg-white">
         <label className="block text-sm font-medium text-slate-700 mb-3">
-          Información de la tarjeta
+          {t('checkout.cardInfo')}
         </label>
         <div className="p-3 border border-slate-300 rounded-lg bg-slate-50">
           <CardElement options={cardElementOptions} />
@@ -87,10 +113,10 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
       <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <div className="flex items-center gap-3 mb-2">
           <span className="text-blue-600">🔒</span>
-          <p className="text-sm text-blue-700 font-medium">Pago seguro con Stripe</p>
+          <p className="text-sm text-blue-700 font-medium">{t('checkout.cardSecure')}</p>
         </div>
         <p className="text-xs text-blue-600">
-          Tu información de tarjeta está encriptada y nunca toca nuestros servidores.
+          {t('checkout.cardEncrypted')}
         </p>
       </div>
 
@@ -106,10 +132,10 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
         {processing ? (
           <span className="flex items-center justify-center gap-2">
             <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-            Procesando pago...
+            {t('checkout.processing')}
           </span>
         ) : (
-          `Pagar Bs. ${total.toFixed(2)}`
+          t('checkout.pay', { total: total.toFixed(2) })
         )}
       </button>
     </form>
@@ -151,7 +177,7 @@ const Checkout = () => {
   const [errors, setErrors] = useState({});
   
   const departments = [
-    { value: '', label: 'Selecciona un departamento' },
+    { value: '', label: t('checkout.selectDepartment') },
     { value: 'lp', label: 'La Paz' },
     { value: 'cbb', label: 'Cochabamba' },
     { value: 'scz', label: 'Santa Cruz' },
@@ -175,7 +201,6 @@ const Checkout = () => {
     'pan': ['Cobija', 'Porvenir', 'Bella Flor', 'Filadelfia']
   };
   
-  // Verificar autenticación al cargar
   useEffect(() => {
     if (!user) {
       localStorage.setItem('redirectAfterLogin', '/checkout');
@@ -183,7 +208,6 @@ const Checkout = () => {
       return;
     }
     
-    // Pre-llenar datos del usuario
     if (user && !formData.fullName) {
       setFormData(prev => ({
         ...prev,
@@ -199,42 +223,40 @@ const Checkout = () => {
     }
   }, [isEmpty, navigate, step]);
   
-  // CALCULAR errores usando useMemo
   const calculatedErrors = useMemo(() => {
     const newErrors = {};
     
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Nombre completo es requerido';
+      newErrors.fullName = t('checkout.error.requiredName');
     }
     
     if (!formData.email.trim()) {
-      newErrors.email = 'Email es requerido';
+      newErrors.email = t('checkout.error.requiredEmail');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Email no válido';
+      newErrors.email = t('checkout.error.invalidEmail');
     }
     
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Teléfono es requerido';
+      newErrors.phone = t('checkout.error.requiredPhone');
     } else if (formData.phone.length < 8) {
-      newErrors.phone = 'Teléfono debe tener al menos 8 dígitos';
+      newErrors.phone = t('checkout.error.phoneLength');
     }
     
     if (!formData.address.trim()) {
-      newErrors.address = 'Dirección es requerida';
+      newErrors.address = t('checkout.error.requiredAddress');
     }
     
     if (!formData.department) {
-      newErrors.department = 'Departamento es requerido';
+      newErrors.department = t('checkout.error.requiredDepartment');
     }
     
     if (!formData.city.trim()) {
-      newErrors.city = 'Ciudad es requerida';
+      newErrors.city = t('checkout.error.requiredCity');
     }
     
     return newErrors;
   }, [formData]);
   
-  // Sincronizar errors con calculatedErrors
   useEffect(() => {
     setErrors(calculatedErrors);
   }, [calculatedErrors]);
@@ -255,37 +277,33 @@ const Checkout = () => {
     }
   };
   
-  // Función SIMPLE para validar si el formulario es válido
   const isFormValid = useMemo(() => {
     return Object.keys(calculatedErrors).length === 0;
   }, [calculatedErrors]);
   
-  // Función CON alerts para cuando el usuario hace click
   const validateStep1 = () => {
     if (!isFormValid) {
       const firstErrorKey = Object.keys(calculatedErrors)[0];
       if (firstErrorKey && calculatedErrors[firstErrorKey]) {
         alert(calculatedErrors[firstErrorKey]);
       } else {
-        alert('Por favor completa todos los campos requeridos');
+        alert(t('checkout.error.completeFields'));
       }
       return false;
     }
     return true;
   };
   
-  // Función para manejar éxito de pago con tarjeta
   const handleCardPaymentSuccess = (paymentDetails) => {
     setCardPaymentSuccess(true);
     setCardDetails(paymentDetails);
     setPaymentMethod('card');
     
-    // Mostrar confirmación
-    alert(`¡Pago exitoso! Tarjeta ${paymentDetails.brand} terminada en ${paymentDetails.last4}`);
+    alert(t('checkout.success.cardPaid', { brand: paymentDetails.brand, last4: paymentDetails.last4 }));
   };
 
   const handleCardPaymentError = (error) => {
-    alert(`Error en el pago: ${error}`);
+    alert(t('checkout.error.paymentError', { error }));
   };
   
   const handleNextStep = () => {
@@ -294,33 +312,27 @@ const Checkout = () => {
         setStep(2);
       }
     } else if (step === 2) {
-      // Para tarjeta, necesitamos procesar pago primero
       if (paymentMethod === 'card' && !cardPaymentSuccess) {
-        // El formulario Stripe manejará esto
         return;
       }
-      // Para otros métodos o tarjeta ya exitosa, ir al paso 3
       setStep(3);
     } else if (step === 3) {
-      // FINALIZAR - Aquí sí procesamos el pedido
       handlePlaceOrder();
     }
   };
   
   const handlePlaceOrder = () => {
     if (!user) {
-      alert('Error: Debes iniciar sesión para completar la compra.');
+      alert(t('checkout.error.loginRequired'));
       navigate('/login');
       return;
     }
     
     setLoading(true);
     
-    // Guardar pedido en localStorage
     const orderId = `BOL-${Date.now().toString().slice(-6)}`;
     const orderData = {
       id: orderId,
-      // CRÍTICO: Asociar pedido al usuario
       userId: user.id,
       userEmail: user.email,
       userName: user.name,
@@ -337,22 +349,18 @@ const Checkout = () => {
       estimatedDelivery: new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString()
     };
     
-    // 1. Guardar en lista general de pedidos
     const existingOrders = JSON.parse(localStorage.getItem('orders') || '[]');
     existingOrders.push(orderData);
     localStorage.setItem('orders', JSON.stringify(existingOrders));
     
-    // 2. Guardar específicamente para este usuario
     const userOrdersKey = `user_orders_${user.id}`;
     const userOrders = JSON.parse(localStorage.getItem(userOrdersKey) || '[]');
     userOrders.push(orderData);
     localStorage.setItem(userOrdersKey, JSON.stringify(userOrders));
     
-    // Limpiar carrito después de un delay
     setTimeout(() => {
       clearCart();
       
-      // Redirigir a confirmación con los datos del pedido
       navigate('/order-confirmation', {
         state: {
           orderId,
@@ -391,27 +399,25 @@ const Checkout = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20 pb-16">
       <div className="container mx-auto px-4">
-        {/* Encabezado */}
         <div className="max-w-4xl mx-auto mb-8">
           <button
             onClick={handlePrevStep}
             className="flex items-center gap-2 text-slate-600 hover:text-blue-600 mb-6"
           >
-            ← Volver {step === 1 ? 'al carrito' : 'atrás'}
+            ← {t('checkout.backToCart')}
           </button>
           
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            {step === 1 ? 'Información de envío' : 
-             step === 2 ? 'Método de pago' : 
-             'Revisar pedido'}
+            {step === 1 ? t('checkout.step.shipping') : 
+             step === 2 ? t('checkout.step.payment') : 
+             t('checkout.step.review')}
           </h1>
           <p className="text-slate-600">
-            {step === 1 ? 'Completa tus datos para la entrega' : 
-             step === 2 ? 'Selecciona cómo quieres pagar' : 
-             'Confirma tu pedido antes de finalizar'}
+            {step === 1 ? t('checkout.desc.shipping') : 
+             step === 2 ? t('checkout.desc.payment') : 
+             t('checkout.desc.review')}
           </p>
           
-          {/* Stepper */}
           <div className="flex items-center justify-between mt-8 mb-12 relative">
             {[1, 2, 3].map((stepNumber) => (
               <div key={stepNumber} className="flex flex-col items-center relative z-10">
@@ -429,9 +435,9 @@ const Checkout = () => {
                   )}
                 </div>
                 <span className="text-sm font-medium text-slate-700">
-                  {stepNumber === 1 ? 'Envío' : 
-                   stepNumber === 2 ? 'Pago' : 
-                   'Confirmar'}
+                  {stepNumber === 1 ? t('checkout.stepper.shipping') : 
+                   stepNumber === 2 ? t('checkout.stepper.payment') : 
+                   t('checkout.stepper.review')}
                 </span>
               </div>
             ))}
@@ -445,18 +451,17 @@ const Checkout = () => {
         </div>
 
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Formulario principal */}
           <div className="lg:col-span-2">
             {step === 1 && (
               <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                  📍 Dirección de entrega
+                  {t('checkout.section.shipping')}
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Nombre completo *
+                      {t('checkout.nameLabel')}
                     </label>
                     <input
                       type="text"
@@ -466,7 +471,7 @@ const Checkout = () => {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.fullName ? 'border-red-500' : 'border-slate-300'
                       }`}
-                      placeholder="Juan Pérez"
+                      placeholder={t('checkout.namePlaceholder')}
                     />
                     {errors.fullName && (
                       <p className="text-red-500 text-sm">{errors.fullName}</p>
@@ -475,7 +480,7 @@ const Checkout = () => {
                   
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Email *
+                      {t('checkout.emailLabel')}
                     </label>
                     <input
                       type="email"
@@ -485,7 +490,7 @@ const Checkout = () => {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.email ? 'border-red-500' : 'border-slate-300'
                       }`}
-                      placeholder="juan@email.com"
+                      placeholder={t('checkout.emailPlaceholder')}
                     />
                     {errors.email && (
                       <p className="text-red-500 text-sm">{errors.email}</p>
@@ -494,7 +499,7 @@ const Checkout = () => {
                   
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Teléfono *
+                      {t('checkout.phoneLabel')}
                     </label>
                     <input
                       type="tel"
@@ -504,7 +509,7 @@ const Checkout = () => {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.phone ? 'border-red-500' : 'border-slate-300'
                       }`}
-                      placeholder="+591 70000000"
+                      placeholder={t('checkout.phonePlaceholder')}
                     />
                     {errors.phone && (
                       <p className="text-red-500 text-sm">{errors.phone}</p>
@@ -513,7 +518,7 @@ const Checkout = () => {
                   
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Departamento *
+                      {t('checkout.departmentLabel')}
                     </label>
                     <select
                       name="department"
@@ -536,7 +541,7 @@ const Checkout = () => {
                   
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Ciudad *
+                      {t('checkout.cityLabel')}
                     </label>
                     <select
                       name="city"
@@ -547,7 +552,7 @@ const Checkout = () => {
                       }`}
                       disabled={!formData.department}
                     >
-                      <option value="">Selecciona una ciudad</option>
+                      <option value="">{t('checkout.selectCity')}</option>
                       {availableCities.map(city => (
                         <option key={city} value={city}>
                           {city}
@@ -561,7 +566,7 @@ const Checkout = () => {
                   
                   <div className="space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Dirección completa *
+                      {t('checkout.addressLabel')}
                     </label>
                     <input
                       type="text"
@@ -571,7 +576,7 @@ const Checkout = () => {
                       className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
                         errors.address ? 'border-red-500' : 'border-slate-300'
                       }`}
-                      placeholder="Calle, número, zona"
+                      placeholder={t('checkout.addressPlaceholder')}
                     />
                     {errors.address && (
                       <p className="text-red-500 text-sm">{errors.address}</p>
@@ -580,7 +585,7 @@ const Checkout = () => {
                   
                   <div className="md:col-span-2 space-y-2">
                     <label className="block text-sm font-medium text-slate-700">
-                      Instrucciones adicionales (opcional)
+                      {t('checkout.instructionsLabel')}
                     </label>
                     <textarea
                       name="notes"
@@ -588,7 +593,7 @@ const Checkout = () => {
                       onChange={handleInputChange}
                       rows="3"
                       className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="Ej: Timbre azul, dejar con el portero, etc."
+                      placeholder={t('checkout.instructionsPlaceholder')}
                     />
                   </div>
                 </div>
@@ -598,11 +603,10 @@ const Checkout = () => {
             {step === 2 && (
               <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                  💳 Método de pago
+                  {t('checkout.section.payment')}
                 </h2>
                 
                 <div className="space-y-4">
-                  {/* Opción: Efectivo */}
                   <div className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     paymentMethod === 'cash' 
                       ? 'border-blue-500 bg-blue-50' 
@@ -621,8 +625,8 @@ const Checkout = () => {
                           💵
                         </div>
                         <div>
-                          <h3 className="font-bold text-lg text-slate-900">Pago en efectivo</h3>
-                          <p className="text-slate-600">Paga cuando recibas tu pedido</p>
+                          <h3 className="font-bold text-lg text-slate-900">{t('checkout.payment.cash')}</h3>
+                          <p className="text-slate-600">{t('checkout.payment.cashDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'cash' && (
@@ -633,7 +637,6 @@ const Checkout = () => {
                     </div>
                   </div>
                   
-                  {/* Opción: QR */}
                   <div className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     paymentMethod === 'qr' 
                       ? 'border-blue-500 bg-blue-50' 
@@ -652,8 +655,8 @@ const Checkout = () => {
                           📱
                         </div>
                         <div>
-                          <h3 className="font-bold text-lg text-slate-900">Pago con QR</h3>
-                          <p className="text-slate-600">Escanea el código con tu banco</p>
+                          <h3 className="font-bold text-lg text-slate-900">{t('checkout.payment.qr')}</h3>
+                          <p className="text-slate-600">{t('checkout.payment.qrDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'qr' && (
@@ -665,11 +668,11 @@ const Checkout = () => {
                     
                     {paymentMethod === 'qr' && (
                       <div className="mt-6 p-4 bg-white border border-slate-300 rounded-lg text-center">
-                        <p className="text-sm text-slate-600 mb-3">Escanea este código QR para pagar</p>
+                        <p className="text-sm text-slate-600 mb-3">{t('checkout.payment.qrInstruction')}</p>
                         <div className="w-48 h-48 mx-auto bg-gradient-to-br from-blue-100 to-fuchsia-100 flex items-center justify-center rounded-lg">
                           <div className="text-center">
                             <div className="text-4xl mb-2">📱</div>
-                            <p className="text-xs text-slate-500">QR Simulado</p>
+                            <p className="text-xs text-slate-500">{t('checkout.payment.qrSimulated')}</p>
                             <p className="text-xs text-slate-500">Bs. {total.toFixed(2)}</p>
                           </div>
                         </div>
@@ -677,7 +680,6 @@ const Checkout = () => {
                     )}
                   </div>
                   
-                  {/* Opción: Tarjeta de crédito/débito */}
                   <div className={`p-6 border-2 rounded-xl transition-all ${
                     paymentMethod === 'card' 
                       ? 'border-purple-500 bg-purple-50' 
@@ -697,8 +699,8 @@ const Checkout = () => {
                           💳
                         </div>
                         <div>
-                          <h3 className="font-bold text-lg text-slate-900">Tarjeta de crédito/débito</h3>
-                          <p className="text-slate-600">Visa, Mastercard, American Express</p>
+                          <h3 className="font-bold text-lg text-slate-900">{t('checkout.payment.card')}</h3>
+                          <p className="text-slate-600">{t('checkout.payment.cardDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'card' && (
@@ -708,7 +710,6 @@ const Checkout = () => {
                       )}
                     </div>
                     
-                    {/* Mostrar formulario Stripe solo si tarjeta está seleccionada */}
                     {paymentMethod === 'card' && (
                       <div className="mt-6">
                         <Elements stripe={stripePromise}>
@@ -724,7 +725,7 @@ const Checkout = () => {
                             <div className="flex items-center gap-2">
                               <span className="text-green-600">✓</span>
                               <p className="text-green-700 font-medium">
-                                ¡Pago confirmado! {cardDetails?.brand} terminada en {cardDetails?.last4}
+                                {t('checkout.success.cardPaid', { brand: cardDetails?.brand, last4: cardDetails?.last4 })}
                               </p>
                             </div>
                           </div>
@@ -734,12 +735,11 @@ const Checkout = () => {
                   </div>
                 </div>
                 
-                {/* Información de seguridad */}
                 <div className="mt-8 p-4 bg-slate-50 rounded-lg border border-slate-200">
                   <div className="flex items-center gap-3">
                     <span className="text-green-600">🛡️</span>
                     <p className="text-sm text-slate-700">
-                      Tu pago está protegido. No almacenamos datos de tarjetas de crédito.
+                      {t('checkout.security')}
                     </p>
                   </div>
                 </div>
@@ -749,12 +749,12 @@ const Checkout = () => {
             {step === 3 && (
               <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
                 <h2 className="text-2xl font-bold text-slate-900 mb-6">
-                  ✅ Resumen del pedido
+                  {t('checkout.section.review')}
                 </h2>
                 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">Información de entrega</h3>
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.deliveryInfo')}</h3>
                     <div className="p-4 bg-slate-50 rounded-lg">
                       <p className="font-medium text-slate-900">{formData.fullName}</p>
                       <p className="text-slate-600">{formData.address}</p>
@@ -765,13 +765,13 @@ const Checkout = () => {
                   </div>
                   
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">Productos</h3>
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.products')}</h3>
                     <div className="space-y-3">
                       {cart.map(item => (
                         <div key={item.id} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
                           <div>
                             <p className="font-medium text-slate-900">{item.name}</p>
-                            <p className="text-sm text-slate-500">Cantidad: {item.quantity}</p>
+                            <p className="text-sm text-slate-500">{t('checkout.quantity', { quantity: item.quantity })}</p>
                           </div>
                           <div className="text-slate-900 font-medium">
                             Bs. {((item.price || 0) * item.quantity).toFixed(2)}
@@ -782,23 +782,23 @@ const Checkout = () => {
                   </div>
                   
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">Método de pago</h3>
+                    <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.paymentMethod')}</h3>
                     <div className="p-4 bg-slate-50 rounded-lg flex items-center gap-3">
                       {paymentMethod === 'cash' ? (
                         <>
                           <span className="text-blue-600">💵</span>
-                          <span className="font-medium text-slate-900">Pago en efectivo</span>
+                          <span className="font-medium text-slate-900">{t('checkout.payment.cash')}</span>
                         </>
                       ) : paymentMethod === 'qr' ? (
                         <>
                           <span className="text-blue-600">📱</span>
-                          <span className="font-medium text-slate-900">Pago con QR</span>
+                          <span className="font-medium text-slate-900">{t('checkout.payment.qr')}</span>
                         </>
                       ) : (
                         <>
                           <span className="text-purple-600">💳</span>
                           <div>
-                            <span className="font-medium text-slate-900">Tarjeta de crédito/débito</span>
+                            <span className="font-medium text-slate-900">{t('checkout.payment.card')}</span>
                             {cardDetails && (
                               <p className="text-sm text-slate-500">
                                 {cardDetails.brand} terminada en {cardDetails.last4}
@@ -812,7 +812,7 @@ const Checkout = () => {
                   
                   {formData.notes && (
                     <div>
-                      <h3 className="font-bold text-lg text-slate-900 mb-3">Instrucciones adicionales</h3>
+                      <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.instructions')}</h3>
                       <div className="p-4 bg-slate-50 rounded-lg">
                         <p className="text-slate-600">{formData.notes}</p>
                       </div>
@@ -823,12 +823,10 @@ const Checkout = () => {
             )}
           </div>
           
-          {/* Resumen del pedido */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl p-6 border border-slate-200 sticky top-24">
-              <h2 className="text-xl font-bold text-slate-900 mb-6">Tu pedido</h2>
+              <h2 className="text-xl font-bold text-slate-900 mb-6">{t('checkout.yourOrder')}</h2>
               
-              {/* Productos */}
               <div className="space-y-4 mb-6">
                 {cart.map(item => (
                   <div key={item.id} className="flex justify-between items-start">
@@ -848,27 +846,25 @@ const Checkout = () => {
                 ))}
               </div>
               
-              {/* Totales */}
               <div className="space-y-3 border-t border-slate-200 pt-4">
                 <div className="flex justify-between text-slate-600">
-                  <span>Subtotal</span>
+                  <span>{t('cart.subtotal')}</span>
                   <span>Bs. {subtotal.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-slate-600">
-                  <span>Envío</span>
+                  <span>{t('cart.shipping')}</span>
                   <span>Bs. {shipping.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-slate-600">
-                  <span>Impuestos (13%)</span>
+                  <span>{t('cart.tax')}</span>
                   <span>Bs. {tax.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-lg font-bold text-slate-900 pt-3 border-t border-slate-200">
-                  <span>Total</span>
+                  <span>{t('cart.total')}</span>
                   <span className="text-blue-600">Bs. {total.toFixed(2)}</span>
                 </div>
               </div>
               
-              {/* Botón de acción */}
               <button
                 onClick={handleNextStep}
                 disabled={
@@ -885,26 +881,25 @@ const Checkout = () => {
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                    Procesando...
+                    {t('checkout.loading')}
                   </span>
                 ) : step === 1 ? (
-                  'Continuar al pago'
+                  t('checkout.btn.continuePayment')
                 ) : step === 2 && paymentMethod === 'card' && !cardPaymentSuccess ? (
-                  'Procesar pago'
+                  t('checkout.btn.processPayment')
                 ) : step === 2 ? (
-                  'Revisar pedido'
+                  t('checkout.btn.review')
                 ) : step === 3 ? (
-                  'Finalizar compra'
+                  t('checkout.btn.finish')
                 ) : (
-                  'Continuar'
+                  t('checkout.btn.continue')
                 )}
               </button>
               
-              {/* Información de seguridad */}
               <div className="mt-6 pt-6 border-t border-slate-200">
                 <div className="flex items-center gap-3 text-sm text-slate-600">
                   <span className="text-green-600">🛡️</span>
-                  <p>Tu información personal está protegida. No compartimos tus datos con terceros.</p>
+                  <p>{t('checkout.privacy')}</p>
                 </div>
               </div>
             </div>

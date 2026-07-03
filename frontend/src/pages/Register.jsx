@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ export default function Register() {
     confirmPassword: '',
     phone: '',
     location: '',
-    inviteCode: ''  // ← NUEVO CAMPO
+    inviteCode: ''
   });
   
   const [error, setError] = useState('');
@@ -19,8 +20,8 @@ export default function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   
-  // NUEVO: usar el register del contexto (no login)
   const { register } = useAuth();
+  const { t } = useLanguage();
 
   const handleChange = (e) => {
     setFormData({
@@ -35,46 +36,40 @@ export default function Register() {
     setSuccess('');
     setLoading(true);
     
-    // Validaciones
     if (!formData.name || !formData.email || !formData.password) {
-      setError('Por favor completa todos los campos obligatorios');
+      setError(t('register.error.required'));
       setLoading(false);
       return;
     }
     
     if (formData.password !== formData.confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      setError(t('register.error.passwordMatch'));
       setLoading(false);
       return;
     }
     
     if (formData.password.length < 6) {
-      setError('La contraseña debe tener al menos 6 caracteres');
+      setError(t('register.error.passwordLength'));
       setLoading(false);
       return;
     }
     
     try {
-      // Preparar datos para registro
       const userData = {
         name: formData.name,
         email: formData.email,
         password: formData.password,
         phone: formData.phone || '',
         location: formData.location || '',
-        // Solo incluir inviteCode si no está vacío
         ...(formData.inviteCode.trim() && { inviteCode: formData.inviteCode.trim() })
       };
       
-      // Usar la función register del AuthContext
-      const result = register(userData);
+      const result = await register(userData);
       
       if (result.success) {
-        setSuccess(result.message || '¡Registro exitoso!');
+        setSuccess(result.message || t('register.success'));
         
-        // Redirigir después de 2 segundos
         setTimeout(() => {
-          // Si se registró como admin, redirigir al panel admin
           if (result.user.role === 'admin') {
             navigate('/admin');
           } else {
@@ -82,10 +77,10 @@ export default function Register() {
           }
         }, 2000);
       } else {
-        setError(result.message || 'Error al crear la cuenta');
+        setError(result.message || t('register.error.api'));
       }
     } catch (err) {
-      setError(err.message || 'Error en el registro');
+      setError(err.message || t('register.error.api'));
     } finally {
       setLoading(false);
     }
@@ -96,8 +91,8 @@ export default function Register() {
       <div className="max-w-md w-full">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#E2E8F0]">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#1E293B] mb-2">Crear Cuenta</h1>
-            <p className="text-[#64748B]">Únete a Bolivian Market</p>
+            <h1 className="text-3xl font-bold text-[#1E293B] mb-2">{t('register.title')}</h1>
+            <p className="text-[#64748B]">{t('register.subtitle')}</p>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -115,7 +110,7 @@ export default function Register() {
             
             <div>
               <label className="block text-sm font-medium text-[#475569] mb-2">
-                Nombre completo
+                {t('register.name')}
               </label>
               <input
                 type="text"
@@ -123,14 +118,14 @@ export default function Register() {
                 value={formData.name}
                 onChange={handleChange}
                 className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                placeholder="Juan Pérez"
+                placeholder={t('register.namePlaceholder')}
                 required
               />
             </div>
             
             <div>
               <label className="block text-sm font-medium text-[#475569] mb-2">
-                Correo electrónico
+                {t('register.email')}
               </label>
               <input
                 type="email"
@@ -138,14 +133,14 @@ export default function Register() {
                 value={formData.email}
                 onChange={handleChange}
                 className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                placeholder="usuario@ejemplo.com"
+                placeholder={t('register.emailPlaceholder')}
                 required
               />
             </div>
             
             <div>
               <label className="block text-sm font-medium text-[#475569] mb-2">
-                Teléfono (opcional)
+                {t('register.phone')}
               </label>
               <input
                 type="tel"
@@ -153,13 +148,13 @@ export default function Register() {
                 value={formData.phone}
                 onChange={handleChange}
                 className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                placeholder="+591 71234567"
+                placeholder={t('register.phonePlaceholder')}
               />
             </div>
             
             <div>
               <label className="block text-sm font-medium text-[#475569] mb-2">
-                Ciudad (opcional)
+                {t('register.city')}
               </label>
               <select
                 name="location"
@@ -167,22 +162,22 @@ export default function Register() {
                 onChange={handleChange}
                 className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
               >
-                <option value="">Selecciona tu ciudad</option>
-                <option value="La Paz">La Paz</option>
-                <option value="Santa Cruz">Santa Cruz</option>
-                <option value="Cochabamba">Cochabamba</option>
-                <option value="Oruro">Oruro</option>
-                <option value="Potosí">Potosí</option>
-                <option value="Chuquisaca">Chuquisaca</option>
-                <option value="Tarija">Tarija</option>
-                <option value="Beni">Beni</option>
-                <option value="Pando">Pando</option>
+                <option value="">{t('register.selectCity')}</option>
+                <option value="La Paz">{t('register.cityLaPaz')}</option>
+                <option value="Santa Cruz">{t('register.citySantaCruz')}</option>
+                <option value="Cochabamba">{t('register.cityCochabamba')}</option>
+                <option value="Oruro">{t('register.cityOruro')}</option>
+                <option value="Potosí">{t('register.cityPotosi')}</option>
+                <option value="Chuquisaca">{t('register.cityChuquisaca')}</option>
+                <option value="Tarija">{t('register.cityTarija')}</option>
+                <option value="Beni">{t('register.cityBeni')}</option>
+                <option value="Pando">{t('register.cityPando')}</option>
               </select>
             </div>
             
             <div>
               <label className="block text-sm font-medium text-[#475569] mb-2">
-                Contraseña
+                {t('register.password')}
               </label>
               <input
                 type="password"
@@ -190,14 +185,14 @@ export default function Register() {
                 value={formData.password}
                 onChange={handleChange}
                 className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t('register.passwordPlaceholder')}
                 required
               />
             </div>
             
             <div>
               <label className="block text-sm font-medium text-[#475569] mb-2">
-                Confirmar contraseña
+                {t('register.confirmPassword')}
               </label>
               <input
                 type="password"
@@ -205,26 +200,25 @@ export default function Register() {
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                placeholder="••••••••"
+                placeholder={t('register.passwordPlaceholder')}
                 required
               />
             </div>
             
-            {/* NUEVO: CAMPO DE CÓDIGO DE INVITACIÓN */}
             <div className="border-t border-gray-200 pt-6">
               <div className="flex items-center mb-3">
                 <div className="bg-purple-100 p-2 rounded-lg mr-3">
                   <span className="text-purple-600">🔑</span>
                 </div>
                 <div>
-                  <h3 className="text-lg font-medium text-gray-900">Código de Invitación</h3>
-                  <p className="text-sm text-gray-500">Opcional - Solo para administradores</p>
+                  <h3 className="text-lg font-medium text-gray-900">{t('register.inviteSection')}</h3>
+                  <p className="text-sm text-gray-500">{t('register.inviteOptional')}</p>
                 </div>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-[#475569] mb-2">
-                  Código de Invitación
+                  {t('register.inviteLabel')}
                 </label>
                 <input
                   type="text"
@@ -232,12 +226,12 @@ export default function Register() {
                   value={formData.inviteCode}
                   onChange={handleChange}
                   className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                  placeholder="BM-XXXXXXXX"
+                  placeholder={t('register.invitePlaceholder')}
                 />
                 <p className="mt-2 text-sm text-gray-500">
-                  Si tienes un código de invitación válido, ingrésalo para registrarte como administrador.
+                  {t('register.inviteHelp')}
                   <br/>
-                  <span className="text-blue-600 font-medium">Dejar en blanco para registro como usuario normal.</span>
+                  <span className="text-blue-600 font-medium">{t('register.inviteSkip')}</span>
                 </p>
               </div>
             </div>
@@ -249,27 +243,26 @@ export default function Register() {
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >
-              {loading ? 'Creando cuenta...' : 'Crear cuenta'}
+              {loading ? t('register.loading') : t('register.submit')}
             </button>
           </form>
           
           <div className="mt-8 text-center">
             <p className="text-[#64748B]">
-              ¿Ya tienes cuenta?{' '}
+              {t('register.hasAccount')}{' '}
               <Link to="/login" className="text-[#2563EB] font-medium hover:underline">
-                Inicia sesión aquí
+                {t('register.loginLink')}
               </Link>
             </p>
           </div>
           
-          {/* Información adicional */}
           <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-100">
-            <h3 className="text-sm font-medium text-blue-800 mb-2">Información importante:</h3>
+            <h3 className="text-sm font-medium text-blue-800 mb-2">{t('register.infoTitle')}</h3>
             <ul className="text-sm text-blue-700 space-y-1">
-              <li>• Usuario normal: Acceso a compras y perfil personal</li>
-              <li>• Administrador: Acceso al panel de administración</li>
-              <li>• Los códigos de invitación son generados por el Super Administrador</li>
-              <li>• Cada código es válido por 30 días y solo puede usarse una vez</li>
+              <li>{t('register.infoUser')}</li>
+              <li>{t('register.infoAdmin')}</li>
+              <li>{t('register.infoCodes')}</li>
+              <li>{t('register.infoExpiry')}</li>
             </ul>
           </div>
         </div>

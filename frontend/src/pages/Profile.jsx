@@ -1,15 +1,17 @@
 // frontend/src/pages/Profile.jsx
 import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Profile = () => {
   const { user, updateProfile } = useAuth();
+  const { t } = useLanguage();
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
     phone: user?.phone || '',
-    ciudad: user?.ciudad || 'Santa Cruz'
+    location: user?.location || 'Santa Cruz'
   });
 
   const handleSubmit = (e) => {
@@ -22,8 +24,8 @@ const Profile = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-[#1E293B] mb-2">Mi Perfil</h1>
-      <p className="text-[#64748B] mb-8">Administra tu información personal</p>
+      <h1 className="text-3xl font-bold text-[#1E293B] mb-2">{t('profile.title')}</h1>
+      <p className="text-[#64748B] mb-8">{t('profile.subtitle')}</p>
       
       <div className="grid md:grid-cols-3 gap-8">
         {/* Panel izquierdo - Info */}
@@ -42,22 +44,22 @@ const Profile = () => {
                 ? 'bg-yellow-100 text-yellow-800' 
                 : 'bg-blue-100 text-blue-800'
             }`}>
-              {user.role === 'admin' ? 'Administrador' : 'Cliente'}
+              {user.role === 'admin' ? t('profile.roleAdmin') : t('profile.roleClient')}
             </div>
           </div>
           
           <div className="mt-8 space-y-3">
             <div className="flex items-center text-[#475569]">
               <span className="mr-3">📱</span>
-              <span>{user.phone || 'Sin teléfono'}</span>
+              <span>{user.phone || t('profile.noPhone')}</span>
             </div>
             <div className="flex items-center text-[#475569]">
               <span className="mr-3">📍</span>
-              <span>{user.ciudad || 'Bolivia'}</span>
+              <span>{user.location || t('profile.defaultLocation')}</span>
             </div>
             <div className="flex items-center text-[#475569]">
               <span className="mr-3">👤</span>
-              <span>Miembro desde: Hoy</span>
+              <span>{t('profile.memberSince')}</span>
             </div>
           </div>
         </div>
@@ -67,7 +69,7 @@ const Profile = () => {
           <div className="bg-white rounded-xl shadow-lg p-6 border border-[#E2E8F0]">
             <div className="flex justify-between items-center mb-6">
               <h3 className="text-lg font-semibold text-[#1E293B]">
-                {isEditing ? 'Editar Información' : 'Información Personal'}
+                {isEditing ? t('profile.editTitle') : t('profile.personalInfo')}
               </h3>
               <button
                 onClick={() => setIsEditing(!isEditing)}
@@ -77,7 +79,7 @@ const Profile = () => {
                     : 'bg-[#2563EB] text-white hover:bg-[#1D4ED8]'
                 }`}
               >
-                {isEditing ? 'Cancelar' : 'Editar Perfil'}
+                {isEditing ? t('profile.cancel') : t('profile.edit')}
               </button>
             </div>
             
@@ -85,7 +87,7 @@ const Profile = () => {
               <form onSubmit={handleSubmit}>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-[#475569] mb-1">Nombre</label>
+                    <label className="block text-sm font-medium text-[#475569] mb-1">{t('profile.nameLabel')}</label>
                     <input
                       type="text"
                       value={formData.name}
@@ -96,7 +98,7 @@ const Profile = () => {
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-[#475569] mb-1">Email</label>
+                    <label className="block text-sm font-medium text-[#475569] mb-1">{t('profile.emailLabel')}</label>
                     <input
                       type="email"
                       value={formData.email}
@@ -105,25 +107,25 @@ const Profile = () => {
                       required
                       disabled
                     />
-                    <p className="text-xs text-[#64748B] mt-1">El email no se puede cambiar</p>
+                    <p className="text-xs text-[#64748B] mt-1">{t('profile.emailNoEdit')}</p>
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-[#475569] mb-1">Teléfono</label>
+                    <label className="block text-sm font-medium text-[#475569] mb-1">{t('profile.phoneLabel')}</label>
                     <input
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({...formData, phone: e.target.value})}
                       className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
-                      placeholder="+591 1234567"
+                      placeholder={t('profile.phonePlaceholder')}
                     />
                   </div>
                   
                   <div>
-                    <label className="block text-sm font-medium text-[#475569] mb-1">Ciudad</label>
+                    <label className="block text-sm font-medium text-[#475569] mb-1">{t('profile.locationLabel')}</label>
                     <select
-                      value={formData.ciudad}
-                      onChange={(e) => setFormData({...formData, ciudad: e.target.value})}
+                      value={formData.location}
+                      onChange={(e) => setFormData({...formData, location: e.target.value})}
                       className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
                     >
                       <option value="La Paz">La Paz</option>
@@ -143,7 +145,7 @@ const Profile = () => {
                     type="submit"
                     className="px-6 py-3 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg font-medium hover:shadow-lg transition"
                   >
-                    Guardar Cambios
+                    {t('profile.save')}
                   </button>
                 </div>
               </form>
@@ -151,20 +153,20 @@ const Profile = () => {
               <div className="space-y-4">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-[#64748B]">Nombre completo</p>
+                    <p className="text-sm text-[#64748B]">{t('profile.viewName')}</p>
                     <p className="font-medium">{user.name}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-[#64748B]">Email</p>
+                    <p className="text-sm text-[#64748B]">{t('profile.viewEmail')}</p>
                     <p className="font-medium">{user.email}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-[#64748B]">Teléfono</p>
-                    <p className="font-medium">{user.phone || 'No registrado'}</p>
+                    <p className="text-sm text-[#64748B]">{t('profile.viewPhone')}</p>
+                    <p className="font-medium">{user.phone || t('profile.noRegistered')}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-[#64748B]">Ciudad</p>
-                    <p className="font-medium">{user.ciudad || 'Bolivia'}</p>
+                    <p className="text-sm text-[#64748B]">{t('profile.viewLocation')}</p>
+                    <p className="font-medium">{user.location || t('profile.defaultLocation')}</p>
                   </div>
                 </div>
               </div>

@@ -32,7 +32,7 @@ const Product = sequelize.define('Product', {
     defaultValue: 'https://via.placeholder.com/300'
   },
   category: {
-    type: DataTypes.ENUM('salteñas', 'platos_fuertes', 'bebidas', 'postres', 'especiales'),
+    type: DataTypes.ENUM('salteñas', 'platos_fuertes', 'carnes', 'bebidas', 'postres', 'entradas', 'especiales'),
     allowNull: false,
     defaultValue: 'platos_fuertes'
   },
@@ -48,6 +48,11 @@ const Product = sequelize.define('Product', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  descriptionEn: {
+  type: DataTypes.STRING,
+  allowNull: true
+},
+  
   active: {
     type: DataTypes.BOOLEAN,
     defaultValue: true

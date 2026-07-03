@@ -1,5 +1,5 @@
 // frontend/src/pages/admin/CreateInvitePage.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
 const CreateInvitePage = () => {
@@ -8,12 +8,25 @@ const CreateInvitePage = () => {
   const [newCode, setNewCode] = useState(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [allInviteCodes, setAllInviteCodes] = useState([]);
+  const [loadingCodes, setLoadingCodes] = useState(true);
 
-  const handleCreateCode = () => {
+  useEffect(() => {
+    const fetchCodes = async () => {
+      setLoadingCodes(true);
+      const codes = await getInviteCodes();
+      setAllInviteCodes(codes);
+      setLoadingCodes(false);
+    };
+    if (user?.role === 'superadmin') fetchCodes();
+  }, [user]);
+
+  const handleCreateCode = async () => {
     try {
-      const createdCode = createInviteCode(note);
+      const createdCode = await createInviteCode(note);
       setNewCode(createdCode);
       setMessage(`¡Código creado: ${createdCode.code}`);
+      setAllInviteCodes(prev => [...prev, createdCode]);
       setNote('');
       setError('');
     } catch (err) {
@@ -22,11 +35,12 @@ const CreateInvitePage = () => {
     }
   };
 
-  const handleDeleteCode = (code) => {
+  const handleDeleteCode = async (code) => {
     if (window.confirm(`¿Eliminar código ${code}?`)) {
       try {
-        deleteInviteCode(code);
+        await deleteInviteCode(code);
         setMessage(`Código ${code} eliminado`);
+        setAllInviteCodes(prev => prev.filter(c => c.code !== code));
         setTimeout(() => setMessage(''), 3000);
       } catch (err) {
         setError(err.message);
@@ -47,8 +61,6 @@ const CreateInvitePage = () => {
   const isExpired = (expiresAt) => {
     return new Date(expiresAt) < new Date();
   };
-
-  const allInviteCodes = getInviteCodes();
 
   if (user?.role !== 'superadmin') {
     return (
@@ -122,7 +134,32 @@ const CreateInvitePage = () => {
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Códigos Generados</h2>
           
-          {allInviteCodes.length === 0 ? (
+          {loadingCodes ? (
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    {[1, 2, 3, 4, 5, 6].map(i => (
+                      <th key={i} className="px-4 py-3">
+                        <div className="animate-pulse bg-gray-200 h-4 w-16 rounded" />
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {Array.from({ length: 4 }).map((_, row) => (
+                    <tr key={row} className="animate-pulse">
+                      {[1, 2, 3, 4, 5, 6].map(col => (
+                        <td key={col} className="px-4 py-3">
+                          <div className={`bg-gray-200 h-4 rounded ${col === 1 ? 'w-32' : col === 4 ? 'w-40' : 'w-20'}`} />
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : allInviteCodes.length === 0 ? (
             <p className="text-gray-500 text-center py-8">No hay códigos generados aún</p>
           ) : (
             <div className="overflow-x-auto">
@@ -204,7 +241,7 @@ const CreateInvitePage = () => {
           )}
         </div>
 
-        {/* Instrucciones - FIJATE QUE ELIMINÉ LA REFERENCIA A INVITE_CODE_EXPIRY_DAYS */}
+        {/* Instrucciones */}
         <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
           <h3 className="text-lg font-semibold text-blue-800 mb-2">¿Cómo funcionan los códigos?</h3>
           <ul className="list-disc pl-5 text-blue-700 space-y-1">

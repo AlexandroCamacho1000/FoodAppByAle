@@ -21,11 +21,11 @@ export function CartProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Cargar carrito al iniciar
   useEffect(() => {
-    loadCart();
+    const token = localStorage.getItem('token');
+    if (token) loadCart();
   }, []);
-
+  
   const loadCart = async () => {
     try {
       setLoading(true);

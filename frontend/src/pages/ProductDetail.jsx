@@ -21,8 +21,9 @@ import {
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useLanguage();
-  const { addToCart, isInCart, getQuantity } = useCart(); // ← CAMBIADO A getQuantity
+  // 🔹 CAMBIO 1: Agregar language al destructuring
+  const { t, language } = useLanguage();
+  const { addToCart, isInCart, getQuantity } = useCart();
   
   const [product, setProduct] = useState(null);
   const [relatedProducts, setRelatedProducts] = useState([]);
@@ -42,7 +43,6 @@ const ProductDetail = () => {
       const productData = await getProductById(id);
       setProduct(productData);
       
-      // Cargar productos relacionados
       const related = await getProductsByCategory(productData.category);
       const filteredRelated = related
         .filter(p => p.id !== productData.id)
@@ -70,7 +70,6 @@ const ProductDetail = () => {
     
     const result = await addToCart(product, quantity);
     if (result.success) {
-      // Feedback visual (podría ser un toast)
       console.log(`✅ ${product.name} x${quantity} agregado al carrito`);
     }
   };
@@ -79,17 +78,16 @@ const ProductDetail = () => {
     if (navigator.share && product) {
       navigator.share({
         title: product.name,
-        text: product.description,
+        // 🔹 CAMBIO 2: t('app.lang') → language
+        text: language === 'es' ? product.description : (product.descriptionEn || product.description),
         url: window.location.href,
       });
     } else {
-      // Copiar URL al clipboard
       navigator.clipboard.writeText(window.location.href);
-      alert('¡Enlace copiado al portapapeles!');
+      alert(t('product.linkCopied'));
     }
   };
   
-  // Simular imágenes múltiples
   const productImages = product ? [
     product.image,
     '/images/food-detail-1.jpg',
@@ -113,8 +111,38 @@ const ProductDetail = () => {
     return (
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20">
         <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="flex flex-col lg:flex-row gap-12">
+            <div className="lg:w-1/2">
+              <div className="animate-pulse bg-gray-200 h-96 rounded-2xl" />
+              <div className="flex gap-2 mt-4">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="animate-pulse bg-gray-200 h-20 flex-1 rounded-lg" />
+                ))}
+              </div>
+            </div>
+            <div className="lg:w-1/2 space-y-6">
+              <div className="animate-pulse bg-gray-200 h-6 w-24 rounded-full" />
+              <div className="animate-pulse bg-gray-200 h-10 w-3/4 rounded" />
+              <div className="space-y-2">
+                <div className="animate-pulse bg-gray-200 h-4 w-full rounded" />
+                <div className="animate-pulse bg-gray-200 h-4 w-5/6 rounded" />
+                <div className="animate-pulse bg-gray-200 h-4 w-2/3 rounded" />
+              </div>
+              <div className="flex gap-6">
+                <div className="animate-pulse bg-gray-200 h-5 w-24 rounded" />
+                <div className="animate-pulse bg-gray-200 h-5 w-32 rounded" />
+              </div>
+              <div className="animate-pulse bg-gray-200 h-14 w-40 rounded" />
+              <div className="flex gap-4">
+                <div className="animate-pulse bg-gray-200 h-12 w-36 rounded-lg" />
+                <div className="animate-pulse bg-gray-200 h-12 flex-1 rounded-lg" />
+              </div>
+              <div className="flex gap-6 pt-4 border-t border-gray-200">
+                <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+                <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+                <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -128,17 +156,17 @@ const ProductDetail = () => {
           <div className="max-w-md mx-auto text-center py-16">
             <FiAlertCircle className="text-6xl text-red-400 mx-auto mb-4" />
             <h2 className="text-2xl font-bold text-slate-800 mb-4">
-              Producto no encontrado
+              {t('product.notFound')}
             </h2>
             <p className="text-slate-600 mb-8">
-              El producto que buscas no existe o ha sido removido.
+              {t('product.notFoundDesc')}
             </p>
             <Link
               to="/menu"
               className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-fuchsia-700"
             >
               <FiArrowLeft />
-              Volver al menú
+              {t('product.backToMenu')}
             </Link>
           </div>
         </div>
@@ -147,28 +175,25 @@ const ProductDetail = () => {
   }
   
   const alreadyInCart = isInCart(product.id);
-  const quantityInCart = getQuantity(product.id); // ← CAMBIADO A getQuantity
+  const quantityInCart = getQuantity(product.id);
   const totalInCart = quantityInCart + quantity;
   
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20 pb-16">
       <div className="container mx-auto px-4">
         
-        {/* Breadcrumbs */}
         <nav className="flex items-center text-sm text-slate-500 mb-8">
-          <Link to="/" className="hover:text-blue-600">Inicio</Link>
+          <Link to="/" className="hover:text-blue-600">{t('product.home')}</Link>
           <span className="mx-2">›</span>
-          <Link to="/menu" className="hover:text-blue-600">Menú</Link>
+          <Link to="/menu" className="hover:text-blue-600">{t('product.menu')}</Link>
           <span className="mx-2">›</span>
           <span className="text-slate-800 font-medium">{product.name}</span>
         </nav>
         
         <div className="flex flex-col lg:flex-row gap-12">
           
-          {/* Columna izquierda - Imágenes */}
           <div className="lg:w-1/2">
             <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-              {/* Imagen principal */}
               <div className="relative h-96">
                 <img 
                   src={productImages[currentImageIndex]} 
@@ -176,7 +201,6 @@ const ProductDetail = () => {
                   className="w-full h-full object-cover"
                 />
                 
-                {/* Controles del carrusel */}
                 {productImages.length > 1 && (
                   <>
                     <button
@@ -194,7 +218,6 @@ const ProductDetail = () => {
                   </>
                 )}
                 
-                {/* Badge destacado */}
                 {product.featured && (
                   <div className="absolute top-4 left-4">
                     <span className="px-3 py-1 bg-gradient-to-r from-fuchsia-600 to-blue-500 text-white text-xs font-bold rounded-full">
@@ -204,7 +227,6 @@ const ProductDetail = () => {
                 )}
               </div>
               
-              {/* Miniaturas */}
               {productImages.length > 1 && (
                 <div className="flex gap-2 p-4">
                   {productImages.map((img, index) => (
@@ -228,74 +250,67 @@ const ProductDetail = () => {
               )}
             </div>
             
-            {/* Botones de acción */}
             <div className="flex gap-4 mt-6">
               <button
                 onClick={handleShare}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-slate-300 rounded-lg text-slate-700 hover:border-blue-400 hover:text-blue-600"
               >
                 <FiShare2 />
-                Compartir
+                {t('product.share')}
               </button>
               <button className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-slate-300 rounded-lg text-slate-700 hover:border-red-400 hover:text-red-600">
                 <FiHeart />
-                Favorito
+                {t('product.favorite')}
               </button>
             </div>
           </div>
           
-          {/* Columna derecha - Información */}
           <div className="lg:w-1/2">
-            {/* Categoría y rating */}
             <div className="flex items-center justify-between mb-4">
               <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
-                {product.category}
+                {t(`categories.${product.category}`) || product.category}
               </span>
               <div className="flex items-center gap-1">
                 <FiStar className="text-yellow-400 fill-current" />
                 <span className="font-bold text-slate-800">{product.rating}</span>
                 <span className="text-slate-400">•</span>
-                <span className="text-slate-500 text-sm">50+ reviews</span>
+                <span className="text-slate-500 text-sm">{t('product.reviews', { count: 50 })}</span>
               </div>
             </div>
             
-            {/* Nombre y descripción corta */}
             <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
               {product.name}
             </h1>
             <p className="text-lg text-slate-600 mb-6">
-              {product.description}
+              {/* 🔹 CAMBIO 3: t('app.lang') → language */}
+              {language === 'es' ? product.description : (product.descriptionEn || product.description)}
             </p>
             
-            {/* Info adicional */}
             <div className="flex items-center gap-6 mb-8">
               <div className="flex items-center gap-2 text-slate-600">
                 <FiClock />
-                <span>{product.prepTime || '15-30 min'}</span>
+                <span>{product.prepTime || t('product.prepTimeFallback')}</span>
               </div>
               <div className="flex items-center gap-2 text-slate-600">
                 <FiPackage />
-                <span>Stock: {product.stock || 10} unidades</span>
+                <span>{t('product.stock', { count: product.stock || 10 })}</span>
               </div>
             </div>
             
-            {/* Precio */}
             <div className="mb-8">
               <div className="flex items-baseline gap-2">
                 <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">
                   Bs. {product.price}
                 </span>
-                <span className="text-slate-400 text-lg">por unidad</span>
+                <span className="text-slate-400 text-lg">{t('product.perUnit')}</span>
               </div>
               <p className="text-sm text-slate-500 mt-1">
-                Precio final incluye IVA (13%)
+                {t('product.taxInfo')}
               </p>
             </div>
             
-            {/* Selector de cantidad y botón */}
             <div className="mb-10">
               <div className="flex items-center gap-6">
-                {/* Selector de cantidad */}
                 <div className="flex items-center border border-slate-300 rounded-lg">
                   <button
                     onClick={() => handleQuantityChange(-1)}
@@ -316,7 +331,6 @@ const ProductDetail = () => {
                   </button>
                 </div>
                 
-                {/* Botón agregar al carrito */}
                 <button
                   onClick={handleAddToCart}
                   disabled={alreadyInCart && totalInCart > (product.stock || 10)}
@@ -330,34 +344,31 @@ const ProductDetail = () => {
                   {alreadyInCart ? (
                     <>
                       <FiCheck />
-                      <span>Agregar {quantity} más ({totalInCart} en total)</span>
+                      <span>{t('product.addMore', { quantity, totalInCart })}</span>
                     </>
                   ) : (
-                    <span>Agregar al Carrito - Bs. {product.price * quantity}</span>
+                    <span>{t('product.addToCart', { total: (product.price * quantity).toFixed(2) })}</span>
                   )}
                 </button>
               </div>
               
-              {/* Mensaje de stock */}
               {product.stock < 5 && (
                 <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
                   <p className="text-sm text-yellow-700">
-                    ⚠️ ¡Quedan solo {product.stock} unidades! Pedido limitado.
+                    ⚠️ {t('product.lowStock', { stock: product.stock })}
                   </p>
                 </div>
               )}
               
-              {/* Mensaje si ya está en carrito */}
               {alreadyInCart && (
                 <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
                   <p className="text-sm text-green-700">
-                    ✅ Ya tienes {quantityInCart} unidad(es) en tu carrito.
+                    ✅ {t('product.inCart', { quantity: quantityInCart })}
                   </p>
                 </div>
               )}
             </div>
             
-            {/* Tabs de información */}
             <div className="border-b border-slate-200 mb-6">
               <div className="flex gap-6">
                 {['description', 'ingredients', 'reviews'].map((tab) => (
@@ -370,102 +381,97 @@ const ProductDetail = () => {
                         : 'text-slate-600 hover:text-slate-800'
                     }`}
                   >
-                    {tab === 'description' && 'Descripción'}
-                    {tab === 'ingredients' && 'Ingredientes'}
-                    {tab === 'reviews' && 'Reseñas'}
+                    {tab === 'description' && t('product.tabDescription')}
+                    {tab === 'ingredients' && t('product.tabIngredients')}
+                    {tab === 'reviews' && t('product.tabReviews')}
                   </button>
                 ))}
               </div>
             </div>
             
-            {/* Contenido de tabs */}
             <div className="prose max-w-none">
               {activeTab === 'description' && (
                 <div>
                   <p className="text-slate-700 mb-4">
-                    {product.description} Tradición culinaria boliviana preparada con los mejores ingredientes locales.
+                    {/* 🔹 CAMBIO 4: t('app.lang') → language */}
+                    {language === 'es' ? product.description : (product.descriptionEn || product.description)}
                   </p>
                   <p className="text-slate-700">
-                    Este platillo representa la riqueza gastronómica de Bolivia, combinando sabores autóctonos con técnicas tradicionales de preparación.
+                    {t('product.descriptionExtra')}
                   </p>
                 </div>
               )}
               
               {activeTab === 'ingredients' && (
                 <div>
-                  <h4 className="font-bold text-slate-800 mb-3">Ingredientes principales:</h4>
+                  <h4 className="font-bold text-slate-800 mb-3">{t('product.mainIngredients')}</h4>
                   <ul className="list-disc pl-5 text-slate-700 space-y-1">
-                    <li>Carne de res/pollo (según elección)</li>
-                    <li>Papa boliviana</li>
-                    <li>Arvejas frescas</li>
-                    <li>Aceitunas</li>
-                    <li>Especias tradicionales</li>
-                    <li>Masa artesanal</li>
+                    {t('product.ingredientList').split('|').map((item, i) => (
+                      <li key={i}>{item.trim()}</li>
+                    ))}
                   </ul>
                   <p className="text-sm text-slate-500 mt-4">
-                    🌱 Contiene gluten | 🥛 Puede contener lácteos
+                    {t('product.allergens')}
                   </p>
                 </div>
               )}
+              
               {activeTab === 'reviews' && (
-  <div>
-    <div className="flex items-center gap-4 mb-6">
-      <div className="text-center">
-        <div className="text-4xl font-bold text-slate-900">4.8</div>
-        <div className="flex items-center justify-center">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <FiStar key={star} className="text-yellow-400 fill-current" />
-          ))}
-        </div>
-        <p className="text-sm text-slate-500 mt-1">52 reseñas</p>
-      </div>
-      <div className="flex-1">
-        {[5, 4, 3, 2, 1].map((rating) => (
-          <div key={rating} className="flex items-center gap-2 mb-1">
-            <span className="text-sm text-slate-600 w-8">{rating}★</span>
-            <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-yellow-400"
-                style={{ width: `${rating * 20}%` }}
-              ></div>
-            </div>
-            <span className="text-sm text-slate-500 w-10">{rating * 10}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-    
-    {/* Ejemplo de review */}
-    <div className="border-t border-slate-200 pt-6">
-      <div className="flex items-start gap-4">
-        <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-fuchsia-500 flex items-center justify-center text-white font-bold">
-          MJ
-        </div>
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-2">
-            <div className="flex">
-              {[1, 2, 3, 4, 5].map((star) => (
-                <FiStar key={star} className="text-yellow-400 fill-current w-4 h-4" />
-              ))}
-            </div>
-            <span className="text-sm text-slate-500">Hace 2 días</span>
-          </div>
-          <p className="text-slate-700">¡Increíble! El sabor auténtico de Bolivia. Definitivamente volveré a pedir.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
+                <div>
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-slate-900">4.8</div>
+                      <div className="flex items-center justify-center">
+                        {[1, 2, 3, 4, 5].map((star) => (
+                          <FiStar key={star} className="text-yellow-400 fill-current" />
+                        ))}
+                      </div>
+                      <p className="text-sm text-slate-500 mt-1">{t('product.reviewCount', { count: 52 })}</p>
+                    </div>
+                    <div className="flex-1">
+                      {[5, 4, 3, 2, 1].map((rating) => (
+                        <div key={rating} className="flex items-center gap-2 mb-1">
+                          <span className="text-sm text-slate-600 w-8">{rating}★</span>
+                          <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
+                            <div 
+                              className="h-full bg-yellow-400"
+                              style={{ width: `${rating * 20}%` }}
+                            ></div>
+                          </div>
+                          <span className="text-sm text-slate-500 w-10">{rating * 10}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  <div className="border-t border-slate-200 pt-6">
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-fuchsia-500 flex items-center justify-center text-white font-bold">
+                        MJ
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="flex">
+                            {[1, 2, 3, 4, 5].map((star) => (
+                              <FiStar key={star} className="text-yellow-400 fill-current w-4 h-4" />
+                            ))}
+                          </div>
+                          <span className="text-sm text-slate-500">{t('product.reviewDate')}</span>
+                        </div>
+                        <p className="text-slate-700">{t('product.reviewSample')}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
         
-        {/* Productos relacionados */}
         {relatedProducts.length > 0 && (
           <div className="mt-20">
             <h2 className="text-2xl font-bold text-slate-900 mb-8">
-              Productos relacionados
+              {t('product.relatedTitle')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               {relatedProducts.map((relatedProduct) => (
@@ -475,14 +481,13 @@ const ProductDetail = () => {
           </div>
         )}
         
-        {/* Botón volver */}
         <div className="mt-12">
           <button
             onClick={() => navigate(-1)}
             className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 rounded-lg text-slate-700 hover:border-blue-400 hover:text-blue-600"
           >
             <FiArrowLeft />
-            Volver al menú
+            {t('product.backToMenu')}
           </button>
         </div>
       </div>

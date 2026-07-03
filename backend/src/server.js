@@ -71,14 +71,15 @@ app.get('/', (req, res) => {
   });
 });
 
-// ==================== RUTAS API ====================
+
 app.use('/api/auth', require('./routes/authRoutes'));
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/cart', require('./routes/cartRoutes'));
-app.use('/api/orders', require('./routes/orderRoutes'));  // ← DESCOMENTADO Y CORREGIDO
-// app.use('/api/invites', require('./routes/invitesRoutes'));
+app.use('/api/orders', require('./routes/orderRoutes'));  
+app.use('/api/invites', require('./routes/invitesRoutes'));
+app.use('/api/payments', require('./routes/paymentRoutes'));
+app.use('/api/locales', require('./routes/localesRoutes'));
 
-// Manejo de rutas no encontradas
 app.use('*', (req, res) => {
   res.status(404).json({
     success: false,
