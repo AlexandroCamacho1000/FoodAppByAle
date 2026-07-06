@@ -1,10 +1,9 @@
-// frontend/src/pages/admin/AdminProducts.jsx
 import React, { useState, useEffect } from 'react';
 import { FiPackage, FiPlus, FiEdit2, FiTrash2, FiSearch, FiFilter, FiSave, FiX, FiUpload, FiAlertCircle, FiCheckCircle, FiStar } from 'react-icons/fi';
 import { useLanguage } from '../../context/LanguageContext';
 
 const AdminProducts = () => {
-  const { t } = useLanguage();
+const { t, language } = useLanguage();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,11 +15,13 @@ const AdminProducts = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    descriptionEn: '',
     price: '',
     category: 'salteñas',
     stock: '',
     image: '',
     ingredients: '',
+    ingredientsEn: '',
     preparationTime: '',
     isFeatured: false,
     isActive: true
@@ -32,100 +33,198 @@ const AdminProducts = () => {
     'salteñas',
     'platos_fuertes',
     'bebidas',
+    'entradas',
     'postres',
     'especiales'
   ];
   
   const initialProducts = [
-    { 
+    {
       id: generateId(),
-      name: 'Salteña Paceña', 
-      description: 'Deliciosa salteña tradicional rellena de carne jugosa, papa y arvejas, con un toque de ají colorado.',
-      price: 15.50, 
+      name: 'Salteña Paceña',
+      description: 'Deliciosa salteña tradicional paceña con jugoso relleno de carne, papa, arvejas y especias.',
+      descriptionEn: 'Traditional La Paz salteña with juicy beef filling, potatoes, peas and spices.',
+      price: 12.50,
       category: 'salteñas',
       stock: 50,
-      image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&h=300&fit=crop',
+      image: '/images/saltena.jpg',
       ingredients: 'Carne de res, papa, arvejas, cebolla, ají colorado, comino',
-      preparationTime: '45 min',
+      ingredientsEn: 'Beef, potatoes, peas, onion, red chili, cumin',
+      preparationTime: '25 min',
       isFeatured: true,
       isActive: true,
       createdAt: new Date().toISOString(),
       sku: `SKU-${Date.now().toString().slice(-6)}-01`
     },
-    { 
+    {
       id: generateId(),
-      name: 'Anticuchos', 
-      description: 'Brochetas de corazón de res marinadas en una mezcla especial de ají, vinagre y especias andinas.',
-      price: 28.00, 
+      name: 'Anticuchos',
+      description: 'Brochetas de corazón de res marinadas en ají y especias, acompañadas de papas y salsa de maní.',
+      descriptionEn: 'Beef heart skewers marinated in chili and spices, served with potatoes and peanut sauce.',
+      price: 25.00,
       category: 'platos_fuertes',
       stock: 30,
-      image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=300&fit=crop',
+      image: '/images/anticuchos.jpg',
       ingredients: 'Corazón de res, ají panca, vinagre, comino, ajo, orégano',
-      preparationTime: '30 min',
+      ingredientsEn: 'Beef heart, chili, vinegar, cumin, garlic, oregano',
+      preparationTime: '20 min',
       isFeatured: true,
       isActive: true,
       createdAt: new Date().toISOString(),
       sku: `SKU-${Date.now().toString().slice(-6)}-02`
     },
-    { 
+    {
       id: generateId(),
-      name: 'Sillpancho', 
-      description: 'Plato cochabambino con arroz, papa dorada, carne empanizada, huevo frito y ensalada fresca.',
-      price: 42.00, 
+      name: 'Sopa de Maní',
+      description: 'Crema espesa de maní con papa, arroz y carne, acompañada de chuño phuti.',
+      descriptionEn: 'Thick peanut cream soup with potato, rice and beef, served with chuño phuti.',
+      price: 18.00,
       category: 'platos_fuertes',
       stock: 25,
-      image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=400&h=300&fit=crop',
-      ingredients: 'Carne de res, huevo, pan molido, arroz, papa, tomate, lechuga',
-      preparationTime: '60 min',
-      isFeatured: true,
+      image: '/images/sopa-mani.jpg',
+      ingredients: 'Maní, papa, arroz, carne de res, chuño, cebolla',
+      ingredientsEn: 'Peanuts, potato, rice, beef, freeze-dried potato, onion',
+      preparationTime: '40 min',
+      isFeatured: false,
       isActive: true,
       createdAt: new Date().toISOString(),
       sku: `SKU-${Date.now().toString().slice(-6)}-03`
     },
-    { 
+    {
       id: generateId(),
-      name: 'Pique Macho', 
-      description: 'Plato potosino con carne de res, salchichas, papas fritas, huevo duro, tomate y locotos.',
-      price: 65.00, 
+      name: 'Pique Macho',
+      description: 'Trozos de carne, salchicha, papas fritas, cebolla, locoto y huevo, bañados en salsa de la casa.',
+      descriptionEn: 'Beef pieces, sausage, french fries, onion, locoto and egg, bathed in house sauce.',
+      price: 45.00,
       category: 'platos_fuertes',
-      stock: 15,
-      image: 'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=400&h=300&fit=crop',
+      stock: 20,
+      image: '/images/pique-macho.jpg',
       ingredients: 'Carne de res, salchicha, papa, huevo, tomate, locoto, cebolla',
+      ingredientsEn: 'Beef, sausage, potato, egg, tomato, locoto pepper, onion',
       preparationTime: '50 min',
-      isFeatured: false,
+      isFeatured: true,
       isActive: true,
       createdAt: new Date().toISOString(),
       sku: `SKU-${Date.now().toString().slice(-6)}-04`
     },
-    { 
+    {
       id: generateId(),
-      name: 'Fricasé', 
-      description: 'Caldo picante de cerdo con mote pelado, chuño y ají amarillo. Tradición paceña.',
-      price: 38.00, 
+      name: 'Silpancho Cochabambino',
+      description: 'Arroz, papa dorada, carne empanizada, huevo frito, salsa criolla y ensalada.',
+      descriptionEn: 'Rice, golden potatoes, breaded beef, fried egg, criollo sauce and salad.',
+      price: 35.00,
       category: 'platos_fuertes',
-      stock: 40,
-      image: 'https://images.unsplash.com/photo-1476224203421-9ac39bcb3327?w=400&h=300&fit=crop',
-      ingredients: 'Carne de cerdo, mote, chuño, ají amarillo, cebolla, ajo',
-      preparationTime: '90 min',
+      stock: 25,
+      image: '/images/silpancho.jpg',
+      ingredients: 'Arroz, papa, carne de res, huevo, tomate, cebolla, lechuga',
+      ingredientsEn: 'Rice, potato, beef, egg, tomato, onion, lettuce',
+      preparationTime: '60 min',
       isFeatured: true,
       isActive: true,
       createdAt: new Date().toISOString(),
       sku: `SKU-${Date.now().toString().slice(-6)}-05`
     },
-    { 
+    {
       id: generateId(),
-      name: 'Humintas', 
-      description: 'Tamales dulces de maíz fresco envueltos en hojas de choclo, cocidos al vapor.',
-      price: 12.00, 
-      category: 'postres', 
-      stock: 60,
-      image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&h=300&fit=crop',
-      ingredients: 'Maíz fresco, azúcar, queso, canela, pasas',
-      preparationTime: '60 min',
+      name: 'Majadito',
+      description: 'Arroz con carne desmenuzada, plátano frito, huevo y yuca, típico del oriente boliviano.',
+      descriptionEn: 'Rice with shredded beef, fried plantain, egg and yucca, typical of eastern Bolivia.',
+      price: 30.00,
+      category: 'platos_fuertes',
+      stock: 20,
+      image: '/images/majadito.jpg',
+      ingredients: 'Arroz, carne desmenuzada, plátano, huevo, yuca, cebolla',
+      ingredientsEn: 'Rice, shredded beef, plantain, egg, yucca, onion',
+      preparationTime: '45 min',
       isFeatured: false,
       isActive: true,
       createdAt: new Date().toISOString(),
       sku: `SKU-${Date.now().toString().slice(-6)}-06`
+    },
+    {
+      id: generateId(),
+      name: 'Api con Pastel',
+      description: 'Bebida caliente de maíz morado acompañada de pastel de queso o empanada de queso.',
+      descriptionEn: 'Hot purple corn drink served with cheese pastry or cheese empanada.',
+      price: 15.00,
+      category: 'bebidas',
+      stock: 40,
+      image: '/images/api-pastel.jpg',
+      ingredients: 'Maíz morado, piña, canela, clavo de olor, azúcar',
+      ingredientsEn: 'Purple corn, pineapple, cinnamon, cloves, sugar',
+      preparationTime: '15 min',
+      isFeatured: true,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      sku: `SKU-${Date.now().toString().slice(-6)}-07`
+    },
+    {
+      id: generateId(),
+      name: 'Mocochinchi',
+      description: 'Refrescante bebida de durazno deshidratado, canela y clavo de olor.',
+      descriptionEn: 'Refreshing dried peach drink with cinnamon and cloves.',
+      price: 12.00,
+      category: 'bebidas',
+      stock: 50,
+      image: '/images/mocochinchi.jpg',
+      ingredients: 'Durazno deshidratado, canela, clavo de olor, azúcar',
+      ingredientsEn: 'Dried peach, cinnamon, cloves, sugar',
+      preparationTime: '10 min',
+      isFeatured: false,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      sku: `SKU-${Date.now().toString().slice(-6)}-08`
+    },
+    {
+      id: generateId(),
+      name: 'Humintas',
+      description: 'Choclo rallado envuelto en sus propias hojas, relleno de queso y anís.',
+      descriptionEn: 'Grated corn wrapped in corn husks, filled with cheese and anise.',
+      price: 10.00,
+      category: 'entradas',
+      stock: 35,
+      image: '/images/humintas.jpg',
+      ingredients: 'Choclo, queso, anís, sal, mantequilla',
+      ingredientsEn: 'Corn, cheese, anise, salt, butter',
+      preparationTime: '30 min',
+      isFeatured: true,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      sku: `SKU-${Date.now().toString().slice(-6)}-09`
+    },
+    {
+      id: generateId(),
+      name: 'Cuñapé',
+      description: 'Panecillos de queso y yuca, típicos del oriente boliviano, crujientes por fuera y suaves por dentro.',
+      descriptionEn: 'Cheese and yucca bread rolls, typical of eastern Bolivia, crispy outside and soft inside.',
+      price: 8.00,
+      category: 'entradas',
+      stock: 40,
+      image: '/images/cunape.jpg',
+      ingredients: 'Yuca, queso, huevo, leche, mantequilla, sal',
+      ingredientsEn: 'Yucca, cheese, egg, milk, butter, salt',
+      preparationTime: '25 min',
+      isFeatured: false,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      sku: `SKU-${Date.now().toString().slice(-6)}-10`
+    },
+    {
+      id: generateId(),
+      name: 'Leche Asada',
+      description: 'Postre tradicional boliviano a base de leche, huevos, azúcar y canela, horneado a la perfección.',
+      descriptionEn: 'Traditional Bolivian dessert made with milk, eggs, sugar and cinnamon, baked to perfection.',
+      price: 15.00,
+      category: 'postres',
+      stock: 30,
+      image: '/images/leche-asada.jpg',
+      ingredients: 'Leche, huevos, azúcar, canela, esencia de vainilla',
+      ingredientsEn: 'Milk, eggs, sugar, cinnamon, vanilla extract',
+      preparationTime: '50 min',
+      isFeatured: false,
+      isActive: true,
+      createdAt: new Date().toISOString(),
+      sku: `SKU-${Date.now().toString().slice(-6)}-11`
     }
   ];
 
@@ -138,8 +237,6 @@ const AdminProducts = () => {
   }, []);
 
   const loadProducts = () => {
-    console.log('📦 Cargando productos desde localStorage...');
-    
     try {
       const savedProducts = JSON.parse(localStorage.getItem('admin_products') || '[]');
       
@@ -147,13 +244,16 @@ const AdminProducts = () => {
         localStorage.setItem('admin_products', JSON.stringify(initialProducts));
         setProducts(initialProducts);
         syncProductsToMenu(initialProducts);
-        console.log('✅ Productos iniciales cargados y sincronizados');
       } else {
-        setProducts(savedProducts);
-        console.log(`✅ ${savedProducts.length} productos cargados desde localStorage`);
+        const migrated = savedProducts.map(p => ({
+          ...p,
+          descriptionEn: p.descriptionEn || '',
+          ingredientsEn: p.ingredientsEn || ''
+        }));
+        setProducts(migrated);
+        saveProducts(migrated);
       }
     } catch (error) {
-      console.error('❌ Error al cargar productos:', error);
       setProducts(initialProducts);
     } finally {
       setLoading(false);
@@ -163,9 +263,7 @@ const AdminProducts = () => {
   const saveProducts = (productsToSave) => {
     try {
       localStorage.setItem('admin_products', JSON.stringify(productsToSave));
-      console.log('💾 Productos guardados en localStorage');
     } catch (error) {
-      console.error('❌ Error al guardar productos:', error);
     }
   };
 
@@ -177,11 +275,13 @@ const AdminProducts = () => {
           id: product.id,
           name: product.name,
           description: product.description,
+          descriptionEn: product.descriptionEn || '',
           price: product.price,
           category: product.category,
           image: product.image,
           isFeatured: product.isFeatured,
           ingredients: product.ingredients || '',
+          ingredientsEn: product.ingredientsEn || '',
           preparationTime: product.preparationTime || '',
           stock: product.stock
         }));
@@ -189,10 +289,8 @@ const AdminProducts = () => {
       localStorage.setItem('menu_products', JSON.stringify(menuProducts));
       localStorage.setItem('products', JSON.stringify(menuProducts));
       
-      console.log(`🔄 ${menuProducts.length} productos sincronizados con Menu.jsx`);
       window.dispatchEvent(new Event('products-updated'));
     } catch (error) {
-      console.error('❌ Error al sincronizar productos:', error);
     }
   };
 
@@ -201,7 +299,9 @@ const AdminProducts = () => {
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.ingredients?.toLowerCase().includes(searchTerm.toLowerCase());
+      product.descriptionEn?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.ingredients?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.ingredientsEn?.toLowerCase().includes(searchTerm.toLowerCase());
     
     const matchesCategory = 
       categoryFilter === 'all' || product.category === categoryFilter;
@@ -222,11 +322,13 @@ const AdminProducts = () => {
     setFormData({
       name: '',
       description: '',
+      descriptionEn: '',
       price: '',
       category: 'salteñas',
       stock: '',
       image: '',
       ingredients: '',
+      ingredientsEn: '',
       preparationTime: '',
       isFeatured: false,
       isActive: true
@@ -241,11 +343,13 @@ const AdminProducts = () => {
     setFormData({
       name: product.name,
       description: product.description,
+      descriptionEn: product.descriptionEn || '',
       price: product.price,
       category: product.category,
       stock: product.stock,
       image: product.image,
       ingredients: product.ingredients || '',
+      ingredientsEn: product.ingredientsEn || '',
       preparationTime: product.preparationTime || '',
       isFeatured: product.isFeatured,
       isActive: product.isActive
@@ -356,7 +460,7 @@ const AdminProducts = () => {
     saveProducts(updatedProducts);
     syncProductsToMenu(updatedProducts);
     
-    alert(`🔄 Producto ${updatedProducts.find(p => p.id === id).isActive ? 'activado' : 'desactivado'}`);
+    alert(`Producto ${updatedProducts.find(p => p.id === id).isActive ? 'activado' : 'desactivado'}`);
   };
 
   const toggleFeatured = (id) => {
@@ -368,7 +472,7 @@ const AdminProducts = () => {
     saveProducts(updatedProducts);
     syncProductsToMenu(updatedProducts);
     
-    alert(`⭐ Producto ${updatedProducts.find(p => p.id === id).isFeatured ? 'destacado' : 'quitado de destacados'}`);
+    alert(`Producto ${updatedProducts.find(p => p.id === id).isFeatured ? 'destacado' : 'quitado de destacados'}`);
   };
 
   const handleRestoreDefaults = () => {
@@ -460,6 +564,20 @@ const AdminProducts = () => {
                       {errors.description && (
                         <p className="text-red-500 text-sm mt-1">{errors.description}</p>
                       )}
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Descripción (Inglés)
+                      </label>
+                      <textarea
+                        name="descriptionEn"
+                        value={formData.descriptionEn}
+                        onChange={handleInputChange}
+                        rows="3"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="English description..."
+                      />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -554,6 +672,20 @@ const AdminProducts = () => {
                         rows="2"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder={t('admin.products.form.ingredientsPlaceholder')}
+                      />
+                    </div>
+
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Ingredientes (Inglés)
+                      </label>
+                      <textarea
+                        name="ingredientsEn"
+                        value={formData.ingredientsEn}
+                        onChange={handleInputChange}
+                        rows="2"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="English ingredients..."
                       />
                     </div>
                   </div>
@@ -781,8 +913,8 @@ const AdminProducts = () => {
         </div>
       </div>
 
-           {loading ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {loading ? (
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
             <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden">
               <div className="animate-pulse bg-gray-200 h-48 w-full" />
@@ -823,131 +955,114 @@ const AdminProducts = () => {
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map(product => (
-            <div key={product.id} className={`bg-white rounded-xl shadow-sm border overflow-hidden transition-all hover:shadow-md ${
-              !product.isActive ? 'opacity-70 border-gray-300' : 'border-gray-200'
+            <div key={product.id} className={`group bg-white rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${
+              !product.isActive ? 'opacity-60 border-gray-200' : 'border-gray-100'
             }`}>
-              <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                <div className="flex items-center gap-2">
-                  <span className={`w-3 h-3 rounded-full ${
-                    product.isActive ? 'bg-green-500' : 'bg-gray-400'
-                  }`}></span>
-                  <span className="text-sm font-medium text-gray-700">
-                    {product.isActive ? t('admin.products.status.active') : t('admin.products.status.inactive')}
-                  </span>
-                </div>
-                <div className="flex gap-2">
+              <div className="relative">
+                <div className={`relative overflow-hidden ${
+                  product.image ? 'aspect-square' : 'aspect-square'
+                }`}>
+                  {product.image ? (
+                    <img 
+                      src={product.image} 
+                      alt={product.name}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+                      <span className="text-5xl opacity-40">🍽️</span>
+                    </div>
+                  )}
+                  
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent pointer-events-none" />
+                  
+                  <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+                    {product.isFeatured && (
+                      <span className="backdrop-blur-md bg-yellow-400/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                        <FiStar className="fill-white" size={12} /> {t('admin.products.featured')}
+                      </span>
+                    )}
+                    <span className="backdrop-blur-md bg-white/80 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+                      {product.category}
+                    </span>
+                  </div>
+                  
                   <button
                     onClick={() => toggleFeatured(product.id)}
-                    className={`p-1 rounded ${
+                    className={`absolute top-3 right-3 p-1.5 rounded-full backdrop-blur-md transition-all duration-200 ${
                       product.isFeatured 
-                        ? 'text-yellow-500 bg-yellow-50' 
-                        : 'text-gray-400 hover:text-yellow-500 hover:bg-yellow-50'
+                        ? 'bg-yellow-400 text-white shadow-lg' 
+                        : 'bg-white/80 text-gray-400 hover:text-yellow-500 opacity-0 group-hover:opacity-100'
                     }`}
                   >
-                    <FiStar />
+                    <FiStar size={12} className={product.isFeatured ? 'fill-white' : ''} />
                   </button>
                 </div>
               </div>
 
-              <div className="h-48 relative">
-                {product.image ? (
-                  <img 
-                    src={product.image} 
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.target.onerror = null;
-                      e.target.src = `https://via.placeholder.com/400x300?text=${encodeURIComponent(product.name)}`;
-                    }}
-                  />
-                ) : (
-                  <div className="w-full h-full bg-gradient-to-br from-blue-50 to-pink-50 flex items-center justify-center">
-                    <span className="text-4xl">🍽️</span>
-                  </div>
-                )}
-                
-                <div className="absolute top-3 left-3 flex flex-col gap-2">
-                  {product.isFeatured && (
-                    <span className="bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                      {t('admin.products.featured')}
-                    </span>
-                  )}
-                  <span className="bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    {product.category}
-                  </span>
-                </div>
-                
-                <div className="absolute top-3 right-3">
-                  <span className={`text-xs font-bold px-3 py-1 rounded-full ${
-                    product.stock > 20 ? 'bg-green-100 text-green-800' :
-                    product.stock > 5 ? 'bg-yellow-100 text-yellow-800' :
-                    product.stock === 0 ? 'bg-red-100 text-red-800' :
-                    'bg-orange-100 text-orange-800'
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full ${
+                    product.isActive
+                      ? 'bg-emerald-50 text-emerald-700'
+                      : 'bg-gray-100 text-gray-500'
                   }`}>
+                    <span className={`w-1.5 h-1.5 rounded-full ${
+                      product.isActive ? 'bg-emerald-500' : 'bg-gray-400'
+                    }`} />
+                    {product.isActive ? t('admin.products.status.active') : t('admin.products.status.inactive')}
+                  </span>
+                  <span className="text-xs font-medium text-gray-400">
                     {t('admin.products.inStock', { stock: product.stock })}
                   </span>
                 </div>
-              </div>
 
-              <div className="p-5">
-                <div className="flex justify-between items-start mb-3">
-                  <h3 className="font-bold text-lg text-gray-900 truncate">{product.name}</h3>
-                  <span className="text-2xl font-bold text-blue-600 whitespace-nowrap">
-                    Bs. {product.price.toFixed(2)}
+                <div className="flex justify-between items-start mb-1.5">
+                  <h3 className="font-semibold text-base text-gray-900 truncate pr-2">{product.name}</h3>
+                  <span className="text-lg font-bold text-blue-600 whitespace-nowrap tabular-nums">
+                    Bs.{product.price.toFixed(2)}
                   </span>
                 </div>
                 
-                <p className="text-gray-600 text-sm mb-4 line-clamp-2">{product.description}</p>
-                
-                <div className="space-y-2 mb-5">
-                  {product.ingredients && (
-                    <p className="text-xs text-gray-500">
-                      <span className="font-medium">{t('admin.products.ingredients')}</span> {product.ingredients}
-                    </p>
-                  )}
-                  {product.preparationTime && (
-                    <p className="text-xs text-gray-500">
-                      {t('admin.products.prepTime', { time: product.preparationTime })}
-                    </p>
-                  )}
-                  <p className="text-xs text-gray-500">
-                    {t('admin.products.sku', { sku: product.sku || 'N/A' })}
+                {product.ingredients && (
+                  <p className="text-sm text-gray-400 mb-3 line-clamp-1 leading-relaxed">
+                    {language === 'es' || !product.ingredientsEn ? product.ingredients : product.ingredientsEn}
                   </p>
-                </div>
+                )}
                 
-                <div className="mb-5 p-3 bg-gray-50 rounded-lg">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">{t('admin.products.stockValue')}</span>
-                    <span className="font-bold text-gray-900">
-                      Bs. {(product.price * product.stock).toFixed(2)}
+                <div className="mb-3 py-2 px-2.5 bg-gradient-to-r from-gray-50 to-gray-50/50 rounded-lg border border-gray-100/50">
+                  <div className="flex justify-between items-center text-xs">
+                    <span className="text-gray-500">{t('admin.products.stockValue')}</span>
+                    <span className="font-semibold text-gray-800 tabular-nums">
+                      Bs.{(product.price * product.stock).toFixed(2)}
                     </span>
                   </div>
                 </div>
                 
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   <button
                     onClick={() => handleEditProduct(product)}
-                    className="flex-1 py-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 flex items-center justify-center gap-2 font-medium"
+                    className="flex-1 py-2.5 text-sm bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 hover:text-blue-700 font-medium transition-colors duration-200"
                   >
-                    <FiEdit2 /> {t('admin.products.editBtn')}
+                    <FiEdit2 className="inline mr-1" size={13} /> {t('admin.products.editBtn')}
                   </button>
                   <button
                     onClick={() => toggleProductStatus(product.id)}
-                    className={`px-4 py-2 rounded-lg font-medium ${
+                    className={`px-4 py-2.5 text-sm rounded-xl font-medium transition-all duration-200 ${
                       product.isActive
-                        ? 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                        : 'bg-green-50 text-green-600 hover:bg-green-100'
+                        ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                     }`}
                   >
                     {product.isActive ? t('admin.products.toggleActive') : t('admin.products.toggleInactive')}
                   </button>
                   <button
                     onClick={() => handleDeleteProduct(product.id)}
-                    className="px-4 py-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-100"
+                    className="px-4 py-2.5 text-sm bg-red-50 text-red-500 rounded-xl hover:bg-red-100 hover:text-red-600 transition-all duration-200"
                   >
-                    <FiTrash2 />
+                    <FiTrash2 size={13} />
                   </button>
                 </div>
               </div>

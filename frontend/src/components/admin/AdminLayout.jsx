@@ -16,6 +16,7 @@ import {
 } from 'react-icons/fi';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import LanguageSwitch from '../ui/LanguageSwitch';
 
 const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -218,8 +219,8 @@ const AdminLayout = () => {
                 <FiMenu className="w-6 h-6 text-gray-700" />
               </button>
               
-              <div className="hidden lg:block">
-                <h2 className="text-xl font-bold text-gray-900">
+              <div className="hidden md:block">
+                <h2 className="text-lg md:text-xl font-bold text-gray-900">
                   {allMenuItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
                 </h2>
                 <p className="text-sm text-gray-500">
@@ -252,6 +253,8 @@ const AdminLayout = () => {
                     <span className="font-medium">{t('admin.invites.title')}</span>
                   </Link>
                 )}
+                
+                <LanguageSwitch variant="light" />
                 
                 <button className="relative p-2 rounded-lg hover:bg-gray-100">
                   <FiBell className="w-6 h-6 text-gray-700" />
@@ -303,7 +306,9 @@ const AdminLayout = () => {
               </div>
             )}
             
-            <Outlet />
+            <div key={location.pathname} className="animate-fadeIn">
+              <Outlet />
+            </div>
           </main>
           
           <footer className="px-6 py-4 border-t border-gray-200 bg-white">

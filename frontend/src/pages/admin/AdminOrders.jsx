@@ -16,11 +16,11 @@ const AdminOrders = () => {
   }, []);
 
   const loadOrdersFromStorage = () => {
-    console.log('🔍 Buscando pedidos en localStorage...');
+    
     
     try {
       const ordersArray = JSON.parse(localStorage.getItem('orders') || '[]');
-      console.log('📦 Pedidos encontrados en array:', ordersArray);
+      
       
       const formattedOrders = ordersArray.map(order => {
         const orderDate = order.date ? new Date(order.date) : new Date();
@@ -55,9 +55,8 @@ const AdminOrders = () => {
       formattedOrders.sort((a, b) => b.timestamp - a.timestamp);
       
       setOrders(formattedOrders);
-      console.log(`✅ Total pedidos encontrados: ${formattedOrders.length}`);
+      
     } catch (error) {
-      console.error('❌ Error al leer pedidos:', error);
       setOrders([]);
     } finally {
       setLoading(false);

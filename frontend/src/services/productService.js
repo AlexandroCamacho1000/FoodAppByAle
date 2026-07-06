@@ -1,94 +1,206 @@
-// frontend/src/services/productService.js - VERSIÓN CON BACKEND + FALLBACK
-
 import api from './api';
 
-// Productos iniciales (fallback)
 const initialProducts = [
   {
     id: 1,
-    name: "Salteñas Paceñas",
-    description: "Empanadas horneadas rellenas de carne jugosa, papa, arvejas y aceitunas.",
-    descriptionEn: "Baked empanadas filled with juicy beef, potatoes, peas and olives.",
-    price: 15,
+    name: "Salteña Paceña",
+    description: "Deliciosa salteña tradicional paceña con jugoso relleno de carne, papa, arvejas y especias.",
+    descriptionEn: "Traditional La Paz salteña with juicy beef filling, potatoes, peas and spices.",
+    price: 12.50,
     category: "Salteñas",
-    image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=600&h=400&fit=crop",
+    image: "/images/saltena.jpg",
     stock: 50,
     featured: true,
     rating: 4.8,
     prepTime: "25 min",
+    ingredients: "Carne de res, papa, arvejas, cebolla, ají colorado, comino",
+    ingredientsEn: "Beef, potatoes, peas, onion, red chili, cumin",
     isActive: true
   },
   {
     id: 2,
     name: "Anticuchos",
-    description: "Brochetas de corazón de res marinadas en ají, comino y especias.",
-    descriptionEn: "Beef heart skewers marinated in chili, cumin and spices.",
-    price: 28,
+    description: "Brochetas de corazón de res marinadas en ají y especias, acompañadas de papas y salsa de maní.",
+    descriptionEn: "Beef heart skewers marinated in chili and spices, served with potatoes and peanut sauce.",
+    price: 25.00,
     category: "Carnes",
-    image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&h=400&fit=crop",
+    image: "/images/anticuchos.jpg",
     stock: 30,
     featured: true,
     rating: 4.9,
     prepTime: "20 min",
+    ingredients: "Corazón de res, ají panca, vinagre, comino, ajo, orégano",
+    ingredientsEn: "Beef heart, chili, vinegar, cumin, garlic, oregano",
     isActive: true
   },
   {
     id: 3,
-    name: "Sillpancho Cochabambino",
-    description: "Arroz, papa dorada, carne empanizada, huevo frito, salsa criolla.",
-    descriptionEn: "Rice, golden potatoes, breaded beef, fried egg, criollo sauce.",
-    price: 42,
+    name: "Sopa de Maní",
+    description: "Crema espesa de maní con papa, arroz y carne, acompañada de chuño phuti.",
+    descriptionEn: "Thick peanut cream soup with potato, rice and beef, served with chuño phuti.",
+    price: 18.00,
     category: "Platos Fuertes",
-    image: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=600&h=400&fit=crop",
+    image: "/images/sopa-mani.jpg",
+    stock: 25,
+    featured: false,
+    rating: 4.6,
+    prepTime: "40 min",
+    ingredients: "Maní, papa, arroz, carne de res, chuño, cebolla",
+    ingredientsEn: "Peanuts, potato, rice, beef, freeze-dried potato, onion",
+    isActive: true
+  },
+  {
+    id: 4,
+    name: "Pique Macho",
+    description: "Trozos de carne, salchicha, papas fritas, cebolla, locoto y huevo, bañados en salsa de la casa.",
+    descriptionEn: "Beef pieces, sausage, french fries, onion, locoto and egg, bathed in house sauce.",
+    price: 45.00,
+    category: "Platos Fuertes",
+    image: "/images/pique-macho.jpg",
+    stock: 20,
+    featured: true,
+    rating: 4.8,
+    prepTime: "50 min",
+    ingredients: "Carne de res, salchicha, papa, huevo, tomate, locoto, cebolla",
+    ingredientsEn: "Beef, sausage, potato, egg, tomato, locoto pepper, onion",
+    isActive: true
+  },
+  {
+    id: 5,
+    name: "Silpancho Cochabambino",
+    description: "Arroz, papa dorada, carne empanizada, huevo frito, salsa criolla y ensalada.",
+    descriptionEn: "Rice, golden potatoes, breaded beef, fried egg, criollo sauce and salad.",
+    price: 35.00,
+    category: "Platos Fuertes",
+    image: "/images/silpancho.jpg",
     stock: 25,
     featured: true,
     rating: 4.7,
-    prepTime: "35 min",
+    prepTime: "60 min",
+    ingredients: "Arroz, papa, carne de res, huevo, tomate, cebolla, lechuga",
+    ingredientsEn: "Rice, potato, beef, egg, tomato, onion, lettuce",
+    isActive: true
+  },
+  {
+    id: 6,
+    name: "Majadito",
+    description: "Arroz con carne desmenuzada, plátano frito, huevo y yuca, típico del oriente boliviano.",
+    descriptionEn: "Rice with shredded beef, fried plantain, egg and yucca, typical of eastern Bolivia.",
+    price: 30.00,
+    category: "Platos Fuertes",
+    image: "/images/majadito.jpg",
+    stock: 20,
+    featured: false,
+    rating: 4.5,
+    prepTime: "45 min",
+    ingredients: "Arroz, carne desmenuzada, plátano, huevo, yuca, cebolla",
+    ingredientsEn: "Rice, shredded beef, plantain, egg, yucca, onion",
+    isActive: true
+  },
+  {
+    id: 7,
+    name: "Api con Pastel",
+    description: "Bebida caliente de maíz morado acompañada de pastel de queso o empanada de queso.",
+    descriptionEn: "Hot purple corn drink served with cheese pastry or cheese empanada.",
+    price: 15.00,
+    category: "Bebidas",
+    image: "/images/api-pastel.jpg",
+    stock: 40,
+    featured: true,
+    rating: 4.7,
+    prepTime: "15 min",
+    ingredients: "Maíz morado, piña, canela, clavo de olor, azúcar",
+    ingredientsEn: "Purple corn, pineapple, cinnamon, cloves, sugar",
+    isActive: true
+  },
+  {
+    id: 8,
+    name: "Mocochinchi",
+    description: "Refrescante bebida de durazno deshidratado, canela y clavo de olor.",
+    descriptionEn: "Refreshing dried peach drink with cinnamon and cloves.",
+    price: 12.00,
+    category: "Bebidas",
+    image: "/images/mocochinchi.jpg",
+    stock: 50,
+    featured: false,
+    rating: 4.6,
+    prepTime: "10 min",
+    ingredients: "Durazno deshidratado, canela, clavo de olor, azúcar",
+    ingredientsEn: "Dried peach, cinnamon, cloves, sugar",
+    isActive: true
+  },
+  {
+    id: 9,
+    name: "Humintas",
+    description: "Choclo rallado envuelto en sus propias hojas, relleno de queso y anís.",
+    descriptionEn: "Grated corn wrapped in corn husks, filled with cheese and anise.",
+    price: 10.00,
+    category: "Entradas",
+    image: "/images/humintas.jpg",
+    stock: 35,
+    featured: true,
+    rating: 4.7,
+    prepTime: "30 min",
+    ingredients: "Choclo, queso, anís, sal, mantequilla",
+    ingredientsEn: "Corn, cheese, anise, salt, butter",
+    isActive: true
+  },
+  {
+    id: 10,
+    name: "Cuñapé",
+    description: "Panecillos de queso y yuca, típicos del oriente boliviano, crujientes por fuera y suaves por dentro.",
+    descriptionEn: "Cheese and yucca bread rolls, typical of eastern Bolivia, crispy outside and soft inside.",
+    price: 8.00,
+    category: "Entradas",
+    image: "/images/cunape.jpg",
+    stock: 40,
+    featured: false,
+    rating: 4.8,
+    prepTime: "25 min",
+    ingredients: "Yuca, queso, huevo, leche, mantequilla, sal",
+    ingredientsEn: "Yucca, cheese, egg, milk, butter, salt",
+    isActive: true
+  },
+  {
+    id: 11,
+    name: "Leche Asada",
+    description: "Postre tradicional boliviano a base de leche, huevos, azúcar y canela, horneado a la perfección.",
+    descriptionEn: "Traditional Bolivian dessert made with milk, eggs, sugar and cinnamon, baked to perfection.",
+    price: 15.00,
+    category: "Postres",
+    image: "/images/leche-asada.jpg",
+    stock: 30,
+    featured: false,
+    rating: 4.9,
+    prepTime: "50 min",
+    ingredients: "Leche, huevos, azúcar, canela, esencia de vainilla",
+    ingredientsEn: "Milk, eggs, sugar, cinnamon, vanilla extract",
     isActive: true
   }
 ];
 
-// 🔄 FUNCIÓN: Cargar productos (BACKEND PRIMERO, luego fallback)
 const loadProductsFromBackend = async () => {
   try {
-    console.log('🌐 Intentando conectar con backend...');
-    
-    // PRIMERO: Intentar conectar al backend
     const response = await api.get('/products');
-    console.log('✅ Backend conectado, productos recibidos:', response.data);
-    
-    // Transformar productos del backend si es necesario
     const backendProducts = response.data.products || response.data;
-    
-    // Guardar en localStorage como caché
     localStorage.setItem('backend_products_cache', JSON.stringify(backendProducts));
     localStorage.setItem('products_source', 'backend');
-    
     return Array.isArray(backendProducts) ? backendProducts : [backendProducts];
-    
   } catch (error) {
-    console.log('⚠️ Backend no disponible, usando datos locales');
-    
-    // SEGUNDO: Intentar cargar productos locales
     try {
       const cachedProducts = JSON.parse(localStorage.getItem('backend_products_cache') || '[]');
       if (cachedProducts.length > 0) {
-        console.log('📦 Usando caché de productos:', cachedProducts.length);
         localStorage.setItem('products_source', 'cache');
         return cachedProducts;
       }
     } catch (cacheError) {
-      console.log('⚠️ Caché no disponible');
+      // ignore
     }
-    
-    // TERCERO: Cargar productos iniciales
-    console.log('📋 Usando productos iniciales');
     localStorage.setItem('products_source', 'initial');
     return initialProducts;
   }
 };
 
-// 🔄 FUNCIÓN: Obtener productos por categoría
 const getProductsByCategoryImpl = async (category) => {
   const products = await loadProductsFromBackend();
   const filtered = category === 'all' 
@@ -97,64 +209,48 @@ const getProductsByCategoryImpl = async (category) => {
   return filtered;
 };
 
-// 🎯 SERVICIO PRINCIPAL
 export const productService = {
-  // Obtener todos los productos
   getProducts: async () => {
-    console.log('📡 ProductService: Obteniendo productos...');
     return await loadProductsFromBackend();
   },
   
-  // Obtener producto por ID
   getProductById: async (id) => {
-    console.log(`🔍 Buscando producto ID: ${id}`);
-    
-    // PRIMERO: Intentar backend
     try {
       const response = await api.get(`/products/${id}`);
-      console.log('✅ Producto encontrado en backend:', response.data);
       return response.data.product || response.data;
     } catch (error) {
-      console.log(`⚠️ Producto ${id} no en backend, buscando localmente...`);
+      // not found on backend, try local
     }
-    
-    // SEGUNDO: Buscar en datos locales
     const products = await loadProductsFromBackend();
     const product = products.find(p => p.id.toString() === id.toString());
-    
     if (product) {
       return product;
     }
-    
     throw new Error(`Producto con ID ${id} no encontrado`);
   },
   
-  // Obtener productos destacados
   getFeaturedProducts: async () => {
     const products = await loadProductsFromBackend();
     return products.filter(p => p.featured).slice(0, 4);
   },
   
-  // Obtener por categoría
   getProductsByCategory: getProductsByCategoryImpl,
   
-  // Buscar productos
   searchProducts: async (query) => {
     const products = await loadProductsFromBackend();
     const searchTerm = query.toLowerCase();
-    
     return products.filter(product =>
       product.name.toLowerCase().includes(searchTerm) ||
       product.description.toLowerCase().includes(searchTerm) ||
+      product.descriptionEn?.toLowerCase().includes(searchTerm) ||
+      product.ingredients?.toLowerCase().includes(searchTerm) ||
+      product.ingredientsEn?.toLowerCase().includes(searchTerm) ||
       product.category.toLowerCase().includes(searchTerm)
     );
   },
   
-  // Sincronizar productos (para admin)
   syncProducts: () => {
-    console.log('🔄 ProductService: Sincronizando productos...');
     const adminProducts = JSON.parse(localStorage.getItem('admin_products') || '[]');
-    
     if (adminProducts.length > 0) {
       const activeProducts = adminProducts.filter(p => p.isActive !== false);
       localStorage.setItem('menu_products', JSON.stringify(activeProducts));
@@ -163,21 +259,16 @@ export const productService = {
     return false;
   },
   
-  // Guardar productos (admin)
   saveProducts: (products) => {
-    console.log(`💾 Guardando ${products.length} productos en admin`);
     localStorage.setItem('admin_products', JSON.stringify(products));
-    
     try {
       // api.post('/admin/products/bulk', { products });
     } catch (error) {
-      console.log('⚠️ No se pudo sincronizar con backend');
+      // ignore
     }
-    
     return true;
   },
   
-  // Método para verificar conexión con backend
   checkBackendConnection: async () => {
     try {
       const response = await api.get('/health');
@@ -195,11 +286,9 @@ export const productService = {
     }
   },
   
-  // Obtener estadísticas de fuente
   getSourceInfo: () => {
     const source = localStorage.getItem('products_source') || 'unknown';
     const cacheTime = localStorage.getItem('products_cache_time');
-    
     return {
       source,
       cacheTime,
@@ -210,7 +299,6 @@ export const productService = {
   }
 };
 
-// 📁 EXPORTAR FUNCIONES (mantener compatibilidad)
 export const getProducts = productService.getProducts;
 export const getProductById = productService.getProductById;
 export const getFeaturedProducts = productService.getFeaturedProducts;

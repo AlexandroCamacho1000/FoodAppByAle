@@ -60,11 +60,11 @@ export default function Cart() {
                   className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 md:p-6 flex flex-col sm:flex-row gap-4"
                 >
                   {/* Imagen */}
-                  <div className="w-full sm:w-24 h-48 sm:h-24 bg-gradient-to-br from-blue-50 to-pink-50 rounded-lg flex-shrink-0 overflow-hidden">
+                  <div className="w-full sm:w-24 h-28 sm:h-24 bg-gradient-to-br from-blue-50 to-pink-50 rounded-lg flex-shrink-0 overflow-hidden">
                     {item.image ? (
                       <img 
                         src={item.image} 
-                        alt={item.name}
+                        alt={item.name || 'Product'}
                         className="w-full h-full object-cover"
                       />
                     ) : (

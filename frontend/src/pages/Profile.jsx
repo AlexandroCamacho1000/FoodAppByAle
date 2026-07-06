@@ -33,7 +33,7 @@ const Profile = () => {
           <div className="text-center">
             <img
               src={user.avatar}
-              alt={user.name}
+              alt={user.name || 'Profile'}
               className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-[#60A5FA]/20"
             />
             <h2 className="text-xl font-bold text-[#1E293B]">{user.name}</h2>
@@ -128,14 +128,14 @@ const Profile = () => {
                       onChange={(e) => setFormData({...formData, location: e.target.value})}
                       className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
                     >
-                      <option value="La Paz">La Paz</option>
-                      <option value="Santa Cruz">Santa Cruz</option>
-                      <option value="Cochabamba">Cochabamba</option>
-                      <option value="Oruro">Oruro</option>
-                      <option value="Potosi">Potosí</option>
-                      <option value="Beni">Beni</option>
-                      <option value="Pando">Pando</option>
-                      <option value="Tarija">Tarija</option>
+                      <option value="La Paz">{t('register.cityLaPaz')}</option>
+                      <option value="Santa Cruz">{t('register.citySantaCruz')}</option>
+                      <option value="Cochabamba">{t('register.cityCochabamba')}</option>
+                      <option value="Oruro">{t('register.cityOruro')}</option>
+                      <option value="Potosi">{t('register.cityPotosi')}</option>
+                      <option value="Beni">{t('register.cityBeni')}</option>
+                      <option value="Pando">{t('register.cityPando')}</option>
+                      <option value="Tarija">{t('register.cityTarija')}</option>
                     </select>
                   </div>
                 </div>

@@ -52,7 +52,6 @@ const ProductDetail = () => {
       setError(null);
     } catch (err) {
       setError('Producto no encontrado');
-      console.error('Error loading product:', err);
     } finally {
       setLoading(false);
     }
@@ -67,11 +66,7 @@ const ProductDetail = () => {
   
   const handleAddToCart = async () => {
     if (!product) return;
-    
-    const result = await addToCart(product, quantity);
-    if (result.success) {
-      console.log(`✅ ${product.name} x${quantity} agregado al carrito`);
-    }
+    await addToCart(product, quantity);
   };
   
   const handleShare = () => {
@@ -194,7 +189,7 @@ const ProductDetail = () => {
           
           <div className="lg:w-1/2">
             <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
-              <div className="relative h-96">
+              <div className="relative h-64 md:h-96">
                 <img 
                   src={productImages[currentImageIndex]} 
                   alt={product.name}
@@ -299,7 +294,7 @@ const ProductDetail = () => {
             
             <div className="mb-8">
               <div className="flex items-baseline gap-2">
-                <span className="text-5xl font-bold bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">
+                <span className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">
                   Bs. {product.price}
                 </span>
                 <span className="text-slate-400 text-lg">{t('product.perUnit')}</span>
@@ -406,7 +401,7 @@ const ProductDetail = () => {
                 <div>
                   <h4 className="font-bold text-slate-800 mb-3">{t('product.mainIngredients')}</h4>
                   <ul className="list-disc pl-5 text-slate-700 space-y-1">
-                    {t('product.ingredientList').split('|').map((item, i) => (
+                    {(language === 'es' ? product.ingredients : (product.ingredientsEn || product.ingredients)).split(',').map((item, i) => (
                       <li key={i}>{item.trim()}</li>
                     ))}
                   </ul>

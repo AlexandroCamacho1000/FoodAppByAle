@@ -68,12 +68,12 @@ const MyOrders = () => {
           <div className="text-6xl mb-4">📦</div>
           <h3 className="text-xl font-medium text-[#1E293B] mb-2">{t('orders.empty')}</h3>
           <p className="text-[#64748B] mb-6">{t('orders.emptyDesc')}</p>
-          <a 
-            href="/menu" 
+          <Link 
+            to="/menu" 
             className="inline-block bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition"
           >
             {t('orders.viewProducts')}
-          </a>
+          </Link>
         </div>
       )}
     </div>

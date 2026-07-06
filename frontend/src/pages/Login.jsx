@@ -28,21 +28,20 @@ export default function Login() {
     try {
       const result = await login(email, password);
       
-      console.log('🔍 Login.jsx - Resultado del login:', result);
+      
       
       if (result.success) {
-        console.log('✅ Login.jsx - Login exitoso, redirigiendo...');
         
-        // Redirigir a la página que intentaba acceder o al inicio
+        
+    
         const redirectTo = localStorage.getItem('redirectAfterLogin') || '/';
         localStorage.removeItem('redirectAfterLogin');
         navigate(redirectTo);
       } else {
-        console.log('❌ Login.jsx - Error en login:', result.error);
+        
         setError(result.error || t('login.error.invalid'));
       }
     } catch (error) {
-      console.error('❌ Login.jsx - Error inesperado:', error);
       setError(t('login.error.connection'));
     } finally {
       setIsLoading(false);
@@ -140,19 +139,18 @@ export default function Login() {
             </p>
           </div>
       
-          {/* Información de credenciales reales */}
-          <div className="mt-8 p-4 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0]">
-            <p className="text-sm font-medium text-[#475569] mb-2">{t('login.credentialsTitle')}</p>
-            <p className="text-xs text-[#64748B]">
-              • Cliente: <span className="font-mono">cliente@test.com</span> / <span className="font-mono">cliente123</span>
-            </p>
-            <p className="text-xs text-[#64748B]">
-              • Superadmin: <span className="font-mono">superadmin@bolivianmarket.com</span> / <span className="font-mono">superadmin123</span>
-            </p>
-            <p className="text-xs text-[#64748B] mt-1 text-green-600">
-              ✓ {t('login.credentialsReal')}
-            </p>
-          </div>
+          <details className="mt-8 p-4 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] cursor-pointer">
+            <summary className="text-sm font-medium text-[#475569]">{t('login.credentialsTitle')}</summary>
+            <div className="mt-3 space-y-1">
+              <p className="text-xs text-[#64748B]">
+                • Cliente: <span className="font-mono">cliente@test.com</span> / <span className="font-mono">cliente123</span>
+              </p>
+              <p className="text-xs text-[#64748B]">
+                • Superadmin: <span className="font-mono">superadmin@bolivianmarket.com</span> / <span className="font-mono">superadmin123</span>
+              </p>
+              <p className="text-xs text-green-600 mt-1">✓ {t('login.credentialsReal')}</p>
+            </div>
+          </details>
         </div>
       </div>
     </div>

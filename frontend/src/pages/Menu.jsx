@@ -11,62 +11,28 @@ export default function Menu() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  console.log('🔧 Menu.jsx - Componente renderizado');
-  console.log('🌐 VITE_API_URL:', import.meta.env.VITE_API_URL);
+  
 
-  // Categorías de comida boliviana
+ 
   const categories = [
     { id: 'all', name: t('viewAll'), count: 0 },
-    { id: 'salteñas', name: 'Salteñas', count: 0 },
-    { id: 'platos_fuertes', name: 'Platos Fuertes', count: 0 },
-    { id: 'carnes', name: 'Carnes', count: 0 },
-    { id: 'bebidas', name: 'Bebidas Tradicionales', count: 0 },
-    { id: 'entradas', name: 'Entradas y Postres', count: 0 },
+    { id: 'Salteñas', name: t('categories.saltenas'), count: 0 },
+    { id: 'Platos Fuertes', name: t('categories.platosFuertes'), count: 0 },
+    { id: 'Carnes', name: t('categories.carnes'), count: 0 },
+    { id: 'Bebidas', name: t('categories.bebidas'), count: 0 },
+    { id: 'Entradas', name: t('categories.entradas'), count: 0 },
+    { id: 'Postres', name: t('categories.postres'), count: 0 },
   ];
 
-  // Cargar productos
+
   useEffect(() => {
-    console.log('🔄 Menu.jsx - useEffect ejecutado');
-    
     const loadProducts = async () => {
       try {
-        console.log('📥 Menu.jsx - Iniciando carga de productos...');
         setLoading(true);
-        
-        const startTime = Date.now();
         const data = await getProducts();
-        const endTime = Date.now();
-        
-        console.log(`✅ Menu.jsx - getProducts() completado en ${endTime - startTime}ms`);
-        console.log(`📊 Menu.jsx - Datos recibidos:`, data);
-        console.log(`📦 Menu.jsx - Número de productos: ${data.length}`);
-        
-        if (data.length > 0) {
-          console.log('📋 Menu.jsx - Primer producto:', data[0]);
-          console.log('📋 Menu.jsx - Categorías encontradas:', [...new Set(data.map(p => p.category))]);
-        }
-        
         setProducts(data);
-        
-        const updatedCategories = categories.map(cat => {
-          if (cat.id === 'all') {
-            return { ...cat, count: data.length };
-          }
-          const count = data.filter(p => p.category === cat.id).length;
-          return { ...cat, count };
-        });
-        
-        console.log('🎯 Menu.jsx - Conteos por categoría:', updatedCategories);
-        
       } catch (error) {
-        console.error('❌ Menu.jsx - Error cargando productos:', error);
-        console.error('🔍 Menu.jsx - Detalles del error:', {
-          message: error.message,
-          name: error.name,
-          response: error.response
-        });
       } finally {
-        console.log('🏁 Menu.jsx - Finalizando carga');
         setLoading(false);
       }
     };
@@ -74,20 +40,18 @@ export default function Menu() {
     loadProducts();
   }, []);
 
-  // Filtrar productos por categoría
+
   const filteredProducts = selectedCategory === 'all' 
     ? products 
     : products.filter(product => product.category === selectedCategory);
 
-  // Lógica de paginación
+  
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const paginatedProducts = filteredProducts.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
 
-  console.log(`🎛️ Menu.jsx - selectedCategory: ${selectedCategory}`);
-  console.log(`🎛️ Menu.jsx - filteredProducts: ${filteredProducts.length} productos`);
-  console.log(`📄 Menu.jsx - Página ${currentPage} de ${totalPages}`);
+  
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20 pb-16">
@@ -95,37 +59,43 @@ export default function Menu() {
         
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-slate-900 mb-4">
-            {t('menu.title')}
+          <h1 className="animate-slideUp text-4xl md:text-5xl font-extrabold mb-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900">
+              {t('menu.title')}
+            </span>
           </h1>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+          <p className="animate-fadeIn text-lg text-slate-600 max-w-2xl mx-auto" style={{ animationDelay: '0.15s' }}>
             {t('menu.description')}
           </p>
         </div>
 
         {/* Filtros por categoría */}
-        <div className="mb-10">
+        <div className="animate-fadeIn mb-10" style={{ animationDelay: '0.1s' }}>
           <h2 className="text-xl font-semibold text-slate-800 mb-4">
             {t('menu.filterByCategory')}
           </h2>
           <div className="flex flex-wrap gap-3">
-            {categories.map((cat) => (
+            {categories.map((cat, i) => (
               <button
                 key={cat.id}
                 onClick={() => {
-                  console.log(`🎯 Menu.jsx - Cambiando categoría a: ${cat.id}`);
                   setSelectedCategory(cat.id);
                   setCurrentPage(1);
                 }}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                className={`px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 ${
                   selectedCategory === cat.id
-                    ? 'bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white shadow-lg'
-                    : 'border border-slate-300 text-slate-700 hover:border-blue-400 hover:text-blue-600'
+                    ? 'bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg shadow-blue-500/25'
+                    : 'bg-white border-2 border-slate-200 text-slate-700 hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10'
                 }`}
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
                 {cat.name} 
                 {cat.count > 0 && (
-                  <span className="text-xs ml-1 bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">
+                  <span className={`text-xs ml-1.5 px-2 py-0.5 rounded-full transition-colors ${
+                    selectedCategory === cat.id
+                      ? 'bg-white/20 text-white'
+                      : 'bg-slate-100 text-slate-600'
+                  }`}>
                     {cat.count}
                   </span>
                 )}
@@ -157,60 +127,60 @@ export default function Menu() {
           </div>
         ) : (
           <>
-            {/* Mostrar categoría seleccionada */}
             {selectedCategory !== 'all' && (
-              <div className="mb-6">
+              <div className="animate-fadeIn mb-6">
                 <h2 className="text-2xl font-bold text-slate-800">
-                  Categoría: {categories.find(c => c.id === selectedCategory)?.name}
+                  {t('menu.categoryLabel')}: {categories.find(c => c.id === selectedCategory)?.name}
                   <span className="text-blue-500 ml-2">
-                    ({filteredProducts.length} productos)
+                    ({filteredProducts.length} {t('menu.products')})
                   </span>
                 </h2>
               </div>
             )}
 
-            {/* Grid de productos */}
             {filteredProducts.length > 0 ? (
               <div>
-                <p className="text-sm text-slate-500 mb-4">
-                  Mostrando página {currentPage} de {totalPages} ({filteredProducts.length} producto(s))
+                <p className="animate-fadeIn text-sm text-slate-500 mb-4">
+                  {t('menu.showingPage', { current: currentPage, total: totalPages, count: filteredProducts.length })}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                  {paginatedProducts.map((product) => (
-                    <ProductCard key={product.id} product={product} />
+                  {paginatedProducts.map((product, i) => (
+                    <div key={product.id} className="animate-slideUp" style={{ animationDelay: `${i * 0.08}s` }}>
+                      <ProductCard product={product} />
+                    </div>
                   ))}
                 </div>
               </div>
             ) : (
-              <div className="text-center py-16">
-                <div className="text-6xl mb-4">🍽️</div>
+              <div className="animate-fadeIn text-center py-16">
+                <div className="animate-float text-6xl mb-4">🍽️</div>
                 <h3 className="text-2xl font-bold text-slate-700 mb-2">
-                  No hay productos en esta categoría
+                  {t('menu.noProducts')}
                 </h3>
                 <p className="text-slate-500 mb-6">
-                  Prueba seleccionando otra categoría
+                  {t('menu.tryAnother')}
                 </p>
                 <button
                   onClick={() => {
                     setSelectedCategory('all');
                     setCurrentPage(1);
                   }}
-                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-fuchsia-700"
+                  className="px-6 py-3 bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white rounded-lg font-semibold hover:from-blue-700 hover:to-fuchsia-700 hover:scale-105 active:scale-95 transition-all duration-200"
                 >
-                  Ver todos los productos
+                  {t('menu.viewAll')}
                 </button>
               </div>
             )}
           </>
         )}
 
-        {/* Paginación funcional */}
+        {/* Paginación */}
         {totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-16">
+          <div className="animate-fadeIn flex justify-center items-center gap-2 mt-16" style={{ animationDelay: '0.2s' }}>
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:border-blue-400 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-medium hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200"
             >
               ← {t('menu.previous')}
             </button>
@@ -218,10 +188,10 @@ export default function Menu() {
               <button
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
-                className={`px-4 py-2 rounded-lg ${
+                className={`w-10 h-10 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 ${
                   currentPage === i + 1
-                    ? 'bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white'
-                    : 'border border-slate-300 text-slate-700 hover:border-blue-400 hover:text-blue-600'
+                    ? 'bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg shadow-blue-500/25 scale-105'
+                    : 'bg-white border-2 border-slate-200 text-slate-700 hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10'
                 }`}
               >
                 {i + 1}
@@ -230,7 +200,7 @@ export default function Menu() {
             <button
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 border border-slate-300 text-slate-700 rounded-lg hover:border-blue-400 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-medium hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200"
             >
               {t('menu.next')} →
             </button>

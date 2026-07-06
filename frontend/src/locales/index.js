@@ -15,7 +15,7 @@ const translations = {
 
   "menu.title": "Menú Completo",
 
-  "admin.layout.title": "Admin Panel",
+"admin.layout.title": "Panel de Administración",
 "admin.layout.subtitle": "E-commerce Bolivia",
 "admin.layout.description": "Panel de administración",
 "admin.layout.logout": "Cerrar Sesión",
@@ -70,6 +70,12 @@ const translations = {
   "login.registerLink": "Regístrate aquí",
   "login.credentialsTitle": "Credenciales del backend:",
   "login.credentialsReal": "Estas credenciales conectan con el backend real",
+
+  "protected.restrictedTitle": "Acceso Restringido",
+  "protected.restrictedDesc": "Esta sección es exclusiva para Super Administradores.",
+  "protected.deniedTitle": "Acceso Denegado",
+  "protected.deniedDesc": "Necesitas permisos de administrador para acceder a esta página.",
+  "protected.goBack": "Volver atrás",
 
   "register.title": "Crear Cuenta",
   "register.subtitle": "Únete a Bolivian Market",
@@ -471,7 +477,7 @@ const translations = {
   "notFound.description": "La página que buscas no existe o ha sido movida.",
   "notFound.goHome": "Volver al inicio",
 
-  "categories.salteas": "Salteñas",
+  "categories.saltenas": "Salteñas",
   "categories.platos_fuertes": "Platos Fuertes",
   "categories.bebidas": "Bebidas",
   "categories.postres": "Postres",
@@ -538,14 +544,33 @@ const translations = {
 "product.relatedTitle": "Productos relacionados",
 "product.linkCopied": "¡Enlace copiado al portapapeles!",
 
+"viewAll": "Ver todo",
+"menu.categoryLabel": "Categoría",
+"menu.products": "productos",
+"menu.showingPage": "Mostrando página {current} de {total} ({count} producto(s))",
+"menu.noProducts": "No hay productos en esta categoría",
+"menu.tryAnother": "Prueba seleccionando otra categoría",
+"menu.viewAll": "Ver todos los productos",
+
+"categories.saltenas": "Salteñas",
+"categories.platosFuertes": "Platos Fuertes",
 "categories.carnes": "Carnes",
+"categories.bebidas": "Bebidas Tradicionales",
 "categories.entradas": "Entradas",
+"categories.postres": "Postres",
 "categories.sopas": "Sopas"
 
   },
   en: {
 
-  "menu.title": "Complete Menu",  
+  "menu.title": "Complete Menu",
+  "viewAll": "View all",
+  "menu.categoryLabel": "Category",
+  "menu.products": "products",
+  "menu.showingPage": "Showing page {current} of {total} ({count} product(s))",
+  "menu.noProducts": "No products in this category",
+  "menu.tryAnother": "Try selecting another category",
+  "menu.viewAll": "View all products",  
 
   "nav.home": "Home",
   "nav.menu": "Menu",
@@ -614,6 +639,12 @@ const translations = {
   "login.registerLink": "Register here",
   "login.credentialsTitle": "Backend credentials:",
   "login.credentialsReal": "These credentials connect to the real backend",
+
+  "protected.restrictedTitle": "Restricted Access",
+  "protected.restrictedDesc": "This section is exclusive for Super Administrators.",
+  "protected.deniedTitle": "Access Denied",
+  "protected.deniedDesc": "You need administrator permissions to access this page.",
+  "protected.goBack": "Go back",
 
   "register.title": "Create Account",
   "register.subtitle": "Join Bolivian Market",
@@ -1015,7 +1046,7 @@ const translations = {
   "notFound.description": "The page you are looking for does not exist or has been moved.",
   "notFound.goHome": "Back to home",
 
-  "categories.salteas": "Salteñas",
+  "categories.saltenas": "Salteñas",
   "categories.platos_fuertes": "Main Dishes",
   "categories.bebidas": "Drinks",
   "categories.postres": "Desserts",
@@ -1081,8 +1112,12 @@ const translations = {
 "product.relatedTitle": "Related products",
 "product.linkCopied": "Link copied to clipboard!",
 
+"categories.saltenas": "Salteñas",
+"categories.platosFuertes": "Main Courses",
 "categories.carnes": "Meats",
+"categories.bebidas": "Traditional Drinks",
 "categories.entradas": "Appetizers",
+"categories.postres": "Desserts",
 "categories.sopas": "Soups"
 }
 };

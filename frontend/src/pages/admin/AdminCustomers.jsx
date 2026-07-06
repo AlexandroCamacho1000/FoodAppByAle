@@ -3,7 +3,7 @@ import { FiUsers, FiMail, FiCalendar, FiUser, FiEdit, FiTrash2, FiFilter } from 
 import { useLanguage } from '../../context/LanguageContext';
 
 const AdminCustomers = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [customers, setCustomers] = useState([]);
   const [filteredCustomers, setFilteredCustomers] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -128,7 +128,7 @@ const AdminCustomers = () => {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{t('admin.customers.title')}</h1>
             <p className="text-gray-600">
-              {t('app.lang') === 'es' 
+                {language === 'es' 
                 ? `Total: ${filteredCustomers.length} clientes` 
                 : `Total: ${filteredCustomers.length} customers`}
             </p>
@@ -144,7 +144,7 @@ const AdminCustomers = () => {
                 <FiUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                 <input
                   type="text"
-                  placeholder={t('app.lang') === 'es' ? 'Buscar por nombre, email o teléfono...' : 'Search by name, email or phone...'}
+                                    placeholder={language === 'es' ? 'Buscar por nombre, email o teléfono...' : 'Search by name, email or phone...'}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
@@ -159,16 +159,16 @@ const AdminCustomers = () => {
                 className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="all">
-                  {t('app.lang') === 'es' ? 'Todos los roles' : 'All roles'}
+                {language === 'es' ? 'Todos los roles' : 'All roles'}
                 </option>
                 <option value="user">
-                  {t('app.lang') === 'es' ? 'Clientes' : 'Clients'}
+                  {language === 'es' ? 'Clientes' : 'Clients'}
                 </option>
                 <option value="admin">
-                  {t('app.lang') === 'es' ? 'Administradores' : 'Admins'}
+                {language === 'es' ? 'Administradores' : 'Admins'}
                 </option>
                 <option value="superadmin">
-                  {t('app.lang') === 'es' ? 'Super Admin' : 'Super Admin'}
+                  Super Admin
                 </option>
               </select>
             </div>
@@ -180,14 +180,14 @@ const AdminCustomers = () => {
             <thead>
               <tr className="bg-gray-50">
                 <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
-                  {t('app.lang') === 'es' ? 'Cliente' : 'Customer'}
+                                    {language === 'es' ? 'Cliente' : 'Customer'}
                 </th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{t('app.lang') === 'es' ? 'Email' : 'Email'}</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{t('app.lang') === 'es' ? 'Teléfono' : 'Phone'}</th>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{t('app.lang') === 'es' ? 'Rol' : 'Role'}</th>
-                <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{t('app.lang') === 'es' ? 'Pedidos' : 'Orders'}</th>
-                <th className="text-right px-6 py-4 text-sm font-semibold text-gray-600">{t('app.lang') === 'es' ? 'Total Gastado' : 'Total Spent'}</th>
-                <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{t('app.lang') === 'es' ? 'Registro' : 'Registered'}</th>
+                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">Email</th>
+                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Teléfono' : 'Phone'}</th>
+                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Rol' : 'Role'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Registro' : 'Registered'}</th>      
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -204,7 +204,7 @@ const AdminCustomers = () => {
                         <p className="font-medium text-gray-900">{customer.name}</p>
                         {customer.orders > 0 && (
                           <p className="text-xs text-gray-500">
-                            {customer.orders} {t('app.lang') === 'es' ? 'compras' : 'purchases'}
+                            {customer.orders} {language === 'es' ? 'compras' : 'purchases'}
                           </p>
                         )}
                       </div>
@@ -244,10 +244,10 @@ const AdminCustomers = () => {
           <div className="text-center py-16">
             <FiUsers className="mx-auto text-gray-400 text-5xl mb-4" />
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {t('app.lang') === 'es' ? 'No se encontraron clientes' : 'No customers found'}
+              {language === 'es' ? 'No se encontraron clientes' : 'No customers found'}
             </h3>
             <p className="text-gray-500">
-              {t('app.lang') === 'es' 
+               {language === 'es' 
                 ? 'Intenta ajustar los filtros de búsqueda' 
                 : 'Try adjusting the search filters'}
             </p>

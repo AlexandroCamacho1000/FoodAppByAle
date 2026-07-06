@@ -21,20 +21,13 @@ export const AuthProvider = ({ children }) => {
   const USERS_STORAGE_KEY = 'bolivian_market_users';
   const INVITE_CODES_STORAGE_KEY = 'bolivian_market_invite_codes';
 
-  console.log('=== AUTH CONTEXT DEBUG ===');
-  console.log('VITE_API_URL desde env:', import.meta.env.VITE_API_URL);
-  console.log('VITE_SUPERADMIN_EMAIL desde env:', import.meta.env.VITE_SUPERADMIN_EMAIL);
-  console.log('VITE_SUPERADMIN_PASSWORD desde env:', import.meta.env.VITE_SUPERADMIN_PASSWORD ? 'DEFINIDA' : 'NO DEFINIDA');
-  console.log('=== FIN DEBUG ===');
-
+  
   const SUPERADMIN_EMAIL = import.meta.env.VITE_SUPERADMIN_EMAIL || 'superadmin@bolivianmarket.com';
   const SUPERADMIN_PASSWORD = import.meta.env.VITE_SUPERADMIN_PASSWORD || 'superadmin123';
   const INVITE_CODE_EXPIRY_DAYS = import.meta.env.VITE_INVITE_CODE_EXPIRY_DAYS || 30;
 
   useEffect(() => {
-    console.log('🔧 AuthProvider montado');
-    console.log('SUPERADMIN_EMAIL config:', SUPERADMIN_EMAIL);
-    console.log('SUPERADMIN_PASSWORD config:', SUPERADMIN_PASSWORD ? '***' : 'UNDEFINED');
+   
     
     const savedUser = localStorage.getItem(USER_STORAGE_KEY);
     const savedToken = localStorage.getItem(TOKEN_STORAGE_KEY);
@@ -43,15 +36,15 @@ export const AuthProvider = ({ children }) => {
     if (savedUser && savedToken) {
       try {
         const parsedUser = JSON.parse(savedUser);
-        console.log('✅ Usuario y token recuperados:', parsedUser.email);
+        
         setUser(parsedUser);
       } catch (error) {
-        console.error('Error al parsear usuario:', error);
+        
         localStorage.removeItem(USER_STORAGE_KEY);
         localStorage.removeItem(TOKEN_STORAGE_KEY);
       }
     } else {
-      console.log('No hay usuario/token guardados en localStorage');
+    
     }
     
     if (savedInviteCodes) {
@@ -59,7 +52,6 @@ export const AuthProvider = ({ children }) => {
         const parsedCodes = JSON.parse(savedInviteCodes);
         setInviteCodes(parsedCodes);
       } catch (error) {
-        console.error('Error al parsear códigos:', error);
         localStorage.removeItem(INVITE_CODES_STORAGE_KEY);
       }
     } else {
@@ -116,7 +108,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(updatedCodes));
       return newCode;
     } catch (error) {
-      console.error('Error creating invite via API, usando fallback local:', error.message);
       const newCode = {
         code: generateInviteCode(),
         createdBy: user.email,
@@ -144,7 +135,6 @@ export const AuthProvider = ({ children }) => {
       }
       return { valid: false, message: response.data.message };
     } catch (error) {
-      console.error('Error validating invite via API, usando fallback local:', error.message);
       const inviteCode = inviteCodes.find(inv => inv.code === code);
       if (!inviteCode) return { valid: false, message: 'Código inválido' };
       if (inviteCode.used) return { valid: false, message: 'Este código ya ha sido utilizado' };
@@ -190,7 +180,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(formatted));
       return formatted;
     } catch (error) {
-      console.error('Error fetching invites from API, usando localStorage:', error.message);
       return inviteCodes;
     }
   };
@@ -205,7 +194,6 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(updatedCodes));
       return { success: true };
     } catch (error) {
-      console.error('Error deleting invite via API, usando fallback local:', error.message);
       const updatedCodes = inviteCodes.filter(inv => inv.code !== code);
       setInviteCodes(updatedCodes);
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(updatedCodes));
@@ -214,17 +202,15 @@ export const AuthProvider = ({ children }) => {
   };
 
   const login = async (email, password) => {
-    console.log('=== LOGIN CON BACKEND ===');
-    console.log('📧 Email:', email);
+    
     
     try {
-      console.log('🔐 Enviando petición al backend...');
+     
       const response = await api.post('/auth/login', { email, password });
       const data = response.data;
 
       if (data.token && data.user) {
-        console.log('✅ Login exitoso en backend:', data.user.email);
-        console.log('👤 Rol del usuario:', data.user.role);
+       
         
         const userData = {
           ...data.user,
@@ -236,7 +222,7 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(userData));
         localStorage.setItem(TOKEN_STORAGE_KEY, data.token);
         
-        console.log('=== LOGIN EXITOSO ===');
+        
         return { 
           success: true, 
           user: userData, 
@@ -249,8 +235,7 @@ export const AuthProvider = ({ children }) => {
       throw new Error('Respuesta inválida del servidor');
       
     } catch (error) {
-      console.error('❌ Error en conexión con backend:', error.message);
-      console.log('🔄 Usando fallback (solo desarrollo)...');
+     
       
       const mockUsers = {
         superadmin: {
@@ -279,15 +264,15 @@ export const AuthProvider = ({ children }) => {
       
       if (email === SUPERADMIN_EMAIL && password === SUPERADMIN_PASSWORD) {
         loggedUser = mockUsers.superadmin;
-        console.log('✅ Superadmin (fallback)');
+       
       } else if (email === 'cliente@test.com' && password === 'cliente123') {
         loggedUser = mockUsers.cliente;
-        console.log('✅ Cliente (fallback)');
+        
       } else if (email === 'superadmin@bolivianmarket.com' && password === 'superadmin123') {
         loggedUser = mockUsers.superadmin;
-        console.log('✅ Superadmin backend (fallback)');
+      
       } else {
-        console.log('❌ Credenciales incorrectas (fallback)');
+        
         return { success: false, error: 'Credenciales incorrectas' };
       }
 
@@ -295,7 +280,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(loggedUser));
       localStorage.setItem(TOKEN_STORAGE_KEY, `mock-token-${loggedUser.role}`);
       
-      console.log('=== LOGIN FALLBACK EXITOSO ===');
+     
       return { 
         success: true, 
         user: loggedUser, 
@@ -307,7 +292,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const register = async (userData) => {
-    console.log('=== REGISTRO ===');
+    
     
     try {
       const response = await api.post('/auth/register', userData);
@@ -327,14 +312,13 @@ export const AuthProvider = ({ children }) => {
       }
       
     } catch (error) {
-      console.error('❌ Error en registro con backend:', error.message);
-      console.log('🔄 Usando registro fallback...');
+    
       
       const { inviteCode, ...userInfo } = userData;
       let userRole = 'user';
       
       if (inviteCode) {
-        console.log('Código de invitación (fallback):', inviteCode);
+        
         const validation = await validateInviteCode(inviteCode);
         
         if (validation.valid) {
@@ -371,7 +355,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    console.log('👋 Usuario cerrando sesión');
+    
     setUser(null);
     localStorage.removeItem(USER_STORAGE_KEY);
     localStorage.removeItem(TOKEN_STORAGE_KEY);
@@ -404,7 +388,6 @@ export const AuthProvider = ({ children }) => {
       return { success: true, user: updatedUser };
       
     } catch (error) {
-      console.error('Error actualizando perfil:', error);
       return { success: false, error: error.message };
     }
   };

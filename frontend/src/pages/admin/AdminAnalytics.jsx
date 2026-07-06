@@ -3,7 +3,7 @@ import { FiTrendingUp, FiDollarSign, FiShoppingCart, FiUsers, FiPieChart, FiBarC
 import { useLanguage } from '../../context/LanguageContext';
 
 const AdminAnalytics = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const [analytics, setAnalytics] = useState({
     totalRevenue: 0,
@@ -35,7 +35,7 @@ const AdminAnalytics = () => {
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{t('admin.analytics.title')}</h1>
             <p className="text-gray-600">
-              {t('app.lang') === 'es' ? 'Estadísticas y métricas del negocio' : 'Business statistics and metrics'}
+              {language === 'es' ? 'Estadísticas y métricas del negocio' : 'Business statistics and metrics'}
             </p>
           </div>
         </div>
@@ -46,7 +46,7 @@ const AdminAnalytics = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-gray-600">
-                {t('app.lang') === 'es' ? 'Ventas Totales' : 'Total Sales'}
+                {language === 'es' ? 'Ventas Totales' : 'Total Sales'}
               </p>
               <p className="text-2xl font-bold text-gray-900">Bs. {analytics.totalRevenue.toFixed(2)}</p>
             </div>
@@ -60,7 +60,7 @@ const AdminAnalytics = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-gray-600">
-                {t('app.lang') === 'es' ? 'Pedidos Totales' : 'Total Orders'}
+                {language === 'es' ? 'Pedidos Totales' : 'Total Orders'}
               </p>
               <p className="text-2xl font-bold text-gray-900">{analytics.totalOrders}</p>
             </div>
@@ -74,7 +74,7 @@ const AdminAnalytics = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-gray-600">
-                {t('app.lang') === 'es' ? 'Clientes Únicos' : 'Unique Customers'}
+                {language === 'es' ? 'Clientes Únicos' : 'Unique Customers'}
               </p>
               <p className="text-2xl font-bold text-gray-900">{analytics.uniqueCustomers}</p>
             </div>
@@ -88,7 +88,7 @@ const AdminAnalytics = () => {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-gray-600">
-                {t('app.lang') === 'es' ? 'Ticket Promedio' : 'Average Ticket'}
+                {language === 'es' ? 'Ticket Promedio' : 'Average Ticket'}
               </p>
               <p className="text-2xl font-bold text-gray-900">Bs. {analytics.avgTicket.toFixed(2)}</p>
             </div>
@@ -103,7 +103,7 @@ const AdminAnalytics = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">
-              {t('app.lang') === 'es' ? 'Ventas por Mes' : 'Monthly Sales'}
+              {language === 'es' ? 'Ventas por Mes' : 'Monthly Sales'}
             </h2>
             <FiPieChart className="text-gray-400" />
           </div>
@@ -111,10 +111,10 @@ const AdminAnalytics = () => {
             <div className="text-center">
               <div className="text-gray-400 text-5xl mb-4">📊</div>
               <p className="text-gray-600">
-                {t('app.lang') === 'es' ? 'Gráfico de ventas mensuales' : 'Monthly sales chart'}
+                {language === 'es' ? 'Gráfico de ventas mensuales' : 'Monthly sales chart'}
               </p>
               <p className="text-sm text-gray-500">
-                {t('app.lang') === 'es' ? '(Integrar con Chart.js o Recharts)' : '(Integrate with Chart.js or Recharts)'}
+                {language === 'es' ? '(Integrar con Chart.js o Recharts)' : '(Integrate with Chart.js or Recharts)'}
               </p>
             </div>
           </div>
@@ -123,18 +123,18 @@ const AdminAnalytics = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-semibold text-gray-900">
-              {t('app.lang') === 'es' ? 'Productos más Vendidos' : 'Best Selling Products'}
+              {language === 'es' ? 'Productos más Vendidos' : 'Best Selling Products'}
             </h2>
             <FiBarChart2 className="text-gray-400" />
           </div>
           <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
             <div className="text-center">
-              <div className="text-gray-400 text-5xl mb-4">🥘</div>
+              <img src="/alesoft.png" alt="AleSoft" className="w-12 h-12 object-contain mx-auto mb-4" />
               <p className="text-gray-600">
-                {t('app.lang') === 'es' ? 'Gráfico de productos populares' : 'Popular products chart'}
+                {language === 'es' ? 'Gráfico de productos populares' : 'Popular products chart'}
               </p>
               <p className="text-sm text-gray-500">
-                {t('app.lang') === 'es' ? '(Datos en tiempo real)' : '(Real-time data)'}
+                {language === 'es' ? '(Datos en tiempo real)' : '(Real-time data)'}
               </p>
             </div>
           </div>
@@ -149,7 +149,7 @@ const AdminAnalytics = () => {
           <div className="ml-3">
             <h3 className="text-sm font-medium text-blue-800">{t('admin.analytics.title')}</h3>
             <p className="text-sm text-blue-700 mt-1">
-              {t('app.lang') === 'es'
+              {language === 'es'
                 ? 'Esta página muestra métricas clave del negocio calculadas desde los pedidos almacenados.'
                 : 'This page shows key business metrics calculated from stored orders.'}
             </p>

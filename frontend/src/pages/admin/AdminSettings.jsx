@@ -1,5 +1,5 @@
 // frontend/src/pages/admin/AdminSettings.jsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FiSettings, FiSave, FiBell, FiGlobe, FiShield, FiCreditCard, FiMail } from 'react-icons/fi';
 
 const AdminSettings = () => {

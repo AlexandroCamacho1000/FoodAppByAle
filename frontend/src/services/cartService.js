@@ -28,115 +28,78 @@ const transformBackendItem = (item) => {
 
 // ========== OBTENER CARRITO (SOLO BACKEND) ==========
 export const getCart = async () => {
-  console.log('🛒 Obteniendo carrito desde BACKEND...');
-  
-  try {
-    checkAuth(); // Lanza error si no hay token
-    
-    const response = await api.get('/cart');
-    console.log('✅ Carrito cargado desde backend');
-    
-    if (response.data?.cart?.items) {
-      const transformedCart = response.data.cart.items.map(transformBackendItem);
-      console.log(`📦 ${transformedCart.length} productos en carrito`);
-      return transformedCart;
-    }
-    return [];
-  } catch (error) {
-    console.error('❌ Error cargando carrito del backend:', error);
-    if (error.response?.status === 401) {
-      console.log('🔒 Token inválido - redirigir a login');
-      // Aquí podrías disparar un evento para redirigir a login
-    }
-    throw error; // Propagamos el error para manejarlo en el contexto
-  }
-};
-
-// ========== AGREGAR AL CARRITO (SOLO BACKEND) ==========
-export const addToCart = async (product, quantity = 1) => {
-  console.log('➕ Agregando al carrito en BACKEND:', product.name, 'x', quantity);
-  
   try {
     checkAuth();
-    
-    const response = await api.post('/cart/add', {
-      productId: product.id,
-      quantity: quantity
-    });
-    
-    console.log('✅ Producto agregado en backend');
-    
-    // Devolver el carrito actualizado
+    const response = await api.get('/cart');
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
   } catch (error) {
-    console.error('❌ Error agregando al carrito:', error);
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+    }
+    throw error;
+  }
+};
+
+// ========== AGREGAR AL CARRITO (SOLO BACKEND) ==========
+export const addToCart = async (product, quantity = 1) => {
+  try {
+    checkAuth();
+    const response = await api.post('/cart/add', {
+      productId: product.id,
+      quantity: quantity
+    });
+    if (response.data?.cart?.items) {
+      return response.data.cart.items.map(transformBackendItem);
+    }
+    return [];
+  } catch (error) {
     throw error;
   }
 };
 
 // ========== ELIMINAR DEL CARRITO (SOLO BACKEND) ==========
 export const removeFromCart = async (productId) => {
-  console.log('🗑️ Eliminando producto del BACKEND:', productId);
-  
   try {
     checkAuth();
-    
-        const response = await api.delete(`/cart/item/${productId}`);
-    console.log('✅ Eliminado del backend');
-    
+    const response = await api.delete(`/cart/item/${productId}`);
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
   } catch (error) {
-    console.error('❌ Error eliminando del carrito:', error);
     throw error;
   }
 };
 
 // ========== ACTUALIZAR CANTIDAD (SOLO BACKEND) ==========
 export const updateCartItemQuantity = async (productId, quantity) => {
-  console.log('✏️ Actualizando cantidad en BACKEND:', productId, '→', quantity);
-  
   if (quantity < 1) {
     return removeFromCart(productId);
   }
-  
   try {
     checkAuth();
-    
     const response = await api.put(`/cart/item/${productId}`, {
       quantity: quantity
     });
-    
-    console.log('✅ Cantidad actualizada en backend');
-    
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
   } catch (error) {
-    console.error('❌ Error actualizando cantidad:', error);
     throw error;
   }
 };
 
 // ========== VACIAR CARRITO (SOLO BACKEND) ==========
 export const clearCart = async () => {
-  console.log('🧹 Vaciando carrito en BACKEND');
-  
   try {
     checkAuth();
-    
     const response = await api.delete('/cart/clear');
-    console.log('✅ Carrito vaciado en backend');
-    
     return [];
   } catch (error) {
-    console.error('❌ Error vaciando carrito:', error);
     throw error;
   }
 };

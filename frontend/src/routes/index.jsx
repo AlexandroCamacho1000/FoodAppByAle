@@ -11,7 +11,6 @@ import Checkout from '../pages/Checkout';
 import OrderConfirmation from '../pages/OrderConfirmation';
 import Profile from '../pages/Profile';          
 import MyOrders from '../pages/MyOrders';        
-import TestPage from '../pages/TestPage';
 import NotFound from '../pages/NotFound';
 
 // Importa el Layout de Admin y sus páginas
@@ -53,10 +52,6 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
-      },
-      {
-        path: 'test',
-        element: <TestPage />,
       },
       {
         path: 'product/:id',

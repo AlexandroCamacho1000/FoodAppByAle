@@ -16,7 +16,6 @@ export default function Home() {
         const featured = products.filter(p => p.featured === true);
         setFeaturedProducts(featured);
       } catch (error) {
-        console.error('Error cargando productos destacados:', error);
       } finally {
         setLoading(false);
       }
@@ -26,48 +25,59 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="container mx-auto px-4 py-12">
+    <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="text-center mb-16">
-        <div className="inline-block mb-6">
-          <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-2xl flex items-center justify-center mb-4">
-            <span className="text-3xl">🥘</span>
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-fuchsia-50 animate-gradient py-20 md:py-28">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/20 via-transparent to-fuchsia-200/20 pointer-events-none" />
+        
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-4xl mx-auto relative z-10">
+            <div className="inline-block mb-6 animate-float">
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/20">
+                <img src="/alesoft.png" alt="AleSoft" className="w-20 h-20 object-contain" />
+              </div>
+            </div>
+            
+            <h1 className="animate-slideUp text-4xl md:text-5xl font-extrabold mb-6">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900">
+                {t('home.title')}
+              </span>
+            </h1>
+            
+            <p className="animate-fadeIn text-lg text-[#64748B] max-w-2xl mx-auto mb-10" style={{ animationDelay: '0.15s' }}>
+              {t('home.subtitle')}
+            </p>
+            
+            <Link 
+              to="/menu"
+              className="animate-fadeIn inline-block bg-gradient-to-r from-blue-700 to-blue-900 text-white px-10 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-900/25 hover:shadow-xl hover:shadow-blue-900/30 hover:scale-105 active:scale-95 transition-all duration-300"
+              style={{ animationDelay: '0.3s' }}
+            >
+              {t('home.cta')}
+            </Link>
           </div>
         </div>
-        
-        <h1 className="text-4xl md:text-5xl font-bold mb-6 text-[#1E293B]">
-          {t('home.title')}
-        </h1>
-        
-        <p className="text-lg text-[#64748B] max-w-2xl mx-auto mb-10">
-          {t('home.subtitle')}
-        </p>
-        
-        <Link 
-          to="/menu"
-          className="inline-block bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white px-8 py-3 rounded-lg hover:shadow-lg hover:shadow-[#2563EB]/30 transition-all font-medium"
-        >
-          {t('home.cta')}
-        </Link>
       </div>
 
       {/* Sección Destacados */}
-      <div className="mb-16">
-        <div className="flex justify-between items-center mb-8">
+      <div className="container mx-auto px-4 py-16">
+        <div className="animate-slideUp flex justify-between items-center mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-[#1E293B]">
-              {t('featured')}
+            <h2 className="text-2xl font-extrabold">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900">
+                {t('featured')}
+              </span>
             </h2>
-            <p className="text-[#64748B]">
+            <p className="text-slate-500 text-sm font-medium tracking-wide">
               {t('home.featuredDesc')}
             </p>
           </div>
           <Link 
             to="/menu"
-            className="text-[#2563EB] hover:text-[#1D4ED8] font-medium flex items-center gap-2"
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-700 to-blue-900 text-white px-5 py-2.5 rounded-xl font-semibold shadow-lg shadow-blue-900/20 hover:shadow-xl hover:shadow-blue-900/30 hover:scale-105 active:scale-95 transition-all duration-200"
           >
             {t('viewAll')}
-            <span>→</span>
+            <span className="text-lg leading-none">→</span>
           </Link>
         </div>
 
@@ -94,14 +104,22 @@ export default function Home() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {featuredProducts.length > 0 ? (
-              featuredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+              featuredProducts.map((product, i) => (
+                <div key={product.id} className="animate-slideUp" style={{ animationDelay: `${i * 0.1}s` }}>
+                  <ProductCard product={product} />
+                </div>
               ))
             ) : (
               <>
-                <ProductCard product={{ id: '26040d03-8499-4f13-8840-e2ac6a2d92d7', name: 'Sopa de Maní', price: 20, description: 'Sopa cremosa de maní', category: 'sopas', featured: true }} />
-                <ProductCard product={{ id: 'e0f321de-e05c-4ebd-8f55-4c5d06ad704e', name: 'Salteña Paceña', price: 12.5, description: 'Deliciosa salteña tradicional', category: 'salteñas', featured: true }} />
-                <ProductCard product={{ id: 'dbb6e2f7-883f-4773-b077-ff0989601e40', name: 'Anticuchos', price: 25, description: 'Brochetas de corazón', category: 'carnes', featured: true }} />
+                <div className="animate-slideUp" style={{ animationDelay: '0s' }}>
+                  <ProductCard product={{ id: '26040d03-8499-4f13-8840-e2ac6a2d92d7', name: 'Sopa de Maní', price: 20, description: 'Sopa cremosa de maní', category: 'sopas', featured: true }} />
+                </div>
+                <div className="animate-slideUp" style={{ animationDelay: '0.1s' }}>
+                  <ProductCard product={{ id: 'e0f321de-e05c-4ebd-8f55-4c5d06ad704e', name: 'Salteña Paceña', price: 12.5, description: 'Deliciosa salteña tradicional', category: 'salteñas', featured: true }} />
+                </div>
+                <div className="animate-slideUp" style={{ animationDelay: '0.2s' }}>
+                  <ProductCard product={{ id: 'dbb6e2f7-883f-4773-b077-ff0989601e40', name: 'Anticuchos', price: 25, description: 'Brochetas de corazón', category: 'carnes', featured: true }} />
+                </div>
               </>
             )}
           </div>
