@@ -68,11 +68,11 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="p-4 border border-slate-300 rounded-lg bg-white">
-        <label className="block text-sm font-medium text-slate-700 mb-3">
+      <div className="p-4 border border-gray-300 dark:border-[#475569] rounded-lg bg-white dark:bg-[#1e293b]">
+        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
           Información de la tarjeta
         </label>
-        <div className="p-3 border border-slate-300 rounded-lg bg-slate-50">
+        <div className="p-3 border border-gray-300 dark:border-[#475569] rounded-lg bg-gray-50 dark:bg-[#0f172a]">
           <CardElement options={cardElementOptions} />
         </div>
         {error && (
@@ -80,12 +80,12 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
         )}
       </div>
 
-      <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
+      <div className="p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
         <div className="flex items-center gap-3 mb-2">
-          <span className="text-blue-600">🔒</span>
-          <p className="text-sm text-blue-700 font-medium">Pago seguro con Stripe</p>
+          <span className="text-blue-600 dark:text-blue-400">🔒</span>
+          <p className="text-sm text-blue-700 dark:text-blue-300 font-medium">Pago seguro con Stripe</p>
         </div>
-        <p className="text-xs text-blue-600">
+        <p className="text-xs text-blue-600 dark:text-blue-400">
           Tu información de tarjeta está encriptada y nunca toca nuestros servidores.
         </p>
       </div>
@@ -95,7 +95,7 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
         disabled={!stripe || processing}
         className={`w-full py-3 rounded-lg font-medium transition-all ${
           !stripe || processing
-            ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+            ? 'bg-slate-300 dark:bg-slate-600 text-gray-500 dark:text-gray-400 cursor-not-allowed'
             : 'bg-gradient-to-r from-purple-600 to-blue-600 text-white hover:shadow-lg'
         }`}
       >

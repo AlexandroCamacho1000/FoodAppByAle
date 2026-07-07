@@ -505,21 +505,21 @@ const { t, language } = useLanguage();
   return (
     <div className="p-6">
       {showModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
+          <div className="bg-white dark:bg-[#1e293b] rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-gray-900">
+                  <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                     {editingProduct ? t('admin.products.modal.edit') : t('admin.products.modal.new')}
                   </h2>
-                  <p className="text-gray-600">
+                  <p className="text-gray-600 dark:text-gray-400">
                     {editingProduct ? t('admin.products.modal.editDesc', { name: editingProduct.name }) : t('admin.products.modal.newDesc')}
                   </p>
                 </div>
                 <button
                   onClick={() => setShowModal(false)}
-                  className="text-gray-500 hover:text-gray-700 text-2xl"
+                  className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 text-2xl"
                 >
                   <FiX />
                 </button>
@@ -529,7 +529,7 @@ const { t, language } = useLanguage();
                 <div className="lg:col-span-2">
                   <div className="space-y-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {t('admin.products.form.name')}
                       </label>
                       <input
@@ -538,17 +538,17 @@ const { t, language } = useLanguage();
                         value={formData.name}
                         onChange={handleInputChange}
                         className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                          errors.name ? 'border-red-500' : 'border-gray-300'
+                          errors.name ? 'border-red-500' : 'border-gray-300 dark:border-[#475569]'
                         }`}
                         placeholder={t('admin.products.form.namePlaceholder')}
                       />
                       {errors.name && (
-                        <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                        <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.name}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {t('admin.products.form.description')}
                       </label>
                       <textarea
@@ -557,17 +557,17 @@ const { t, language } = useLanguage();
                         onChange={handleInputChange}
                         rows="3"
                         className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                          errors.description ? 'border-red-500' : 'border-gray-300'
+                          errors.description ? 'border-red-500' : 'border-gray-300 dark:border-[#475569]'
                         }`}
                         placeholder={t('admin.products.form.descPlaceholder')}
                       />
                       {errors.description && (
-                        <p className="text-red-500 text-sm mt-1">{errors.description}</p>
+                        <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.description}</p>
                       )}
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Descripción (Inglés)
                       </label>
                       <textarea
@@ -575,14 +575,14 @@ const { t, language } = useLanguage();
                         value={formData.descriptionEn}
                         onChange={handleInputChange}
                         rows="3"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="English description..."
                       />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {t('admin.products.form.price')}
                         </label>
                         <input
@@ -593,17 +593,17 @@ const { t, language } = useLanguage();
                           step="0.01"
                           min="0"
                           className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                            errors.price ? 'border-red-500' : 'border-gray-300'
+                            errors.price ? 'border-red-500' : 'border-gray-300 dark:border-[#475569]'
                           }`}
                           placeholder={t('admin.products.form.pricePlaceholder')}
                         />
                         {errors.price && (
-                          <p className="text-red-500 text-sm mt-1">{errors.price}</p>
+                          <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.price}</p>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {t('admin.products.form.stock')}
                         </label>
                         <input
@@ -613,19 +613,19 @@ const { t, language } = useLanguage();
                           onChange={handleInputChange}
                           min="0"
                           className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                            errors.stock ? 'border-red-500' : 'border-gray-300'
+                            errors.stock ? 'border-red-500' : 'border-gray-300 dark:border-[#475569]'
                           }`}
                           placeholder={t('admin.products.form.stockPlaceholder')}
                         />
                         {errors.stock && (
-                          <p className="text-red-500 text-sm mt-1">{errors.stock}</p>
+                          <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.stock}</p>
                         )}
                       </div>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {t('admin.products.form.category')}
                         </label>
                         <select
@@ -633,7 +633,7 @@ const { t, language } = useLanguage();
                           value={formData.category}
                           onChange={handleInputChange}
                           className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
-                            errors.category ? 'border-red-500' : 'border-gray-300'
+                            errors.category ? 'border-red-500' : 'border-gray-300 dark:border-[#475569]'
                           }`}
                         >
                           <option value="">{t('admin.products.form.selectCategory')}</option>
@@ -642,12 +642,12 @@ const { t, language } = useLanguage();
                           ))}
                         </select>
                         {errors.category && (
-                          <p className="text-red-500 text-sm mt-1">{errors.category}</p>
+                          <p className="text-red-500 dark:text-red-400 text-sm mt-1">{errors.category}</p>
                         )}
                       </div>
 
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {t('admin.products.form.prepTime')}
                         </label>
                         <input
@@ -655,14 +655,14 @@ const { t, language } = useLanguage();
                           name="preparationTime"
                           value={formData.preparationTime}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          className="w-full px-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           placeholder={t('admin.products.form.prepPlaceholder')}
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         {t('admin.products.form.ingredients')}
                       </label>
                       <textarea
@@ -670,13 +670,13 @@ const { t, language } = useLanguage();
                         value={formData.ingredients}
                         onChange={handleInputChange}
                         rows="2"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder={t('admin.products.form.ingredientsPlaceholder')}
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Ingredientes (Inglés)
                       </label>
                       <textarea
@@ -684,7 +684,7 @@ const { t, language } = useLanguage();
                         value={formData.ingredientsEn}
                         onChange={handleInputChange}
                         rows="2"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full px-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                         placeholder="English ingredients..."
                       />
                     </div>
@@ -693,10 +693,10 @@ const { t, language } = useLanguage();
 
                 <div className="lg:col-span-1">
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {t('admin.products.form.image')}
                     </label>
-                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                    <div className="border-2 border-dashed border-gray-300 dark:border-[#475569] rounded-lg p-4 text-center">
                       {imagePreview ? (
                         <div className="relative">
                           <img 
@@ -716,15 +716,15 @@ const { t, language } = useLanguage();
                         </div>
                       ) : (
                         <div className="py-12">
-                          <FiUpload className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                          <p className="text-gray-500 text-sm">{t('admin.products.form.dragImage')}</p>
+                          <FiUpload className="w-12 h-12 text-gray-400 dark:text-gray-500 mx-auto mb-3" />
+                          <p className="text-gray-500 dark:text-gray-400 text-sm">{t('admin.products.form.dragImage')}</p>
                         </div>
                       )}
                     </div>
                   </div>
 
                   <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       {t('admin.products.form.imageUrl')}
                     </label>
                     <input
@@ -732,16 +732,16 @@ const { t, language } = useLanguage();
                       name="image"
                       value={formData.image}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       placeholder={t('admin.products.form.imagePlaceholder')}
                     />
                   </div>
 
                   <div className="space-y-4">
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#0f172a] rounded-lg">
                       <div>
-                        <p className="font-medium text-gray-900">{t('admin.products.form.featured')}</p>
-                        <p className="text-sm text-gray-600">{t('admin.products.form.featuredHelp')}</p>
+                        <p className="font-medium text-gray-900 dark:text-gray-100">{t('admin.products.form.featured')}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.form.featuredHelp')}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -751,14 +751,14 @@ const { t, language } = useLanguage();
                           onChange={handleInputChange}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-[#334155] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-[#475569] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                       </label>
                     </div>
 
-                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-[#0f172a] rounded-lg">
                       <div>
-                        <p className="font-medium text-gray-900">{t('admin.products.form.active')}</p>
-                        <p className="text-sm text-gray-600">{t('admin.products.form.activeHelp')}</p>
+                        <p className="font-medium text-gray-900 dark:text-gray-100">{t('admin.products.form.active')}</p>
+                        <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.form.activeHelp')}</p>
                       </div>
                       <label className="relative inline-flex items-center cursor-pointer">
                         <input
@@ -768,17 +768,17 @@ const { t, language } = useLanguage();
                           onChange={handleInputChange}
                           className="sr-only peer"
                         />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
+                        <div className="w-11 h-6 bg-gray-200 dark:bg-[#334155] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 dark:after:border-[#475569] after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-600"></div>
                       </label>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
+              <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-[#334155]">
                 <button
                   onClick={() => setShowModal(false)}
-                  className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 font-medium"
+                  className="px-6 py-3 border border-gray-300 dark:border-[#475569] text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-[#334155] font-medium"
                 >
                   {t('admin.products.form.cancel')}
                 </button>
@@ -797,9 +797,9 @@ const { t, language } = useLanguage();
 
       <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center mb-8 gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{t('admin.products.title')}</h1>
-          <p className="text-gray-600">{t('admin.products.subtitle')}</p>
-          <p className="text-sm text-blue-600 mt-1">
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100">{t('admin.products.title')}</h1>
+          <p className="text-gray-600 dark:text-gray-400">{t('admin.products.subtitle')}</p>
+          <p className="text-sm text-blue-600 dark:text-blue-400 mt-1">
             {t('admin.products.syncHint')}
           </p>
         </div>
@@ -807,19 +807,19 @@ const { t, language } = useLanguage();
         <div className="flex flex-wrap gap-3">
           <button
             onClick={handleForceSync}
-            className="px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 flex items-center gap-2"
+            className="px-4 py-2 border border-blue-300 text-blue-700 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 flex items-center gap-2"
           >
             {t('admin.products.sync')}
           </button>
           <button
             onClick={handleExport}
-            className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2"
+            className="px-4 py-2 border border-gray-300 dark:border-[#475569] text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-[#334155] flex items-center gap-2"
           >
             {t('admin.products.export')}
           </button>
           <button
             onClick={handleRestoreDefaults}
-            className="px-4 py-2 border border-yellow-300 text-yellow-700 rounded-lg hover:bg-yellow-50 flex items-center gap-2"
+            className="px-4 py-2 border border-yellow-300 text-yellow-700 rounded-lg hover:bg-yellow-50 dark:hover:bg-yellow-900/20 flex items-center gap-2"
           >
             {t('admin.products.restore')}
           </button>
@@ -835,24 +835,24 @@ const { t, language } = useLanguage();
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <div className="lg:col-span-2">
           <div className="relative">
-            <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" />
+            <FiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
             <input
               type="text"
               placeholder={t('admin.products.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
         </div>
 
         <div>
           <div className="flex items-center gap-2">
-            <FiFilter className="text-gray-400" />
+            <FiFilter className="text-gray-400 dark:text-gray-500" />
             <select
               value={categoryFilter}
               onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              className="w-full px-4 py-3 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
             >
               <option value="all">{t('admin.products.allCategories')}</option>
               {categories.map(cat => (
@@ -864,51 +864,51 @@ const { t, language } = useLanguage();
       </div>
 
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
-        <div className="bg-gradient-to-br from-blue-50 to-white p-4 rounded-xl border border-blue-100">
+        <div className="bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-[#1e293b] p-4 rounded-xl border border-blue-100">
           <div className="text-center">
-            <p className="text-sm text-gray-600">{t('admin.products.statTotal')}</p>
-            <p className="text-2xl font-bold text-gray-900">{stats.totalProducts}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.statTotal')}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.totalProducts}</p>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-green-50 to-white p-4 rounded-xl border border-green-100">
+        <div className="bg-gradient-to-br from-green-50 to-white dark:from-green-900/20 dark:to-[#1e293b] p-4 rounded-xl border border-green-100">
           <div className="text-center">
-            <p className="text-sm text-gray-600">{t('admin.products.statTotalValue')}</p>
-            <p className="text-2xl font-bold text-gray-900">
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.statTotalValue')}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">
               Bs. {stats.totalValue.toFixed(0)}
             </p>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-yellow-50 to-white p-4 rounded-xl border border-yellow-100">
+        <div className="bg-gradient-to-br from-yellow-50 to-white dark:from-yellow-900/20 dark:to-[#1e293b] p-4 rounded-xl border border-yellow-100">
           <div className="text-center">
-            <p className="text-sm text-gray-600">{t('admin.products.statLowStock')}</p>
-            <p className={`text-2xl font-bold ${stats.lowStock > 0 ? 'text-yellow-600' : 'text-gray-900'}`}>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.statLowStock')}</p>
+            <p className={`text-2xl font-bold ${stats.lowStock > 0 ? 'text-yellow-600' : 'text-gray-900 dark:text-gray-100'}`}>
               {stats.lowStock}
             </p>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-red-50 to-white p-4 rounded-xl border border-red-100">
+        <div className="bg-gradient-to-br from-red-50 to-white dark:from-red-900/20 dark:to-[#1e293b] p-4 rounded-xl border border-red-100">
           <div className="text-center">
-            <p className="text-sm text-gray-600">{t('admin.products.statOutStock')}</p>
-            <p className={`text-2xl font-bold ${stats.outOfStock > 0 ? 'text-red-600' : 'text-gray-900'}`}>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.statOutStock')}</p>
+            <p className={`text-2xl font-bold ${stats.outOfStock > 0 ? 'text-red-600' : 'text-gray-900 dark:text-gray-100'}`}>
               {stats.outOfStock}
             </p>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-purple-50 to-white p-4 rounded-xl border border-purple-100">
+        <div className="bg-gradient-to-br from-purple-50 to-white dark:from-purple-900/20 dark:to-[#1e293b] p-4 rounded-xl border border-purple-100">
           <div className="text-center">
-            <p className="text-sm text-gray-600">{t('admin.products.statFeatured')}</p>
-            <p className="text-2xl font-bold text-gray-900">{stats.featuredProducts}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.statFeatured')}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.featuredProducts}</p>
           </div>
         </div>
         
-        <div className="bg-gradient-to-br from-gray-50 to-white p-4 rounded-xl border border-gray-100">
+        <div className="bg-gradient-to-br from-gray-50 to-white dark:from-gray-800/20 dark:to-[#1e293b] p-4 rounded-xl border border-gray-100 dark:border-[#334155]">
           <div className="text-center">
-            <p className="text-sm text-gray-600">{t('admin.products.statActive')}</p>
-            <p className="text-2xl font-bold text-gray-900">{stats.activeProducts}</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">{t('admin.products.statActive')}</p>
+            <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{stats.activeProducts}</p>
           </div>
         </div>
       </div>
@@ -916,20 +916,20 @@ const { t, language } = useLanguage();
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="animate-pulse bg-gray-200 h-48 w-full" />
+            <div key={i} className="bg-white dark:bg-[#1e293b] rounded-xl shadow-md overflow-hidden">
+              <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-48 w-full" />
               <div className="p-4 space-y-3">
-                <div className="animate-pulse bg-gray-200 h-5 w-3/4 rounded" />
-                <div className="animate-pulse bg-gray-200 h-4 w-1/2 rounded" />
+                <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-5 w-3/4 rounded" />
+                <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-1/2 rounded" />
                 <div className="flex gap-2">
-                  <div className="animate-pulse bg-gray-200 h-6 w-20 rounded-full" />
-                  <div className="animate-pulse bg-gray-200 h-6 w-16 rounded-full" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-6 w-20 rounded-full" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-6 w-16 rounded-full" />
                 </div>
                 <div className="flex justify-between items-center pt-2">
-                  <div className="animate-pulse bg-gray-200 h-6 w-20 rounded" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-6 w-20 rounded" />
                   <div className="flex gap-2">
-                    <div className="animate-pulse bg-gray-200 h-8 w-8 rounded" />
-                    <div className="animate-pulse bg-gray-200 h-8 w-8 rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-8 w-8 rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-8 w-8 rounded" />
                   </div>
                 </div>
               </div>
@@ -937,12 +937,12 @@ const { t, language } = useLanguage();
           ))}
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="bg-gradient-to-br from-blue-50 to-gray-100 rounded-2xl p-12 text-center border border-gray-200">
+        <div className="bg-gradient-to-br from-blue-50 to-gray-100 dark:from-blue-900/20 dark:to-[#0f172a] rounded-2xl p-12 text-center border border-gray-200 dark:border-[#334155]">
           <div className="w-24 h-24 mx-auto bg-gradient-to-br from-blue-100 to-pink-100 rounded-full flex items-center justify-center mb-6">
             <span className="text-4xl">🔍</span>
           </div>
-          <h3 className="text-2xl font-bold text-gray-900 mb-3">{t('admin.products.empty')}</h3>
-          <p className="text-gray-600 mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">{t('admin.products.empty')}</h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             {searchTerm || categoryFilter !== 'all' 
               ? `No hay productos que coincidan con "${searchTerm}"${categoryFilter !== 'all' ? ` en ${categoryFilter}` : ''}`
               : t('admin.products.emptyDesc')}
@@ -957,8 +957,8 @@ const { t, language } = useLanguage();
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {filteredProducts.map(product => (
-            <div key={product.id} className={`group bg-white rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${
-              !product.isActive ? 'opacity-60 border-gray-200' : 'border-gray-100'
+            <div key={product.id} className={`group bg-white dark:bg-[#1e293b] rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] border overflow-hidden transition-all duration-300 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] hover:-translate-y-0.5 ${
+              !product.isActive ? 'opacity-60 border-gray-200 dark:border-[#334155]' : 'border-gray-100 dark:border-[#334155]'
             }`}>
               <div className="relative">
                 <div className={`relative overflow-hidden ${
@@ -980,11 +980,11 @@ const { t, language } = useLanguage();
                   
                   <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                     {product.isFeatured && (
-                      <span className="backdrop-blur-md bg-yellow-400/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
+                      <span className="backdrop-blur-md bg-yellow-400/90 dark:bg-yellow-500/90 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1">
                         <FiStar className="fill-white" size={12} /> {t('admin.products.featured')}
                       </span>
                     )}
-                    <span className="backdrop-blur-md bg-white/80 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
+                    <span className="backdrop-blur-md bg-white/80 dark:bg-[#1e293b]/80 text-gray-800 dark:text-gray-200 text-xs font-semibold px-3 py-1 rounded-full shadow-sm">
                       {product.category}
                     </span>
                   </div>
@@ -994,7 +994,7 @@ const { t, language } = useLanguage();
                     className={`absolute top-3 right-3 p-1.5 rounded-full backdrop-blur-md transition-all duration-200 ${
                       product.isFeatured 
                         ? 'bg-yellow-400 text-white shadow-lg' 
-                        : 'bg-white/80 text-gray-400 hover:text-yellow-500 opacity-0 group-hover:opacity-100'
+                        : 'bg-white/80 dark:bg-[#1e293b]/80 text-gray-400 dark:text-gray-500 hover:text-yellow-500 opacity-0 group-hover:opacity-100'
                     }`}
                   >
                     <FiStar size={12} className={product.isFeatured ? 'fill-white' : ''} />
@@ -1006,36 +1006,36 @@ const { t, language } = useLanguage();
                 <div className="flex items-center justify-between mb-2">
                   <span className={`inline-flex items-center gap-1.5 text-xs font-medium px-2 py-0.5 rounded-full ${
                     product.isActive
-                      ? 'bg-emerald-50 text-emerald-700'
-                      : 'bg-gray-100 text-gray-500'
+                      ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-300'
+                      : 'bg-gray-100 dark:bg-[#334155] text-gray-500 dark:text-gray-400'
                   }`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${
                       product.isActive ? 'bg-emerald-500' : 'bg-gray-400'
                     }`} />
                     {product.isActive ? t('admin.products.status.active') : t('admin.products.status.inactive')}
                   </span>
-                  <span className="text-xs font-medium text-gray-400">
+                  <span className="text-xs font-medium text-gray-400 dark:text-gray-500">
                     {t('admin.products.inStock', { stock: product.stock })}
                   </span>
                 </div>
 
                 <div className="flex justify-between items-start mb-1.5">
-                  <h3 className="font-semibold text-base text-gray-900 truncate pr-2">{product.name}</h3>
-                  <span className="text-lg font-bold text-blue-600 whitespace-nowrap tabular-nums">
+                  <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100 truncate pr-2">{product.name}</h3>
+                  <span className="text-lg font-bold text-blue-600 dark:text-blue-400 whitespace-nowrap tabular-nums">
                     Bs.{product.price.toFixed(2)}
                   </span>
                 </div>
                 
                 {product.ingredients && (
-                  <p className="text-sm text-gray-400 mb-3 line-clamp-1 leading-relaxed">
+                  <p className="text-sm text-gray-400 dark:text-gray-500 mb-3 line-clamp-1 leading-relaxed">
                     {language === 'es' || !product.ingredientsEn ? product.ingredients : product.ingredientsEn}
                   </p>
                 )}
                 
-                <div className="mb-3 py-2 px-2.5 bg-gradient-to-r from-gray-50 to-gray-50/50 rounded-lg border border-gray-100/50">
+                <div className="mb-3 py-2 px-2.5 bg-gradient-to-r from-gray-50 to-gray-50/50 dark:from-[#0f172a] dark:to-[#0f172a]/50 rounded-lg border border-gray-100/50 dark:border-[#334155]/50">
                   <div className="flex justify-between items-center text-xs">
-                    <span className="text-gray-500">{t('admin.products.stockValue')}</span>
-                    <span className="font-semibold text-gray-800 tabular-nums">
+                    <span className="text-gray-500 dark:text-gray-400">{t('admin.products.stockValue')}</span>
+                    <span className="font-semibold text-gray-800 dark:text-gray-200 tabular-nums">
                       Bs.{(product.price * product.stock).toFixed(2)}
                     </span>
                   </div>
@@ -1044,7 +1044,7 @@ const { t, language } = useLanguage();
                 <div className="flex gap-1.5">
                   <button
                     onClick={() => handleEditProduct(product)}
-                    className="flex-1 py-2.5 text-sm bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 hover:text-blue-700 font-medium transition-colors duration-200"
+                    className="flex-1 py-2.5 text-sm bg-blue-50 text-blue-600 dark:text-blue-400 rounded-xl hover:bg-blue-100 hover:text-blue-700 font-medium transition-colors duration-200"
                   >
                     <FiEdit2 className="inline mr-1" size={13} /> {t('admin.products.editBtn')}
                   </button>
@@ -1052,7 +1052,7 @@ const { t, language } = useLanguage();
                     onClick={() => toggleProductStatus(product.id)}
                     className={`px-4 py-2.5 text-sm rounded-xl font-medium transition-all duration-200 ${
                       product.isActive
-                        ? 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        ? 'bg-gray-100 dark:bg-[#334155] text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-[#475569]'
                         : 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                     }`}
                   >
@@ -1060,7 +1060,7 @@ const { t, language } = useLanguage();
                   </button>
                   <button
                     onClick={() => handleDeleteProduct(product.id)}
-                    className="px-4 py-2.5 text-sm bg-red-50 text-red-500 rounded-xl hover:bg-red-100 hover:text-red-600 transition-all duration-200"
+                    className="px-4 py-2.5 text-sm bg-red-50 text-red-500 dark:text-red-400 rounded-xl hover:bg-red-100 hover:text-red-600 transition-all duration-200"
                   >
                     <FiTrash2 size={13} />
                   </button>
@@ -1071,7 +1071,7 @@ const { t, language } = useLanguage();
         </div>
       )}
 
-      <div className="mt-8 text-center text-gray-500 text-sm">
+      <div className="mt-8 text-center text-gray-500 dark:text-gray-400 text-sm">
         <p>
           {t('admin.products.footer', { shown: filteredProducts.length, total: products.length })}
         </p>

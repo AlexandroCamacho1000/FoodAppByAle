@@ -54,7 +54,7 @@ export default function Menu() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0f172a] dark:to-[#0f172a] pt-20 pb-16">
       <div className="container mx-auto px-4">
         
         {/* Header */}
@@ -64,14 +64,14 @@ export default function Menu() {
               {t('menu.title')}
             </span>
           </h1>
-          <p className="animate-fadeIn text-lg text-slate-600 max-w-2xl mx-auto" style={{ animationDelay: '0.15s' }}>
+          <p className="animate-fadeIn text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto" style={{ animationDelay: '0.15s' }}>
             {t('menu.description')}
           </p>
         </div>
 
         {/* Filtros por categoría */}
         <div className="animate-fadeIn mb-10" style={{ animationDelay: '0.1s' }}>
-          <h2 className="text-xl font-semibold text-slate-800 mb-4">
+          <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-200 mb-4">
             {t('menu.filterByCategory')}
           </h2>
           <div className="flex flex-wrap gap-3">
@@ -85,7 +85,7 @@ export default function Menu() {
                 className={`px-5 py-2.5 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 ${
                   selectedCategory === cat.id
                     ? 'bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg shadow-blue-500/25'
-                    : 'bg-white border-2 border-slate-200 text-slate-700 hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10'
+                    : 'bg-white dark:bg-[#1e293b] border-2 border-slate-200 dark:border-[#334155] text-slate-700 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10'
                 }`}
                 style={{ animationDelay: `${i * 0.05}s` }}
               >
@@ -94,7 +94,7 @@ export default function Menu() {
                   <span className={`text-xs ml-1.5 px-2 py-0.5 rounded-full transition-colors ${
                     selectedCategory === cat.id
                       ? 'bg-white/20 text-white'
-                      : 'bg-slate-100 text-slate-600'
+                      : 'bg-slate-100 dark:bg-[#334155] text-slate-600 dark:text-slate-400'
                   }`}>
                     {cat.count}
                   </span>
@@ -108,18 +108,18 @@ export default function Menu() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {Array.from({ length: 8 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden">
-                <div className="animate-pulse bg-gray-200 h-48 w-full" />
+              <div key={i} className="bg-white dark:bg-[#1e293b] rounded-xl shadow-md dark:shadow-black/20 overflow-hidden">
+                <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-48 w-full" />
                 <div className="p-4 space-y-3">
-                  <div className="animate-pulse bg-gray-200 h-5 w-3/4 rounded" />
-                  <div className="animate-pulse bg-gray-200 h-4 w-1/2 rounded" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-5 w-3/4 rounded" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-1/2 rounded" />
                   <div className="space-y-2">
-                    <div className="animate-pulse bg-gray-200 h-4 w-full rounded" />
-                    <div className="animate-pulse bg-gray-200 h-4 w-2/3 rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-full rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-2/3 rounded" />
                   </div>
                   <div className="flex justify-between items-center pt-2">
-                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded" />
-                    <div className="animate-pulse bg-gray-200 h-10 w-28 rounded-lg" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-6 w-20 rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-10 w-28 rounded-lg" />
                   </div>
                 </div>
               </div>
@@ -129,7 +129,7 @@ export default function Menu() {
           <>
             {selectedCategory !== 'all' && (
               <div className="animate-fadeIn mb-6">
-                <h2 className="text-2xl font-bold text-slate-800">
+                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200">
                   {t('menu.categoryLabel')}: {categories.find(c => c.id === selectedCategory)?.name}
                   <span className="text-blue-500 ml-2">
                     ({filteredProducts.length} {t('menu.products')})
@@ -140,7 +140,7 @@ export default function Menu() {
 
             {filteredProducts.length > 0 ? (
               <div>
-                <p className="animate-fadeIn text-sm text-slate-500 mb-4">
+                <p className="animate-fadeIn text-sm text-slate-500 dark:text-slate-400 mb-4">
                   {t('menu.showingPage', { current: currentPage, total: totalPages, count: filteredProducts.length })}
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -154,10 +154,10 @@ export default function Menu() {
             ) : (
               <div className="animate-fadeIn text-center py-16">
                 <div className="animate-float text-6xl mb-4">🍽️</div>
-                <h3 className="text-2xl font-bold text-slate-700 mb-2">
+                <h3 className="text-2xl font-bold text-slate-700 dark:text-slate-300 mb-2">
                   {t('menu.noProducts')}
                 </h3>
-                <p className="text-slate-500 mb-6">
+                <p className="text-slate-500 dark:text-slate-400 mb-6">
                   {t('menu.tryAnother')}
                 </p>
                 <button
@@ -191,7 +191,7 @@ export default function Menu() {
                 className={`w-10 h-10 rounded-xl font-semibold transition-all duration-200 hover:scale-105 active:scale-95 ${
                   currentPage === i + 1
                     ? 'bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg shadow-blue-500/25 scale-105'
-                    : 'bg-white border-2 border-slate-200 text-slate-700 hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10'
+                    : 'bg-white dark:bg-[#1e293b] border-2 border-slate-200 dark:border-[#334155] text-slate-700 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600 dark:hover:text-blue-400 hover:shadow-md hover:shadow-blue-500/10'
                 }`}
               >
                 {i + 1}

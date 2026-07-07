@@ -1,9 +1,38 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8fafc;
+  --color-surface-muted: #f1f5f9;
+  --color-text: #0f172a;
+  --color-text-secondary: #475569;
+  --color-muted: #64748b;
+  --color-border: #e2e8f0;
+}
+
 html {
   scroll-behavior: smooth;
   font-family: 'Inter', sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.dark {
+  --color-surface: #0f172a;
+  --color-surface-alt: #1e293b;
+  --color-surface-muted: #334155;
+  --color-text: #f1f5f9;
+  --color-text-secondary: #cbd5e1;
+  --color-muted: #94a3b8;
+  --color-border: #334155;
+}
+
+body {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
 }
 
 @media (max-width: 640px) {

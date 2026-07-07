@@ -1,110 +1,160 @@
-// frontend/src/services/cartService.js - VERSIÓN BACKEND REAL (SIN LOCALSTORAGE)
+// frontend/src/services/cartService.js - CON SOPORTE LOCALSTORAGE
 
 import api from './api';
 
-// ========== VERIFICAR AUTENTICACIÓN ==========
-const checkAuth = () => {
-  const token = localStorage.getItem('token');
-  if (!token) {
-    throw new Error('No hay token de autenticación');
-  }
-  return token;
-};
+const CART_KEY = 'cart_items';
 
-// ========== TRANSFORMAR ITEM DEL BACKEND ==========
-const transformBackendItem = (item) => {
-  return {
-    id: item.productId,
-    productId: item.productId,
-    name: item.name || item.product?.name || 'Producto',
-    price: parseFloat(item.price || item.product?.price || 0),
-    image: item.image || item.product?.image || '/images/placeholder.jpg',
-    quantity: item.quantity,
-    description: item.product?.description || '',
-    category: item.product?.category || '',
-    addedAt: item.addedAt || new Date().toISOString()
-  };
-};
-
-// ========== OBTENER CARRITO (SOLO BACKEND) ==========
-export const getCart = async () => {
+const getLocalCart = () => {
   try {
-    checkAuth();
+    const stored = localStorage.getItem(CART_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+const saveLocalCart = (items) => {
+  localStorage.setItem(CART_KEY, JSON.stringify(items));
+};
+
+const transformBackendItem = (item) => ({
+  id: item.productId,
+  productId: item.productId,
+  name: item.name || item.product?.name || 'Producto',
+  price: parseFloat(item.price || item.product?.price || 0),
+  image: item.image || item.product?.image || '/images/placeholder.jpg',
+  quantity: item.quantity,
+  description: item.product?.description || '',
+  category: item.product?.category || '',
+  addedAt: item.addedAt || new Date().toISOString()
+});
+
+export const getCart = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) return getLocalCart();
+  try {
     const response = await api.get('/cart');
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
-  } catch (error) {
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-    }
-    throw error;
+  } catch {
+    return getLocalCart();
   }
 };
 
-// ========== AGREGAR AL CARRITO (SOLO BACKEND) ==========
 export const addToCart = async (product, quantity = 1) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    const items = getLocalCart();
+    const existing = items.find(i => String(i.id) === String(product.id));
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      items.push({
+        id: product.id,
+        productId: product.id,
+        name: product.name || 'Producto',
+        price: parseFloat(product.price || 0),
+        image: product.image || '/images/placeholder.jpg',
+        quantity,
+        description: product.description || '',
+        category: product.category || '',
+        addedAt: new Date().toISOString()
+      });
+    }
+    saveLocalCart(items);
+    return items;
+  }
   try {
-    checkAuth();
-    const response = await api.post('/cart/add', {
-      productId: product.id,
-      quantity: quantity
-    });
+    const response = await api.post('/cart/add', { productId: product.id, quantity });
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
-  } catch (error) {
-    throw error;
+  } catch {
+    const items = getLocalCart();
+    const existing = items.find(i => String(i.id) === String(product.id));
+    if (existing) {
+      existing.quantity += quantity;
+    } else {
+      items.push({
+        id: product.id,
+        productId: product.id,
+        name: product.name || 'Producto',
+        price: parseFloat(product.price || 0),
+        image: product.image || '/images/placeholder.jpg',
+        quantity,
+        description: product.description || '',
+        category: product.category || '',
+        addedAt: new Date().toISOString()
+      });
+    }
+    saveLocalCart(items);
+    return items;
   }
 };
 
-// ========== ELIMINAR DEL CARRITO (SOLO BACKEND) ==========
 export const removeFromCart = async (productId) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    const items = getLocalCart().filter(i => String(i.id) !== String(productId));
+    saveLocalCart(items);
+    return items;
+  }
   try {
-    checkAuth();
     const response = await api.delete(`/cart/item/${productId}`);
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
-  } catch (error) {
-    throw error;
+  } catch {
+    const items = getLocalCart().filter(i => String(i.id) !== String(productId));
+    saveLocalCart(items);
+    return items;
   }
 };
 
-// ========== ACTUALIZAR CANTIDAD (SOLO BACKEND) ==========
 export const updateCartItemQuantity = async (productId, quantity) => {
-  if (quantity < 1) {
-    return removeFromCart(productId);
+  if (quantity < 1) return removeFromCart(productId);
+  const token = localStorage.getItem('token');
+  if (!token) {
+    const items = getLocalCart().map(i =>
+      String(i.id) === String(productId) ? { ...i, quantity } : i
+    );
+    saveLocalCart(items);
+    return items;
   }
   try {
-    checkAuth();
-    const response = await api.put(`/cart/item/${productId}`, {
-      quantity: quantity
-    });
+    const response = await api.put(`/cart/item/${productId}`, { quantity });
     if (response.data?.cart?.items) {
       return response.data.cart.items.map(transformBackendItem);
     }
     return [];
-  } catch (error) {
-    throw error;
+  } catch {
+    const items = getLocalCart().map(i =>
+      String(i.id) === String(productId) ? { ...i, quantity } : i
+    );
+    saveLocalCart(items);
+    return items;
   }
 };
 
-// ========== VACIAR CARRITO (SOLO BACKEND) ==========
 export const clearCart = async () => {
-  try {
-    checkAuth();
-    const response = await api.delete('/cart/clear');
+  const token = localStorage.getItem('token');
+  if (!token) {
+    saveLocalCart([]);
     return [];
-  } catch (error) {
-    throw error;
+  }
+  try {
+    await api.delete('/cart/clear');
+    return [];
+  } catch {
+    saveLocalCart([]);
+    return [];
   }
 };
 
-// ========== FUNCIONES DE CÁLCULO (PUROS) ==========
 export const calculateCartTotal = (cart) => {
   return cart.reduce((total, item) => total + (Number(item.price) * Number(item.quantity)), 0);
 };
@@ -119,12 +169,12 @@ export const calculateShipping = (cart, subtotal) => {
 };
 
 export const calculateTax = (subtotal) => subtotal * 0.13;
+
 export const calculateGrandTotal = (cart) => {
   const subtotal = calculateCartTotal(cart);
   return subtotal + calculateShipping(cart, subtotal) + calculateTax(subtotal);
 };
 
-// ========== UTILIDADES ==========
 export const isProductInCart = (cart, productId) => {
   return cart.some(item => String(item.id) === String(productId));
 };
@@ -134,20 +184,10 @@ export const getProductQuantity = (cart, productId) => {
   return item ? Number(item.quantity) : 0;
 };
 
-// ========== EXPORTACIÓN ==========
 const cartService = {
-  getCart,
-  addToCart,
-  removeFromCart,
-  updateCartItemQuantity,
-  clearCart,
-  calculateCartTotal,
-  getCartItemCount,
-  calculateShipping,
-  calculateTax,
-  calculateGrandTotal,
-  isProductInCart,
-  getProductQuantity
+  getCart, addToCart, removeFromCart, updateCartItemQuantity, clearCart,
+  calculateCartTotal, getCartItemCount, calculateShipping, calculateTax,
+  calculateGrandTotal, isProductInCart, getProductQuantity
 };
 
 export default cartService;

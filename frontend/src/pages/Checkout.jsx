@@ -98,7 +98,7 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="p-4 border border-slate-300 rounded-lg bg-white">
+      <div className="p-4 border border-slate-300 rounded-lg bg-white dark:bg-[#1e293b]">
         <label className="block text-sm font-medium text-slate-700 mb-3">
           {t('checkout.cardInfo')}
         </label>
@@ -397,22 +397,22 @@ const Checkout = () => {
     : [];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0f172a] dark:to-[#0f172a] pt-20 pb-16">
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto mb-8">
           <button
             onClick={handlePrevStep}
-            className="flex items-center gap-2 text-slate-600 hover:text-blue-600 mb-6"
+            className="flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-blue-600 mb-6"
           >
             ← {t('checkout.backToCart')}
           </button>
           
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-gray-100 mb-2">
             {step === 1 ? t('checkout.step.shipping') : 
              step === 2 ? t('checkout.step.payment') : 
              t('checkout.step.review')}
           </h1>
-          <p className="text-slate-600">
+          <p className="text-slate-600 dark:text-slate-400">
             {step === 1 ? t('checkout.desc.shipping') : 
              step === 2 ? t('checkout.desc.payment') : 
              t('checkout.desc.review')}
@@ -434,7 +434,7 @@ const Checkout = () => {
                     <span className="font-bold">{stepNumber}</span>
                   )}
                 </div>
-                <span className="text-sm font-medium text-slate-700">
+                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
                   {stepNumber === 1 ? t('checkout.stepper.shipping') : 
                    stepNumber === 2 ? t('checkout.stepper.payment') : 
                    t('checkout.stepper.review')}
@@ -453,14 +453,14 @@ const Checkout = () => {
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {step === 1 && (
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-                <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-8 border border-slate-200 dark:border-[#334155]">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                   {t('checkout.section.shipping')}
                 </h2>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t('checkout.nameLabel')}
                     </label>
                     <input
@@ -479,7 +479,7 @@ const Checkout = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t('checkout.emailLabel')}
                     </label>
                     <input
@@ -498,7 +498,7 @@ const Checkout = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t('checkout.phoneLabel')}
                     </label>
                     <input
@@ -565,7 +565,7 @@ const Checkout = () => {
                   </div>
                   
                   <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700">
+                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t('checkout.addressLabel')}
                     </label>
                     <input
@@ -601,8 +601,8 @@ const Checkout = () => {
             )}
             
             {step === 2 && (
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-                <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-8 border border-slate-200 dark:border-[#334155]">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                   {t('checkout.section.payment')}
                 </h2>
                 
@@ -620,13 +620,13 @@ const Checkout = () => {
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
-                          paymentMethod === 'cash' ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-600'
+                          paymentMethod === 'cash' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300' : 'bg-slate-100 dark:bg-[#334155] text-slate-600 dark:text-slate-400'
                         }`}>
                           💵
                         </div>
                         <div>
-                          <h3 className="font-bold text-lg text-slate-900">{t('checkout.payment.cash')}</h3>
-                          <p className="text-slate-600">{t('checkout.payment.cashDesc')}</p>
+                          <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100">{t('checkout.payment.cash')}</h3>
+                          <p className="text-slate-600 dark:text-slate-400">{t('checkout.payment.cashDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'cash' && (
@@ -655,8 +655,8 @@ const Checkout = () => {
                           📱
                         </div>
                         <div>
-                          <h3 className="font-bold text-lg text-slate-900">{t('checkout.payment.qr')}</h3>
-                          <p className="text-slate-600">{t('checkout.payment.qrDesc')}</p>
+                          <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100">{t('checkout.payment.qr')}</h3>
+                          <p className="text-slate-600 dark:text-slate-400">{t('checkout.payment.qrDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'qr' && (
@@ -667,7 +667,7 @@ const Checkout = () => {
                     </div>
                     
                     {paymentMethod === 'qr' && (
-                      <div className="mt-6 p-4 bg-white border border-slate-300 rounded-lg text-center">
+                      <div className="mt-6 p-4 bg-white dark:bg-[#1e293b] border border-slate-300 dark:border-[#334155] rounded-lg text-center">
                         <p className="text-sm text-slate-600 mb-3">{t('checkout.payment.qrInstruction')}</p>
                         <div className="w-48 h-48 mx-auto bg-gradient-to-br from-blue-100 to-fuchsia-100 flex items-center justify-center rounded-lg">
                           <div className="text-center">
@@ -699,8 +699,8 @@ const Checkout = () => {
                           💳
                         </div>
                         <div>
-                          <h3 className="font-bold text-lg text-slate-900">{t('checkout.payment.card')}</h3>
-                          <p className="text-slate-600">{t('checkout.payment.cardDesc')}</p>
+                          <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100">{t('checkout.payment.card')}</h3>
+                          <p className="text-slate-600 dark:text-slate-400">{t('checkout.payment.cardDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'card' && (
@@ -747,42 +747,42 @@ const Checkout = () => {
             )}
             
             {step === 3 && (
-              <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-                <h2 className="text-2xl font-bold text-slate-900 mb-6">
+              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-8 border border-slate-200 dark:border-[#334155]">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                   {t('checkout.section.review')}
                 </h2>
                 
                 <div className="space-y-6">
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.deliveryInfo')}</h3>
-                    <div className="p-4 bg-slate-50 rounded-lg">
-                      <p className="font-medium text-slate-900">{formData.fullName}</p>
-                      <p className="text-slate-600">{formData.address}</p>
-                      <p className="text-slate-600">{formData.city}, {departments.find(d => d.value === formData.department)?.label || formData.department}</p>
-                      <p className="text-slate-600">{formData.phone}</p>
-                      <p className="text-slate-600">{formData.email}</p>
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100 mb-3">{t('checkout.deliveryInfo')}</h3>
+                    <div className="p-4 bg-slate-50 dark:bg-[#0f172a] rounded-lg">
+                      <p className="font-medium text-slate-900 dark:text-gray-100">{formData.fullName}</p>
+                      <p className="text-slate-600 dark:text-slate-400">{formData.address}</p>
+                      <p className="text-slate-600 dark:text-slate-400">{formData.city}, {departments.find(d => d.value === formData.department)?.label || formData.department}</p>
+                      <p className="text-slate-600 dark:text-slate-400">{formData.phone}</p>
+                      <p className="text-slate-600 dark:text-slate-400">{formData.email}</p>
                     </div>
                   </div>
                   
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.products')}</h3>
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100 mb-3">{t('checkout.products')}</h3>
                     <div className="space-y-3">
                       {cart.map(item => (
-                        <div key={item.id} className="flex justify-between items-center p-3 bg-slate-50 rounded-lg">
+                        <div key={item.id} className="flex justify-between items-center p-3 bg-slate-50 dark:bg-[#0f172a] rounded-lg">
                           <div>
-                            <p className="font-medium text-slate-900">{item.name}</p>
-                            <p className="text-sm text-slate-500">{t('checkout.quantity', { quantity: item.quantity })}</p>
+                            <p className="font-medium text-slate-900 dark:text-gray-100">{item.name}</p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">{t('checkout.quantity', { quantity: item.quantity })}</p>
                           </div>
-                          <div className="text-slate-900 font-medium">
-                            Bs. {((item.price || 0) * item.quantity).toFixed(2)}
-                          </div>
+                    <div className="text-slate-900 dark:text-gray-100 font-medium">
+                      Bs. {(item.price * item.quantity).toFixed(2)}
+                    </div>
                         </div>
                       ))}
                     </div>
                   </div>
                   
                   <div>
-                    <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.paymentMethod')}</h3>
+                    <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100 mb-3">{t('checkout.paymentMethod')}</h3>
                     <div className="p-4 bg-slate-50 rounded-lg flex items-center gap-3">
                       {paymentMethod === 'cash' ? (
                         <>
@@ -812,9 +812,9 @@ const Checkout = () => {
                   
                   {formData.notes && (
                     <div>
-                      <h3 className="font-bold text-lg text-slate-900 mb-3">{t('checkout.instructions')}</h3>
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100 mb-3">{t('checkout.instructions')}</h3>
                       <div className="p-4 bg-slate-50 rounded-lg">
-                        <p className="text-slate-600">{formData.notes}</p>
+                        <p className="text-slate-600 dark:text-slate-400">{formData.notes}</p>
                       </div>
                     </div>
                   )}
@@ -824,20 +824,20 @@ const Checkout = () => {
           </div>
           
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-2xl shadow-xl p-6 border border-slate-200 sticky top-24">
-              <h2 className="text-xl font-bold text-slate-900 mb-6">{t('checkout.yourOrder')}</h2>
+            <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-6 border border-slate-200 dark:border-[#334155] sticky top-24">
+              <h2 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-6">{t('checkout.yourOrder')}</h2>
               
               <div className="space-y-4 mb-6">
                 {cart.map(item => (
                   <div key={item.id} className="flex justify-between items-start">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-1">
-                        <span className="text-slate-900 font-medium">{item.name}</span>
-                        <span className="text-xs bg-slate-100 text-slate-600 px-2 py-1 rounded">
+                        <span className="text-slate-900 dark:text-gray-100 font-medium">{item.name}</span>
+                        <span className="text-xs bg-slate-100 dark:bg-[#334155] text-slate-600 dark:text-slate-400 px-2 py-1 rounded">
                           x{item.quantity}
                         </span>
                       </div>
-                      <p className="text-sm text-slate-500">Bs. {item.price?.toFixed(2) || '0.00'} c/u</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400">Bs. {item.price?.toFixed(2) || '0.00'} c/u</p>
                     </div>
                     <div className="text-slate-900 font-medium">
                       Bs. {((item.price || 0) * item.quantity).toFixed(2)}
@@ -847,19 +847,19 @@ const Checkout = () => {
               </div>
               
               <div className="space-y-3 border-t border-slate-200 pt-4">
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-slate-600 dark:text-slate-400">
                   <span>{t('cart.subtotal')}</span>
                   <span>Bs. {subtotal.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-slate-600 dark:text-slate-400">
                   <span>{t('cart.shipping')}</span>
                   <span>Bs. {shipping.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-slate-600 dark:text-slate-400">
                   <span>{t('cart.tax')}</span>
                   <span>Bs. {tax.toFixed(2)}</span>
                 </div>
-                <div className="flex justify-between text-lg font-bold text-slate-900 pt-3 border-t border-slate-200">
+                <div className="flex justify-between text-lg font-bold text-slate-900 dark:text-gray-100 pt-3 border-t border-slate-200 dark:border-[#334155]">
                   <span>{t('cart.total')}</span>
                   <span className="text-blue-600">Bs. {total.toFixed(2)}</span>
                 </div>
@@ -897,7 +897,7 @@ const Checkout = () => {
               </button>
               
               <div className="mt-6 pt-6 border-t border-slate-200">
-                <div className="flex items-center gap-3 text-sm text-slate-600">
+                <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
                   <span className="text-green-600">🛡️</span>
                   <p>{t('checkout.privacy')}</p>
                 </div>

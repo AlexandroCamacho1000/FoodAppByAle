@@ -1,6 +1,6 @@
 // frontend/src/components/ui/Skeleton.jsx
 const SkeletonBox = ({ className = '' }) => (
-  <div className={`animate-pulse bg-gray-200 rounded ${className}`} />
+  <div className={`animate-pulse bg-gray-200 dark:bg-[#334155] rounded ${className}`} />
 );
 
 const SkeletonText = ({ lines = 3, className = '' }) => (
@@ -8,7 +8,7 @@ const SkeletonText = ({ lines = 3, className = '' }) => (
     {Array.from({ length: lines }).map((_, i) => (
       <div
         key={i}
-        className={`animate-pulse bg-gray-200 rounded h-4 ${
+        className={`animate-pulse bg-gray-200 dark:bg-[#334155] rounded h-4 ${
           i === lines - 1 ? 'w-3/4' : 'w-full'
         }`}
       />
@@ -17,7 +17,7 @@ const SkeletonText = ({ lines = 3, className = '' }) => (
 );
 
 const SkeletonCard = () => (
-  <div className="bg-white rounded-xl shadow-md overflow-hidden">
+  <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-md overflow-hidden">
     <SkeletonBox className="h-48 w-full rounded-none" />
     <div className="p-4 space-y-3">
       <SkeletonBox className="h-5 w-3/4" />
@@ -43,8 +43,8 @@ const SkeletonTableRow = ({ columns = 5 }) => (
 
 const SkeletonTable = ({ rows = 5, columns = 5 }) => (
   <div className="overflow-x-auto">
-    <table className="min-w-full divide-y divide-gray-200">
-      <thead className="bg-gray-50">
+    <table className="min-w-full divide-y divide-gray-200 dark:divide-[#334155]">
+      <thead className="bg-gray-50 dark:bg-[#0f172a]">
         <tr>
           {Array.from({ length: columns }).map((_, i) => (
             <th key={i} className="px-4 py-3">
@@ -53,7 +53,7 @@ const SkeletonTable = ({ rows = 5, columns = 5 }) => (
           ))}
         </tr>
       </thead>
-      <tbody className="bg-white divide-y divide-gray-200">
+      <tbody className="bg-white dark:bg-[#1e293b] divide-y divide-gray-200 dark:divide-[#334155]">
         {Array.from({ length: rows }).map((_, i) => (
           <SkeletonTableRow key={i} columns={columns} />
         ))}

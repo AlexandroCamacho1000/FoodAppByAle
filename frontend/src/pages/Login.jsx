@@ -59,12 +59,12 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4">
+    <div className="min-h-[70vh] bg-gray-50 dark:bg-[#0f172a] flex items-center justify-center px-4">
       <div className="max-w-md w-full">
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-[#E2E8F0]">
+        <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-[#334155]">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-[#1E293B] mb-2">{t('login.title')}</h1>
-            <p className="text-[#64748B]">{t('login.subtitle')}</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t('login.title')}</h1>
+            <p className="text-gray-500 dark:text-gray-400">{t('login.subtitle')}</p>
           </div>
           
           <form onSubmit={handleSubmit} className="space-y-6">
@@ -75,28 +75,28 @@ export default function Login() {
             )}
             
             <div>
-              <label className="block text-sm font-medium text-[#475569] mb-2">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                 {t('login.email')}
               </label>
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full p-3 border border-gray-300 dark:border-[#475569] rounded-lg dark:bg-[#0f172a] dark:text-gray-100 focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
                 placeholder={t('login.emailPlaceholder')}
                 required
               />
             </div>
             
             <div>
-              <label className="block text-sm font-medium text-[#475569] mb-2">
+              <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
                 {t('login.password')}
               </label>
               <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full p-3 border border-[#CBD5E1] rounded-lg focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
+                className="w-full p-3 border border-gray-300 dark:border-[#475569] rounded-lg dark:bg-[#0f172a] dark:text-gray-100 focus:ring-2 focus:ring-[#2563EB] focus:border-transparent"
                 placeholder={t('login.passwordPlaceholder')}
                 required
               />
@@ -111,7 +111,7 @@ export default function Login() {
             </button>
           </form>
           <div className="mt-6 space-y-2">
-            <p className="text-sm text-center text-[#64748B]">{t('login.quickTest')}</p>
+            <p className="text-sm text-center text-gray-500 dark:text-gray-400">{t('login.quickTest')}</p>
             <div className="flex gap-2">
               <button
                 type="button"
@@ -131,21 +131,21 @@ export default function Login() {
           </div>
           
           <div className="mt-8 text-center">
-            <p className="text-[#64748B]">
+            <p className="text-gray-500 dark:text-gray-400">
               {t('login.noAccount')}{' '}
-              <Link to="/register" className="text-[#2563EB] font-medium hover:underline">
+              <Link to="/register" className="text-blue-600 dark:text-blue-400 font-medium hover:underline">
                 {t('login.registerLink')}
               </Link>
             </p>
           </div>
       
-          <details className="mt-8 p-4 bg-[#F8FAFC] rounded-lg border border-[#E2E8F0] cursor-pointer">
-            <summary className="text-sm font-medium text-[#475569]">{t('login.credentialsTitle')}</summary>
+          <details className="mt-8 p-4 bg-gray-50 dark:bg-[#0f172a] rounded-lg border border-gray-200 dark:border-[#334155] cursor-pointer">
+            <summary className="text-sm font-medium text-gray-600 dark:text-gray-400">{t('login.credentialsTitle')}</summary>
             <div className="mt-3 space-y-1">
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 • Cliente: <span className="font-mono">cliente@test.com</span> / <span className="font-mono">cliente123</span>
               </p>
-              <p className="text-xs text-[#64748B]">
+              <p className="text-xs text-gray-500 dark:text-gray-400">
                 • Superadmin: <span className="font-mono">superadmin@bolivianmarket.com</span> / <span className="font-mono">superadmin123</span>
               </p>
               <p className="text-xs text-green-600 mt-1">✓ {t('login.credentialsReal')}</p>

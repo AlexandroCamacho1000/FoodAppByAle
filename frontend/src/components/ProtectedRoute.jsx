@@ -26,11 +26,11 @@ export const ProtectedRoute = ({
 
   if (requireSuperadmin && !isSuperadmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0f172a]">
+        <div className="text-center p-8 bg-white dark:bg-[#1e293b] rounded-lg shadow-md max-w-md">
           <div className="text-red-500 text-5xl mb-4">🔒</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('protected.restrictedTitle')}</h1>
-          <p className="text-gray-600 mb-4">{t('protected.restrictedDesc')}</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t('protected.restrictedTitle')}</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{t('protected.restrictedDesc')}</p>
           <button
             onClick={() => window.history.back()}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
@@ -44,11 +44,11 @@ export const ProtectedRoute = ({
 
   if (requireAdmin && !isAdmin && !isSuperadmin) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-center p-8 bg-white rounded-lg shadow-md max-w-md">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-[#0f172a]">
+        <div className="text-center p-8 bg-white dark:bg-[#1e293b] rounded-lg shadow-md max-w-md">
           <div className="text-yellow-500 text-5xl mb-4">⚠️</div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('protected.deniedTitle')}</h1>
-          <p className="text-gray-600 mb-4">{t('protected.deniedDesc')}</p>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t('protected.deniedTitle')}</h1>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">{t('protected.deniedDesc')}</p>
           <button
             onClick={() => window.history.back()}
             className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"

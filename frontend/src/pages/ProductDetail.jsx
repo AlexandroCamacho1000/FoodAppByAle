@@ -132,7 +132,7 @@ const ProductDetail = () => {
                 <div className="animate-pulse bg-gray-200 h-12 w-36 rounded-lg" />
                 <div className="animate-pulse bg-gray-200 h-12 flex-1 rounded-lg" />
               </div>
-              <div className="flex gap-6 pt-4 border-t border-gray-200">
+              <div className="flex gap-6 pt-4 border-t border-gray-200 dark:border-[#334155]">
                 <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
                 <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
                 <div className="animate-pulse bg-gray-200 h-8 w-24 rounded" />
@@ -150,10 +150,10 @@ const ProductDetail = () => {
         <div className="container mx-auto px-4">
           <div className="max-w-md mx-auto text-center py-16">
             <FiAlertCircle className="text-6xl text-red-400 mx-auto mb-4" />
-            <h2 className="text-2xl font-bold text-slate-800 mb-4">
+            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-200 mb-4">
               {t('product.notFound')}
             </h2>
-            <p className="text-slate-600 mb-8">
+            <p className="text-slate-600 dark:text-slate-400 mb-8">
               {t('product.notFoundDesc')}
             </p>
             <Link
@@ -174,21 +174,21 @@ const ProductDetail = () => {
   const totalInCart = quantityInCart + quantity;
   
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white pt-20 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0f172a] dark:to-[#0f172a] pt-20 pb-16">
       <div className="container mx-auto px-4">
         
-        <nav className="flex items-center text-sm text-slate-500 mb-8">
+        <nav className="flex items-center text-sm text-slate-500 dark:text-slate-400 mb-8">
           <Link to="/" className="hover:text-blue-600">{t('product.home')}</Link>
           <span className="mx-2">›</span>
           <Link to="/menu" className="hover:text-blue-600">{t('product.menu')}</Link>
           <span className="mx-2">›</span>
-          <span className="text-slate-800 font-medium">{product.name}</span>
+          <span className="text-slate-800 dark:text-slate-200 font-medium">{product.name}</span>
         </nav>
         
         <div className="flex flex-col lg:flex-row gap-12">
           
           <div className="lg:w-1/2">
-            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200">
+            <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-slate-100 to-slate-200 dark:from-[#1e293b] dark:to-[#0f172a]">
               <div className="relative h-64 md:h-96">
                 <img 
                   src={productImages[currentImageIndex]} 
@@ -200,13 +200,13 @@ const ProductDetail = () => {
                   <>
                     <button
                       onClick={prevImage}
-                      className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-slate-800 hover:bg-white"
+                      className="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-[#1e293b]/80 backdrop-blur-sm flex items-center justify-center text-slate-800 dark:text-slate-200 hover:bg-white dark:hover:bg-[#334155]"
                     >
                       <FiChevronLeft className="text-xl" />
                     </button>
                     <button
                       onClick={nextImage}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center text-slate-800 hover:bg-white"
+                      className="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/80 dark:bg-[#1e293b]/80 backdrop-blur-sm flex items-center justify-center text-slate-800 dark:text-slate-200 hover:bg-white dark:hover:bg-[#334155]"
                     >
                       <FiChevronRight className="text-xl" />
                     </button>
@@ -248,7 +248,7 @@ const ProductDetail = () => {
             <div className="flex gap-4 mt-6">
               <button
                 onClick={handleShare}
-                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-slate-300 rounded-lg text-slate-700 hover:border-blue-400 hover:text-blue-600"
+                className="flex-1 flex items-center justify-center gap-2 px-4 py-3 border border-slate-300 dark:border-[#475569] rounded-lg text-slate-700 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600"
               >
                 <FiShare2 />
                 {t('product.share')}
@@ -262,31 +262,31 @@ const ProductDetail = () => {
           
           <div className="lg:w-1/2">
             <div className="flex items-center justify-between mb-4">
-              <span className="px-3 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded-full">
+              <span className="px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm font-medium rounded-full">
                 {t(`categories.${product.category}`) || product.category}
               </span>
               <div className="flex items-center gap-1">
                 <FiStar className="text-yellow-400 fill-current" />
-                <span className="font-bold text-slate-800">{product.rating}</span>
-                <span className="text-slate-400">•</span>
-                <span className="text-slate-500 text-sm">{t('product.reviews', { count: 50 })}</span>
+                <span className="font-bold text-slate-800 dark:text-slate-200">{product.rating}</span>
+                <span className="text-slate-400 dark:text-slate-500">•</span>
+                <span className="text-slate-500 dark:text-slate-400 text-sm">{t('product.reviews', { count: 50 })}</span>
               </div>
             </div>
             
-            <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+            <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
               {product.name}
             </h1>
-            <p className="text-lg text-slate-600 mb-6">
+            <p className="text-lg text-slate-600 dark:text-slate-400 mb-6">
               {/* 🔹 CAMBIO 3: t('app.lang') → language */}
               {language === 'es' ? product.description : (product.descriptionEn || product.description)}
             </p>
             
             <div className="flex items-center gap-6 mb-8">
-              <div className="flex items-center gap-2 text-slate-600">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                 <FiClock />
                 <span>{product.prepTime || t('product.prepTimeFallback')}</span>
               </div>
-              <div className="flex items-center gap-2 text-slate-600">
+              <div className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
                 <FiPackage />
                 <span>{t('product.stock', { count: product.stock || 10 })}</span>
               </div>
@@ -297,30 +297,30 @@ const ProductDetail = () => {
                 <span className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-blue-600 to-fuchsia-600 bg-clip-text text-transparent">
                   Bs. {product.price}
                 </span>
-                <span className="text-slate-400 text-lg">{t('product.perUnit')}</span>
+                <span className="text-slate-400 dark:text-slate-500 text-lg">{t('product.perUnit')}</span>
               </div>
-              <p className="text-sm text-slate-500 mt-1">
+              <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                 {t('product.taxInfo')}
               </p>
             </div>
             
             <div className="mb-10">
               <div className="flex items-center gap-6">
-                <div className="flex items-center border border-slate-300 rounded-lg">
+                <div className="flex items-center border border-slate-300 dark:border-[#475569] rounded-lg">
                   <button
                     onClick={() => handleQuantityChange(-1)}
                     disabled={quantity <= 1}
-                    className="w-12 h-12 flex items-center justify-center text-slate-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-12 h-12 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="text-2xl">-</span>
                   </button>
-                  <span className="w-12 text-center text-xl font-bold text-slate-800">
+                    <span className="w-12 text-center text-xl font-bold text-slate-800 dark:text-slate-200">
                     {quantity}
                   </span>
                   <button
                     onClick={() => handleQuantityChange(1)}
                     disabled={quantity >= (product.stock || 10)}
-                    className="w-12 h-12 flex items-center justify-center text-slate-600 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-12 h-12 flex items-center justify-center text-slate-600 dark:text-slate-400 hover:text-blue-600 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <span className="text-2xl">+</span>
                   </button>
@@ -348,23 +348,23 @@ const ProductDetail = () => {
               </div>
               
               {product.stock < 5 && (
-                <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                  <p className="text-sm text-yellow-700">
+                <div className="mt-3 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+                  <p className="text-sm text-yellow-700 dark:text-yellow-300">
                     ⚠️ {t('product.lowStock', { stock: product.stock })}
                   </p>
                 </div>
               )}
               
               {alreadyInCart && (
-                <div className="mt-3 p-3 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-sm text-green-700">
+                <div className="mt-3 p-3 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg">
+                  <p className="text-sm text-green-700 dark:text-green-300">
                     ✅ {t('product.inCart', { quantity: quantityInCart })}
                   </p>
                 </div>
               )}
             </div>
             
-            <div className="border-b border-slate-200 mb-6">
+            <div className="border-b border-slate-200 dark:border-[#334155] mb-6">
               <div className="flex gap-6">
                 {['description', 'ingredients', 'reviews'].map((tab) => (
                   <button
@@ -373,7 +373,7 @@ const ProductDetail = () => {
                     className={`pb-3 font-medium transition-colors ${
                       activeTab === tab
                         ? 'text-blue-600 border-b-2 border-blue-600'
-                        : 'text-slate-600 hover:text-slate-800'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
                     }`}
                   >
                     {tab === 'description' && t('product.tabDescription')}
@@ -387,11 +387,10 @@ const ProductDetail = () => {
             <div className="prose max-w-none">
               {activeTab === 'description' && (
                 <div>
-                  <p className="text-slate-700 mb-4">
-                    {/* 🔹 CAMBIO 4: t('app.lang') → language */}
+                  <p className="text-slate-700 dark:text-slate-300 mb-4">
                     {language === 'es' ? product.description : (product.descriptionEn || product.description)}
                   </p>
-                  <p className="text-slate-700">
+                  <p className="text-slate-700 dark:text-slate-300">
                     {t('product.descriptionExtra')}
                   </p>
                 </div>
@@ -399,13 +398,13 @@ const ProductDetail = () => {
               
               {activeTab === 'ingredients' && (
                 <div>
-                  <h4 className="font-bold text-slate-800 mb-3">{t('product.mainIngredients')}</h4>
-                  <ul className="list-disc pl-5 text-slate-700 space-y-1">
+                  <h4 className="font-bold text-slate-800 dark:text-slate-200 mb-3">{t('product.mainIngredients')}</h4>
+                  <ul className="list-disc pl-5 text-slate-700 dark:text-slate-300 space-y-1">
                     {(language === 'es' ? product.ingredients : (product.ingredientsEn || product.ingredients)).split(',').map((item, i) => (
                       <li key={i}>{item.trim()}</li>
                     ))}
                   </ul>
-                  <p className="text-sm text-slate-500 mt-4">
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-4">
                     {t('product.allergens')}
                   </p>
                 </div>
@@ -415,31 +414,31 @@ const ProductDetail = () => {
                 <div>
                   <div className="flex items-center gap-4 mb-6">
                     <div className="text-center">
-                      <div className="text-4xl font-bold text-slate-900">4.8</div>
+                      <div className="text-4xl font-bold text-slate-900 dark:text-gray-100">4.8</div>
                       <div className="flex items-center justify-center">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <FiStar key={star} className="text-yellow-400 fill-current" />
                         ))}
                       </div>
-                      <p className="text-sm text-slate-500 mt-1">{t('product.reviewCount', { count: 52 })}</p>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">{t('product.reviewCount', { count: 52 })}</p>
                     </div>
                     <div className="flex-1">
                       {[5, 4, 3, 2, 1].map((rating) => (
                         <div key={rating} className="flex items-center gap-2 mb-1">
-                          <span className="text-sm text-slate-600 w-8">{rating}★</span>
-                          <div className="flex-1 h-2 bg-slate-200 rounded-full overflow-hidden">
+                          <span className="text-sm text-slate-600 dark:text-slate-400 w-8">{rating}★</span>
+                          <div className="flex-1 h-2 bg-slate-200 dark:bg-[#334155] rounded-full overflow-hidden">
                             <div 
                               className="h-full bg-yellow-400"
                               style={{ width: `${rating * 20}%` }}
                             ></div>
                           </div>
-                          <span className="text-sm text-slate-500 w-10">{rating * 10}</span>
+                          <span className="text-sm text-slate-500 dark:text-slate-400 w-10">{rating * 10}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                   
-                  <div className="border-t border-slate-200 pt-6">
+                  <div className="border-t border-slate-200 dark:border-[#334155] pt-6">
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-fuchsia-500 flex items-center justify-center text-white font-bold">
                         MJ
@@ -451,9 +450,9 @@ const ProductDetail = () => {
                               <FiStar key={star} className="text-yellow-400 fill-current w-4 h-4" />
                             ))}
                           </div>
-                          <span className="text-sm text-slate-500">{t('product.reviewDate')}</span>
+                          <span className="text-sm text-slate-500 dark:text-slate-400">{t('product.reviewDate')}</span>
                         </div>
-                        <p className="text-slate-700">{t('product.reviewSample')}</p>
+                        <p className="text-slate-700 dark:text-slate-300">{t('product.reviewSample')}</p>
                       </div>
                     </div>
                   </div>
@@ -465,7 +464,7 @@ const ProductDetail = () => {
         
         {relatedProducts.length > 0 && (
           <div className="mt-20">
-            <h2 className="text-2xl font-bold text-slate-900 mb-8">
+            <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-8">
               {t('product.relatedTitle')}
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -479,7 +478,7 @@ const ProductDetail = () => {
         <div className="mt-12">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 rounded-lg text-slate-700 hover:border-blue-400 hover:text-blue-600"
+            className="inline-flex items-center gap-2 px-6 py-3 border border-slate-300 dark:border-[#475569] rounded-lg text-slate-700 dark:text-slate-300 hover:border-blue-400 hover:text-blue-600"
           >
             <FiArrowLeft />
             {t('product.backToMenu')}

@@ -24,8 +24,7 @@ export function CartProvider({ children }) {
   const [toast, setToast] = useState({ show: false, message: '' });
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) loadCart();
+    loadCart();
   }, []);
   
   const loadCart = async () => {

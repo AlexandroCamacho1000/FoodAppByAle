@@ -96,9 +96,9 @@ const AdminCustomers = () => {
 
   const handleRoleColor = (role) => {
     switch(role) {
-      case 'superadmin': return 'bg-purple-100 text-purple-800';
-      case 'admin': return 'bg-yellow-100 text-yellow-800';
-      default: return 'bg-blue-100 text-blue-800';
+      case 'superadmin': return 'bg-purple-100 dark:bg-purple-900/30 text-purple-800 dark:text-purple-300';
+      case 'admin': return 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300';
+      default: return 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300';
     }
   };
 
@@ -126,8 +126,8 @@ const AdminCustomers = () => {
             <FiUsers className="text-white text-xl" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t('admin.customers.title')}</h1>
-            <p className="text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('admin.customers.title')}</h1>
+            <p className="text-gray-600 dark:text-gray-400">
                 {language === 'es' 
                 ? `Total: ${filteredCustomers.length} clientes` 
                 : `Total: ${filteredCustomers.length} customers`}
@@ -136,27 +136,27 @@ const AdminCustomers = () => {
         </div>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
-        <div className="p-4 border-b border-gray-200">
+      <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] mb-6">
+        <div className="p-4 border-b border-gray-200 dark:border-[#334155]">
           <div className="flex flex-wrap gap-4">
             <div className="flex-1 min-w-[250px]">
               <div className="relative">
-                <FiUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <FiUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
                 <input
                   type="text"
                                     placeholder={language === 'es' ? 'Buscar por nombre, email o teléfono...' : 'Search by name, email or phone...'}
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-[#475569] rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                 />
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <FiFilter className="text-gray-400" />
+              <FiFilter className="text-gray-400 dark:text-gray-500" />
               <select
                 value={roleFilter}
                 onChange={(e) => setRoleFilter(e.target.value)}
-                className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="border border-gray-300 dark:border-[#475569] rounded-lg px-3 py-2 focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="all">
                 {language === 'es' ? 'Todos los roles' : 'All roles'}
@@ -178,21 +178,21 @@ const AdminCustomers = () => {
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="bg-gray-50">
-                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">
+              <tr className="bg-gray-50 dark:bg-[#0f172a]">
+                <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">
                                     {language === 'es' ? 'Cliente' : 'Customer'}
                 </th>
-                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">Email</th>
-                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Teléfono' : 'Phone'}</th>
-                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Rol' : 'Role'}</th>
-                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
-                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
-                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600">{language === 'es' ? 'Registro' : 'Registered'}</th>      
+                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">Email</th>
+                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Teléfono' : 'Phone'}</th>
+                   <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Rol' : 'Role'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Registro' : 'Registered'}</th>      
               </tr>
             </thead>
-            <tbody className="divide-y divide-gray-200">
+            <tbody className="divide-y divide-gray-200 dark:divide-[#334155]">
               {filteredCustomers.map((customer) => (
-                <tr key={customer.id} className="hover:bg-gray-50 transition-colors">
+                <tr key={customer.id} className="hover:bg-gray-50 dark:hover:bg-[#334155] transition-colors">
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-3">
                       <img 
@@ -201,9 +201,9 @@ const AdminCustomers = () => {
                         className="w-10 h-10 rounded-full"
                       />
                       <div>
-                        <p className="font-medium text-gray-900">{customer.name}</p>
+                        <p className="font-medium text-gray-900 dark:text-gray-100">{customer.name}</p>
                         {customer.orders > 0 && (
-                          <p className="text-xs text-gray-500">
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
                             {customer.orders} {language === 'es' ? 'compras' : 'purchases'}
                           </p>
                         )}
@@ -212,24 +212,24 @@ const AdminCustomers = () => {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <FiMail className="text-gray-400 w-4 h-4" />
-                      <span className="text-sm text-gray-600">{customer.email}</span>
+                      <FiMail className="text-gray-400 dark:text-gray-500 w-4 h-4" />
+                      <span className="text-sm text-gray-600 dark:text-gray-400">{customer.email}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-600">{customer.phone || '—'}</td>
+                  <td className="px-6 py-4 text-sm text-gray-600 dark:text-gray-400">{customer.phone || '—'}</td>
                   <td className="px-6 py-4">
                     <span className={`px-3 py-1 rounded-full text-xs font-medium ${handleRoleColor(customer.role)}`}>
                       {handleRoleLabel(customer.role)}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-center font-medium text-gray-900">{customer.orders || 0}</td>
-                  <td className="px-6 py-4 text-right font-medium text-gray-900">
+                  <td className="px-6 py-4 text-center font-medium text-gray-900 dark:text-gray-100">{customer.orders || 0}</td>
+                  <td className="px-6 py-4 text-right font-medium text-gray-900 dark:text-gray-100">
                     Bs. {(customer.totalSpent || 0).toFixed(2)}
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2 justify-center">
-                      <FiCalendar className="text-gray-400 w-4 h-4" />
-                      <span className="text-sm text-gray-600">
+                      <FiCalendar className="text-gray-400 dark:text-gray-500 w-4 h-4" />
+                      <span className="text-sm text-gray-600 dark:text-gray-400">
                         {customer.createdAt ? new Date(customer.createdAt).toLocaleDateString() : '—'}
                       </span>
                     </div>
@@ -242,11 +242,11 @@ const AdminCustomers = () => {
 
         {filteredCustomers.length === 0 && (
           <div className="text-center py-16">
-            <FiUsers className="mx-auto text-gray-400 text-5xl mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <FiUsers className="mx-auto text-gray-400 dark:text-gray-500 text-5xl mb-4" />
+            <h3 className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
               {language === 'es' ? 'No se encontraron clientes' : 'No customers found'}
             </h3>
-            <p className="text-gray-500">
+            <p className="text-gray-500 dark:text-gray-400">
                {language === 'es' 
                 ? 'Intenta ajustar los filtros de búsqueda' 
                 : 'Try adjusting the search filters'}

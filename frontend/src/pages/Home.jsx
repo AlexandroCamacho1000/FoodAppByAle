@@ -27,8 +27,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-fuchsia-50 animate-gradient py-20 md:py-28">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/20 via-transparent to-fuchsia-200/20 pointer-events-none" />
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-fuchsia-50 dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e1b2a] animate-gradient py-20 md:py-28">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/20 via-transparent to-fuchsia-200/20 dark:from-blue-500/10 dark:via-transparent dark:to-fuchsia-500/10 pointer-events-none" />
         
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto relative z-10">
@@ -39,12 +39,12 @@ export default function Home() {
             </div>
             
             <h1 className="animate-slideUp text-4xl md:text-5xl font-extrabold mb-6">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600">
                 {t('home.title')}
               </span>
             </h1>
             
-            <p className="animate-fadeIn text-lg text-[#64748B] max-w-2xl mx-auto mb-10" style={{ animationDelay: '0.15s' }}>
+            <p className="animate-fadeIn text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10" style={{ animationDelay: '0.15s' }}>
               {t('home.subtitle')}
             </p>
             
@@ -64,11 +64,11 @@ export default function Home() {
         <div className="animate-slideUp flex justify-between items-center mb-8">
           <div>
             <h2 className="text-2xl font-extrabold">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600">
                 {t('featured')}
               </span>
             </h2>
-            <p className="text-slate-500 text-sm font-medium tracking-wide">
+            <p className="text-gray-600 dark:text-gray-300 text-sm font-medium tracking-wide">
               {t('home.featuredDesc')}
             </p>
           </div>
@@ -84,18 +84,18 @@ export default function Home() {
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array.from({ length: 3 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-xl shadow-md overflow-hidden">
-                <div className="animate-pulse bg-gray-200 h-48 w-full" />
+              <div key={i} className="bg-white dark:bg-[#1e293b] rounded-xl shadow-md dark:shadow-black/20 overflow-hidden">
+                <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-48 w-full" />
                 <div className="p-4 space-y-3">
-                  <div className="animate-pulse bg-gray-200 h-5 w-3/4 rounded" />
-                  <div className="animate-pulse bg-gray-200 h-4 w-1/2 rounded" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-5 w-3/4 rounded" />
+                  <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-1/2 rounded" />
                   <div className="space-y-2">
-                    <div className="animate-pulse bg-gray-200 h-4 w-full rounded" />
-                    <div className="animate-pulse bg-gray-200 h-4 w-2/3 rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-full rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-4 w-2/3 rounded" />
                   </div>
                   <div className="flex justify-between items-center pt-2">
-                    <div className="animate-pulse bg-gray-200 h-6 w-20 rounded" />
-                    <div className="animate-pulse bg-gray-200 h-10 w-28 rounded-lg" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-6 w-20 rounded" />
+                    <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-10 w-28 rounded-lg" />
                   </div>
                 </div>
               </div>

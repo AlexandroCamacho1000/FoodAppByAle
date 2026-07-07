@@ -4,11 +4,13 @@ import { useLanguage } from '../../context/LanguageContext';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import LanguageSwitch from '../ui/LanguageSwitch';
+import { useDarkMode } from '../../context/DarkModeContext';
 
 export default function Navbar() {
   const { t } = useLanguage();
   const { user, isAdmin, logout } = useAuth();
   const { cart } = useCart();
+  const { dark, toggle: toggleDark } = useDarkMode();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
@@ -43,13 +45,13 @@ export default function Navbar() {
                 <div className="animate-float w-10 h-10 bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-lg flex items-center justify-center">
                   <img src="/alesoft.png" alt="AleSoft" className="w-28 h-8 object-contain" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-[#D946EF] rounded-full border-2 border-white"></div>
+                <div className="absolute -top-1 -right-1 w-4 h-4 bg-fuchsia-500 rounded-full border-2 border-white"></div>
               </div>
               <div className="hidden sm:block flex-shrink-0">
                 <h1 className="text-lg md:text-xl font-bold whitespace-nowrap">
-                  {t('app.name')} <span className="text-[#60A5FA]">{t('app.country')}</span>
+                  {t('app.name')} <span className="text-blue-400">{t('app.country')}</span>
                 </h1>
-                <p className="hidden md:block text-xs text-[#94A3B8] whitespace-nowrap">{t('app.tagline')}</p>
+                <p className="hidden md:block text-xs text-gray-400 whitespace-nowrap">{t('app.tagline')}</p>
               </div>
             </Link>
           </div>
@@ -58,36 +60,44 @@ export default function Navbar() {
             <div className="flex-shrink-0 scale-75 md:scale-100 origin-right">
               <LanguageSwitch />
             </div>
+
+            <button
+              onClick={toggleDark}
+              className="text-gray-300 hover:text-white transition-colors text-lg flex-shrink-0"
+              aria-label={dark ? 'Light mode' : 'Dark mode'}
+            >
+              {dark ? '☀️' : '🌙'}
+            </button>
             
             <Link 
               to="/menu" 
-              className="hidden sm:flex text-[#CBD5E1] hover:text-white relative pb-1 transition-colors text-sm text-center group"
+              className="hidden sm:flex text-gray-300 hover:text-white relative pb-1 transition-colors text-sm text-center group min-w-[48px] justify-center"
             >
              {t('nav.menu')}
-             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#60A5FA] transition-all duration-300 group-hover:w-full" />
+             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
             </Link>
             
             <Link 
               to="/cart" 
-              className="relative text-[#CBD5E1] hover:text-white pb-1 transition-all text-sm text-center group"
+              className="relative text-gray-300 hover:text-white pb-1 transition-all text-sm text-center group flex-shrink-0"
             >
               <span className="relative flex items-center gap-1">
                  <span className="text-sm md:text-base">🛒</span>
-                 <span className="hidden md:inline">{t('nav.cart')}</span>
+                  <span className="hidden md:inline min-w-[56px] text-left">{t('nav.cart')}</span>
                 {cart?.length > 0 && (
                   <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center animate-bounceIn">
                     {cart.length}
                   </span>
                 )}
               </span>
-              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-[#60A5FA] transition-all duration-300 group-hover:w-full" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
             </Link>
             
             {user ? (
               <div className="relative flex-shrink-0" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-[#CBD5E1] hover:text-white flex items-center justify-center gap-1"
+                  className="text-gray-300 hover:text-white flex items-center justify-center gap-1"
                 >
                   <img 
                     src={user.avatar} 
@@ -100,12 +110,12 @@ export default function Navbar() {
                   </span>
                 </button>
                 
-                <div className={`absolute bg-[#1E293B] border border-[#475569] rounded-lg mt-2 p-2 z-50 shadow-xl min-w-[180px] right-0 transition-all duration-200 ${
+                <div className={`absolute bg-[#1E293B] border border-gray-600 rounded-lg mt-2 p-2 z-50 shadow-xl min-w-[180px] right-0 transition-all duration-200 ${
                   isDropdownOpen ? 'opacity-100 translate-y-0 visible' : 'opacity-0 -translate-y-2 invisible'
                 }`}>
-                  <div className="px-2 py-1 mb-2 border-b border-[#475569]">
+                  <div className="px-2 py-1 mb-2 border-b border-gray-600">
                     <p className="text-sm font-medium truncate">{user.name}</p>
-                    <p className="text-xs text-[#94A3B8] truncate">{user.email}</p>
+                    <p className="text-xs text-gray-400 truncate">{user.email}</p>
                     {isAdmin && (
                       <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded mt-1 inline-block">
                         Admin
@@ -145,7 +155,7 @@ export default function Navbar() {
                       setIsDropdownOpen(false);
                       navigate('/profile');
                     }}
-                    className="text-[#60A5FA] text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
+                    className="text-blue-400 text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
                   >
                     <span className="mr-2">👤</span>
                     {t('myProfile')}
@@ -156,16 +166,16 @@ export default function Navbar() {
                       setIsDropdownOpen(false);
                       navigate('/my-orders');
                     }}
-                    className="text-[#60A5FA] text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
+                    className="text-blue-400 text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
                   >
                     <span className="mr-2">📦</span>
                     {t('nav.myOrders')}
                   </button>
                   
-                  <div className="border-t border-[#475569] my-2"></div>
+                  <div className="border-t border-gray-600 my-2"></div>
                   
                   <button 
-                    className="text-[#D946EF] text-sm p-2 hover:bg-[#334155] rounded text-left w-full flex items-center"
+                    className="text-fuchsia-400 text-sm p-2 hover:bg-[#334155] rounded text-left w-full flex items-center"
                     onClick={() => {
                       logout();
                       setIsDropdownOpen(false);

@@ -91,10 +91,10 @@ export default function ProductCard({ product }) {
   return (
     <Link 
       to={`/product/${productData.id}`}
-      className="block bg-white rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] overflow-hidden border border-gray-100 hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] hover:border-blue-200/50 transition-all duration-300 group hover:-translate-y-1"
+      className="block bg-white dark:bg-[#1e293b] rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_-4px_rgba(0,0,0,0.3)] overflow-hidden border border-gray-100 dark:border-[#334155] hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] hover:border-blue-200/50 dark:hover:border-blue-500/30 transition-all duration-300 group hover:-translate-y-1"
     >
       <div className="relative">
-        <div className="aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+        <div className="aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#1e293b] dark:to-[#0f172a]">
           {productData.image && productData.image !== '/images/placeholder.jpg' ? (
             <img 
               src={productData.image} 
@@ -115,13 +115,13 @@ export default function ProductCard({ product }) {
                 {t('featured')}
               </span>
             )}
-            <span className="backdrop-blur-md bg-white/80 text-gray-700 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
+              <span className="backdrop-blur-md bg-white/80 dark:bg-[#1e293b]/80 text-gray-700 dark:text-gray-300 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
               {productData.category}
             </span>
           </div>
           
           <div className="absolute bottom-3 right-3">
-            <span className="backdrop-blur-md bg-white/90 text-gray-700 text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-sm">
+            <span className="backdrop-blur-md bg-white/90 dark:bg-[#1e293b]/90 text-gray-700 dark:text-gray-300 text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-sm">
               ★ {productData.rating}
             </span>
           </div>
@@ -129,17 +129,17 @@ export default function ProductCard({ product }) {
       </div>
       
       <div className="p-4">
-        <h3 className="font-semibold text-sm text-gray-900 mb-1.5 group-hover:text-blue-600 transition-colors line-clamp-1">
+        <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
           {productData.name}
         </h3>
-        <p className="text-xs text-gray-400 mb-3 line-clamp-2 leading-relaxed">
+        <p className="text-xs text-gray-400 dark:text-gray-300 mb-3 line-clamp-2 leading-relaxed">
           {productData.description}
         </p>
         
         <div className="flex items-center justify-between">
           <div className="flex items-baseline gap-0.5">
             <span className="text-[10px] font-medium text-gray-400">Bs</span>
-            <span className="text-lg font-bold text-gray-900 tabular-nums">
+            <span className="text-lg font-bold text-gray-900 dark:text-gray-100 tabular-nums">
               {productData.price.toFixed(2)}
             </span>
           </div>

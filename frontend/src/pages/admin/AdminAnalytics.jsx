@@ -33,8 +33,8 @@ const AdminAnalytics = () => {
             <FiTrendingUp className="text-white text-xl" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t('admin.analytics.title')}</h1>
-            <p className="text-gray-600">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('admin.analytics.title')}</h1>
+            <p className="text-gray-600 dark:text-gray-400">
               {language === 'es' ? 'Estadísticas y métricas del negocio' : 'Business statistics and metrics'}
             </p>
           </div>
@@ -42,55 +42,55 @@ const AdminAnalytics = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Ventas Totales' : 'Total Sales'}
               </p>
-              <p className="text-2xl font-bold text-gray-900">Bs. {analytics.totalRevenue.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">Bs. {analytics.totalRevenue.toFixed(2)}</p>
             </div>
             <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-              <FiDollarSign className="text-blue-600 text-xl" />
+              <FiDollarSign className="text-blue-600 dark:text-blue-400 text-xl" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Pedidos Totales' : 'Total Orders'}
               </p>
-              <p className="text-2xl font-bold text-gray-900">{analytics.totalOrders}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{analytics.totalOrders}</p>
             </div>
-            <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-              <FiShoppingCart className="text-purple-600 text-xl" />
+            <div className="w-12 h-12 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+              <FiShoppingCart className="text-purple-600 dark:text-purple-400 text-xl" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Clientes Únicos' : 'Unique Customers'}
               </p>
-              <p className="text-2xl font-bold text-gray-900">{analytics.uniqueCustomers}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">{analytics.uniqueCustomers}</p>
             </div>
             <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-              <FiUsers className="text-green-600 text-xl" />
+              <FiUsers className="text-green-600 dark:text-green-400 text-xl" />
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Ticket Promedio' : 'Average Ticket'}
               </p>
-              <p className="text-2xl font-bold text-gray-900">Bs. {analytics.avgTicket.toFixed(2)}</p>
+              <p className="text-2xl font-bold text-gray-900 dark:text-gray-100">Bs. {analytics.avgTicket.toFixed(2)}</p>
             </div>
             <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
               <FiBarChart2 className="text-orange-600 text-xl" />
@@ -100,40 +100,40 @@ const AdminAnalytics = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {language === 'es' ? 'Ventas por Mes' : 'Monthly Sales'}
             </h2>
-            <FiPieChart className="text-gray-400" />
+            <FiPieChart className="text-gray-400 dark:text-gray-500" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+          <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-[#0f172a] rounded-lg">
             <div className="text-center">
-              <div className="text-gray-400 text-5xl mb-4">📊</div>
-              <p className="text-gray-600">
+              <div className="text-gray-400 dark:text-gray-500 text-5xl mb-4">📊</div>
+              <p className="text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Gráfico de ventas mensuales' : 'Monthly sales chart'}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {language === 'es' ? '(Integrar con Chart.js o Recharts)' : '(Integrate with Chart.js or Recharts)'}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-semibold text-gray-900">
+            <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {language === 'es' ? 'Productos más Vendidos' : 'Best Selling Products'}
             </h2>
-            <FiBarChart2 className="text-gray-400" />
+            <FiBarChart2 className="text-gray-400 dark:text-gray-500" />
           </div>
-          <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+          <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-[#0f172a] rounded-lg">
             <div className="text-center">
               <img src="/alesoft.png" alt="AleSoft" className="w-12 h-12 object-contain mx-auto mb-4" />
-              <p className="text-gray-600">
+              <p className="text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Gráfico de productos populares' : 'Popular products chart'}
               </p>
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
                 {language === 'es' ? '(Datos en tiempo real)' : '(Real-time data)'}
               </p>
             </div>
@@ -141,14 +141,14 @@ const AdminAnalytics = () => {
         </div>
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
+      <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-6">
         <div className="flex items-start">
           <div className="flex-shrink-0">
-            <FiTrendingUp className="text-blue-600 mt-1" />
+            <FiTrendingUp className="text-blue-600 dark:text-blue-400 mt-1" />
           </div>
           <div className="ml-3">
-            <h3 className="text-sm font-medium text-blue-800">{t('admin.analytics.title')}</h3>
-            <p className="text-sm text-blue-700 mt-1">
+            <h3 className="text-sm font-medium text-blue-800 dark:text-blue-300">{t('admin.analytics.title')}</h3>
+            <p className="text-sm text-blue-700 dark:text-blue-300 mt-1">
               {language === 'es'
                 ? 'Esta página muestra métricas clave del negocio calculadas desde los pedidos almacenados.'
                 : 'This page shows key business metrics calculated from stored orders.'}
