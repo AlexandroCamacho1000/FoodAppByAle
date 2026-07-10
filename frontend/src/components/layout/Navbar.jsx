@@ -158,7 +158,7 @@ export default function Navbar() {
                     className="text-blue-400 text-sm p-2 hover:bg-[#334155] rounded text-left block mb-1 w-full flex items-center"
                   >
                     <span className="mr-2">👤</span>
-                    {t('myProfile')}
+                    {t('nav.profile')}
                   </button>
                   
                   <button
@@ -182,7 +182,7 @@ export default function Navbar() {
                     }}
                   >
                     <span className="mr-2">🚪</span>
-                    {t('logout')}
+                    {t('nav.logout')}
                   </button>
                 </div>
               </div>
@@ -191,7 +191,7 @@ export default function Navbar() {
                 to="/login"
                 className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-3 md:px-5 py-2 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0"
               >
-                {t('login')}
+                {t('nav.login')}
               </Link>
             )}
           </div>

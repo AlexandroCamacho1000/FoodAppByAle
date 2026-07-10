@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FiPackage, FiPlus, FiEdit2, FiTrash2, FiSearch, FiFilter, FiSave, FiX, FiUpload, FiAlertCircle, FiCheckCircle, FiStar } from 'react-icons/fi';
 import { useLanguage } from '../../context/LanguageContext';
+import Toast from '../../components/ui/Toast';
 
 const AdminProducts = () => {
 const { t, language } = useLanguage();
@@ -11,6 +12,9 @@ const { t, language } = useLanguage();
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
+  const [toastShow, setToastShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success');
   
   const [formData, setFormData] = useState({
     name: '',
@@ -393,7 +397,9 @@ const { t, language } = useLanguage();
     
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-      alert(t('admin.products.error.form'));
+      setToastMessage(t('admin.products.error.form'));
+      setToastType('error');
+      setToastShow(true);
       return;
     }
     
@@ -416,7 +422,9 @@ const { t, language } = useLanguage();
       saveProducts(updatedProducts);
       syncProductsToMenu(updatedProducts);
       
-      alert(t('admin.products.success.updated'));
+      setToastMessage(t('admin.products.success.updated'));
+      setToastType('success');
+      setToastShow(true);
     } else {
       const newProduct = {
         id: generateId(),
@@ -433,7 +441,9 @@ const { t, language } = useLanguage();
       saveProducts(updatedProducts);
       syncProductsToMenu(updatedProducts);
       
-      alert(t('admin.products.success.created'));
+      setToastMessage(t('admin.products.success.created'));
+      setToastType('success');
+      setToastShow(true);
     }
     
     setShowModal(false);
@@ -447,7 +457,9 @@ const { t, language } = useLanguage();
       saveProducts(updatedProducts);
       syncProductsToMenu(updatedProducts);
       
-      alert(t('admin.products.success.deleted'));
+      setToastMessage(t('admin.products.success.deleted'));
+      setToastType('success');
+      setToastShow(true);
     }
   };
 
@@ -460,7 +472,12 @@ const { t, language } = useLanguage();
     saveProducts(updatedProducts);
     syncProductsToMenu(updatedProducts);
     
-    alert(`Producto ${updatedProducts.find(p => p.id === id).isActive ? 'activado' : 'desactivado'}`);
+    const msg = updatedProducts.find(p => p.id === id).isActive
+      ? (language === 'es' ? 'Producto activado' : 'Product activated')
+      : (language === 'es' ? 'Producto desactivado' : 'Product deactivated');
+    setToastMessage(msg);
+    setToastType('success');
+    setToastShow(true);
   };
 
   const toggleFeatured = (id) => {
@@ -472,7 +489,12 @@ const { t, language } = useLanguage();
     saveProducts(updatedProducts);
     syncProductsToMenu(updatedProducts);
     
-    alert(`Producto ${updatedProducts.find(p => p.id === id).isFeatured ? 'destacado' : 'quitado de destacados'}`);
+    const msg = updatedProducts.find(p => p.id === id).isFeatured
+      ? (language === 'es' ? 'Producto destacado' : 'Product featured')
+      : (language === 'es' ? 'Producto quitado de destacados' : 'Product unfeatured');
+    setToastMessage(msg);
+    setToastType('success');
+    setToastShow(true);
   };
 
   const handleRestoreDefaults = () => {
@@ -481,7 +503,9 @@ const { t, language } = useLanguage();
       setProducts(initialProducts);
       syncProductsToMenu(initialProducts);
       
-      alert(t('admin.products.success.restored'));
+      setToastMessage(t('admin.products.success.restored'));
+      setToastType('success');
+      setToastShow(true);
     }
   };
 
@@ -499,7 +523,9 @@ const { t, language } = useLanguage();
 
   const handleForceSync = () => {
     syncProductsToMenu(products);
-    alert(t('admin.products.success.synced'));
+    setToastMessage(t('admin.products.success.synced'));
+    setToastType('success');
+    setToastShow(true);
   };
 
   return (
@@ -1076,6 +1102,7 @@ const { t, language } = useLanguage();
           {t('admin.products.footer', { shown: filteredProducts.length, total: products.length })}
         </p>
       </div>
+      <Toast message={toastMessage} type={toastType} show={toastShow} onClose={() => setToastShow(false)} />
     </div>
   );
 };

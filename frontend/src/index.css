@@ -36,7 +36,9 @@ body {
 }
 
 @media (max-width: 640px) {
-  #root { zoom: 0.82; }
+  #root { 
+    font-size: 14px;
+  }
 }
 
 @keyframes slideUp {

@@ -1,8 +1,12 @@
 // frontend/src/pages/admin/AdminSettings.jsx
 import { useState } from 'react';
 import { FiSettings, FiSave, FiBell, FiGlobe, FiShield, FiCreditCard, FiMail } from 'react-icons/fi';
+import Toast from '../../components/ui/Toast';
 
 const AdminSettings = () => {
+  const [toastShow, setToastShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success');
   const [settings, setSettings] = useState({
     storeName: 'Bolivian Market',
     storeEmail: 'info@bolivianmarket.com',
@@ -25,8 +29,9 @@ const AdminSettings = () => {
   };
 
   const handleSave = () => {
-    // En un proyecto real, aquí guardarías en backend
-    alert('Configuración guardada correctamente');
+    setToastMessage('Configuración guardada correctamente');
+    setToastType('success');
+    setToastShow(true);
   };
 
   return (
@@ -292,6 +297,7 @@ const AdminSettings = () => {
           </div>
         </div>
       </div>
+      <Toast message={toastMessage} type={toastType} show={toastShow} onClose={() => setToastShow(false)} />
     </div>
   );
 };

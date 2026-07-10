@@ -1,13 +1,17 @@
 // frontend/pages/Cart.jsx
-import React from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { useLanguage } from '../context/LanguageContext';
 import { FaTrash, FaPlus, FaMinus, FaArrowLeft } from 'react-icons/fa';
+import Toast from '../components/ui/Toast';
 
 export default function Cart() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [toastShow, setToastShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success');
   
   const { 
     cart,
@@ -34,7 +38,9 @@ export default function Cart() {
 
   const handleCheckout = () => {
     if (isEmpty) {
-      alert(t('cart.empty'))
+      setToastMessage(t('cart.empty'));
+      setToastType('error');
+      setToastShow(true);
       return;
     }
     navigate('/checkout');
@@ -152,7 +158,7 @@ export default function Cart() {
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg transition-shadow"
               >
                 <FaArrowLeft />
-                {t('menu')}
+                {t('nav.menu')}
               </Link>
             </div>
           )}
@@ -244,6 +250,7 @@ export default function Cart() {
           </div>
         </div>
       </div>
+      <Toast message={toastMessage} type={toastType} show={toastShow} onClose={() => setToastShow(false)} />
     </div>
   );
 }

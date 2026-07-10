@@ -186,7 +186,7 @@ const AdminCustomers = () => {
                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Teléfono' : 'Phone'}</th>
                    <th className="text-left px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Rol' : 'Role'}</th>
                    <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
-                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Pedidos' : 'Orders'}</th>
+                   <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Total Gastado' : 'Total Spent'}</th>
                    <th className="text-center px-6 py-4 text-sm font-semibold text-gray-600 dark:text-gray-400">{language === 'es' ? 'Registro' : 'Registered'}</th>      
               </tr>
             </thead>

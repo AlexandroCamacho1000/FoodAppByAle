@@ -4,6 +4,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useCart } from '../context/CartContext';
 import { getProductById, getProductsByCategory } from '../services/productService';
 import ProductCard from '../components/product/ProductCard';
+import Toast from '../components/ui/Toast';
 import { 
   FiArrowLeft, 
   FiShoppingCart, 
@@ -32,6 +33,8 @@ const ProductDetail = () => {
   const [quantity, setQuantity] = useState(1);
   const [activeTab, setActiveTab] = useState('description');
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [toastShow, setToastShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
   
   useEffect(() => {
     loadProduct();
@@ -79,16 +82,12 @@ const ProductDetail = () => {
       });
     } else {
       navigator.clipboard.writeText(window.location.href);
-      alert(t('product.linkCopied'));
+      setToastMessage(t('product.linkCopied'));
+      setToastShow(true);
     }
   };
   
-  const productImages = product ? [
-    product.image,
-    '/images/food-detail-1.jpg',
-    '/images/food-detail-2.jpg',
-    '/images/food-detail-3.jpg'
-  ] : [];
+  const productImages = product ? [product.image] : [];
   
   const nextImage = () => {
     setCurrentImageIndex((prev) => 
@@ -194,6 +193,7 @@ const ProductDetail = () => {
                   src={productImages[currentImageIndex]} 
                   alt={product.name}
                   className="w-full h-full object-cover"
+                  onError={(e) => { e.target.src = ''; e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class=\"w-full h-full flex items-center justify-center text-6xl opacity-30\">🍽️</div>'; }}
                 />
                 
                 {productImages.length > 1 && (
@@ -236,7 +236,8 @@ const ProductDetail = () => {
                     >
                       <img 
                         src={img} 
-                        alt={`${product.name} ${index + 1}`}
+                        alt={`${product.name}`}
+                        onError={(e) => { e.target.style.display = 'none'; }}
                         className="w-full h-full object-cover"
                       />
                     </button>
@@ -485,6 +486,7 @@ const ProductDetail = () => {
           </button>
         </div>
       </div>
+      <Toast message={toastMessage} type="success" show={toastShow} onClose={() => setToastShow(false)} />
     </div>
   );
 };

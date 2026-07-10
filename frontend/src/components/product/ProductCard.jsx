@@ -152,7 +152,7 @@ export default function ProductCard({ product }) {
                 : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm hover:shadow-md'
             }`}
           >
-            {alreadyInCart ? t('addMore') || '+1' : t('addToCart') || 'Comprar'}
+            {alreadyInCart ? t('product.addMore') || '+1' : t('addToCart') || 'Comprar'}
           </button>
         </div>
       </div>

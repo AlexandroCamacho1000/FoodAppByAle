@@ -6,6 +6,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import Toast from '../components/ui/Toast';
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
 
@@ -162,6 +163,9 @@ const Checkout = () => {
   const [loading, setLoading] = useState(false);
   const [cardPaymentSuccess, setCardPaymentSuccess] = useState(false);
   const [cardDetails, setCardDetails] = useState(null);
+  const [toastShow, setToastShow] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  const [toastType, setToastType] = useState('success');
   
   const [formData, setFormData] = useState({
     fullName: '',
@@ -285,10 +289,12 @@ const Checkout = () => {
     if (!isFormValid) {
       const firstErrorKey = Object.keys(calculatedErrors)[0];
       if (firstErrorKey && calculatedErrors[firstErrorKey]) {
-        alert(calculatedErrors[firstErrorKey]);
+        setToastMessage(calculatedErrors[firstErrorKey]);
       } else {
-        alert(t('checkout.error.completeFields'));
+        setToastMessage(t('checkout.error.completeFields'));
       }
+      setToastType('error');
+      setToastShow(true);
       return false;
     }
     return true;
@@ -299,11 +305,15 @@ const Checkout = () => {
     setCardDetails(paymentDetails);
     setPaymentMethod('card');
     
-    alert(t('checkout.success.cardPaid', { brand: paymentDetails.brand, last4: paymentDetails.last4 }));
+    setToastMessage(t('checkout.success.cardPaid', { brand: paymentDetails.brand, last4: paymentDetails.last4 }));
+    setToastType('success');
+    setToastShow(true);
   };
 
   const handleCardPaymentError = (error) => {
-    alert(t('checkout.error.paymentError', { error }));
+    setToastMessage(t('checkout.error.paymentError', { error }));
+    setToastType('error');
+    setToastShow(true);
   };
   
   const handleNextStep = () => {
@@ -323,8 +333,10 @@ const Checkout = () => {
   
   const handlePlaceOrder = () => {
     if (!user) {
-      alert(t('checkout.error.loginRequired'));
-      navigate('/login');
+      setToastMessage(t('checkout.error.loginRequired'));
+      setToastType('error');
+      setToastShow(true);
+      setTimeout(() => navigate('/login'), 1500);
       return;
     }
     
@@ -906,6 +918,7 @@ const Checkout = () => {
           </div>
         </div>
       </div>
+      <Toast message={toastMessage} type={toastType} show={toastShow} onClose={() => setToastShow(false)} />
     </div>
   );
 };
