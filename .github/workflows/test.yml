@@ -57,13 +57,10 @@ jobs:
       - run: npm ci
       - run: npm test
         env:
-          DB_HOST: localhost
-          DB_PORT: 5432
-          DB_NAME: bolivianmarket_dev
-          DB_USER: postgres
-          DB_PASSWORD: postgres
+          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/bolivianmarket_dev
           JWT_SECRET: test-secret
           JWT_EXPIRE: 7d
+          STRIPE_SECRET_KEY: sk_test_dummy
           SUPERADMIN_EMAIL: superadmin@test.com
           SUPERADMIN_PASSWORD: superadmin123
           NODE_ENV: test
