@@ -159,7 +159,9 @@ const startServer = async () => {
   }
 };
 
-// Iniciar el servidor
-startServer();
+// Iniciar el servidor (omitir en tests)
+if (process.env.NODE_ENV !== 'test') {
+  startServer();
+}
 
 module.exports = app;
