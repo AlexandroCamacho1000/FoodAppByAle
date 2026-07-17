@@ -1,5 +1,6 @@
 import { vi } from 'vitest'
 
+process.env.DATABASE_URL = process.env.DATABASE_URL || 'postgresql://postgres:postgres@localhost:5432/bolivianmarket_dev'
 process.env.JWT_SECRET = 'test-jwt-secret-key-for-tests'
 process.env.JWT_EXPIRE = '7d'
 process.env.STRIPE_SECRET_KEY = 'sk_test_mocked_for_tests'
