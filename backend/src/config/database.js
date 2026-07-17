@@ -11,7 +11,7 @@ const sequelize = new Sequelize(process.env.DATABASE_URL, {
   dialect: 'postgres',
   logging: isProduction ? false : console.log,
   dialectOptions: {
-    ssl: isProduction ? {
+    ssl: isProduction && !process.env.DATABASE_URL.includes('localhost') && !process.env.DATABASE_URL.includes('database') ? {
       require: true,
       rejectUnauthorized: false
     } : false
