@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" height="200" alt="alesoft" src="https://raw.githubusercontent.com/AlexandroCamacho1000/FoodAppByAle/main/frontend/public/alesoft.png" />
+  <img width="200" height="200" alt="alesoft" src="https://github.com/user-attachments/assets/5a3c18a4-d5af-4634-bf93-49009260522d" />
 </p>
 
 <p align="center">
@@ -80,9 +80,4 @@ cd backend && npm test
 <p align="center">
   <b>Desarrollado por</b><br />
   <a href="https://github.com/AlexandroCamacho1000">Alejandro Camacho</a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/github/last-commit/AlexandroCamacho1000/FoodAppByAle?color=blue&label=última%20actualización" alt="Last commit" />
-  <img src="https://img.shields.io/github/repo-size/AlexandroCamacho1000/FoodAppByAle?color=blue&label=tamaño%20del%20repo" alt="Repo size" />
 </p>
