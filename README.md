@@ -24,6 +24,10 @@
 
 # FoodApp — Bolivian Market
 
+<p align="center">
+  <img src="frontend/public/screenshot.png" alt="FoodApp screenshot" width="90%" />
+</p>
+
 ## 1. Overview
 Aplicación web full-stack tipo SaaS para e-commerce de comida tradicional boliviana. Bilingüe (ES/EN), modo oscuro, panel administrador, pagos con Stripe y autenticación JWT. Incluye 46 tests automatizados con CI/CD vía GitHub Actions, containerización con Docker, y deploy en producción en Vercel + Railway.
 
