@@ -1,98 +1,88 @@
-# 🥟 Bolivian Market — E-commerce de Comida Boliviana
+<p align="center">
+  <img width="200" height="200" alt="alesoft" src="https://raw.githubusercontent.com/AlexandroCamacho1000/FoodAppByAle/main/frontend/public/alesoft.png" />
+</p>
 
-[![CI](https://github.com/tu-usuario/bolivian-market/actions/workflows/test.yml/badge.svg)](https://github.com/tu-usuario/bolivian-market/actions/workflows/test.yml)
-[![Docker](https://img.shields.io/badge/docker-ready-2496ED?logo=docker)](https://www.docker.com)
-![React](https://img.shields.io/badge/React_19-20232A?logo=react)
-![Express](https://img.shields.io/badge/Express-000000?logo=express)
-![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql)
+<p align="center">
+  <a href="https://food-app-by-ale.vercel.app">
+    <img src="https://img.shields.io/badge/LIVE_DEMO-🌐_Ver_App-00C853?style=for-the-badge" alt="Live Demo" />
+  </a>
+</p>
 
-Aplicación web full-stack tipo SaaS para un e-commerce de comida tradicional boliviana. Bilingüe (ES/EN), modo oscuro, panel administrador, pagos con Stripe y autenticación JWT.
+<p align="center">
+  <a href="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions/workflows/test.yml">
+    <img src="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions/workflows/test.yml/badge.svg" alt="CI" />
+  </a>
+  <img src="https://img.shields.io/badge/React_19-20232A?logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/Node_20-339933?logo=nodedotjs" alt="Node" />
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker" />
+  <img src="https://img.shields.io/badge/Playwright-45ba4b?logo=playwright" alt="Playwright" />
+  <img src="https://img.shields.io/badge/46_tests-✅_passing-4CAF50" alt="46 tests passing" />
+</p>
 
 ---
 
-## 🚀 Stack
+# FoodApp — Bolivian Market
 
-| Capa | Tecnología |
-|------|-----------|
-| **Frontend** | React 19, Vite, Tailwind CSS 4, React Router 7 |
-| **Backend** | Node.js, Express, Sequelize ORM |
-| **Base de datos** | PostgreSQL 16 |
-| **Autenticación** | JWT + bcryptjs |
-| **Pagos** | Stripe |
-| **Testing** | Vitest, Testing Library, Supertest |
-| **Contenedores** | Docker + docker-compose |
-| **CI/CD** | GitHub Actions |
+## 1. Overview
+Aplicación web full-stack tipo SaaS para e-commerce de comida tradicional boliviana. Bilingüe (ES/EN), modo oscuro, panel administrador, pagos con Stripe y autenticación JWT. Incluye 46 tests automatizados con CI/CD vía GitHub Actions, containerización con Docker, y deploy en producción en Vercel + Railway.
 
-## ✨ Features
+🔗 **Live Demo:** [food-app-by-ale.vercel.app](https://food-app-by-ale.vercel.app)  
+⚙️ **Backend API:** [foodappbyale-production.up.railway.app/api](https://foodappbyale-production.up.railway.app/api/health)  
+🤖 **CI/CD:** [github.com/AlexandroCamacho1000/FoodAppByAle/actions](https://github.com/AlexandroCamacho1000/FoodAppByAle/actions)
 
-- Catálogo de productos con categorías, filtros y búsqueda
-- Carrito de compras con persistencia (localStorage + API)
-- Stripe Checkout / QR / Pago contra entrega
-- Panel administrador (productos, pedidos, clientes, dashboard, códigos de invitación)
-- Roles: superadmin, admin, cliente
-- Bilingüe ES/EN con detección automática del navegador
-- Modo oscuro con persistencia
-- Diseño responsive
-- 46 tests automatizados
+## 2. Technologies Used
+**Frontend:** React 19, JavaScript (ES6+), Vite, Tailwind CSS 4, React Router 7, Axios  
+**Backend:** Node.js, Express.js, PostgreSQL 16, Sequelize, JWT, bcryptjs, Stripe  
+**Testing:** Vitest, Testing Library, Supertest, Playwright  
+**DevOps:** Docker & docker-compose, GitHub Actions (CI/CD), Vercel, Railway  
+**Tools:** Git & GitHub, Visual Studio Code, npm
 
-## 🐳 Docker (recomendado)
+## 3. Installation Guide (Run Locally)
 
+**Docker (recomendado — un solo comando):**
 ```bash
+git clone https://github.com/AlexandroCamacho1000/FoodAppByAle.git
+cd FoodAppByAle
 docker compose up -d
 ```
+App en `http://localhost` · API en `http://localhost:5000/api`
 
-| Servicio | URL |
-|----------|-----|
-| Frontend | http://localhost |
-| Backend  | http://localhost:5000/api |
-| Base de datos | PostgreSQL en `localhost:5432` |
-
-## 💻 Desarrollo local
-
-**Backend:**
+**Backend Setup:**
 ```bash
 cd backend
 npm install
-cp .env.example .env   # editar credenciales
-npm run dev            # http://localhost:5000
+cp .env.example .env    # editar credenciales
+npm run dev             # http://localhost:5000
 ```
 
-**Frontend:**
+**Frontend Setup:**
 ```bash
 cd frontend
 npm install
-npm run dev            # http://localhost:5173
+npm run dev             # http://localhost:5173
 ```
 
-## 🧪 Tests
-
+**Tests:**
 ```bash
 # Frontend (43 tests)
 cd frontend && npm test
 
-# Backend (3 tests, requiere PostgreSQL)
+# Backend (3 tests, requiere PostgreSQL corriendo)
 cd backend && npm test
+
+# Todos los tests en CI (GitHub Actions)
+# Se ejecutan automáticamente en cada push a main
 ```
 
-## 📁 Estructura
+---
 
-```
-├── frontend/          # React + Vite
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/        # Auth, Cart, DarkMode, Language
-│   │   ├── services/       # API services
-│   │   ├── locales/        # ES/EN traducciones
-│   │   └── __tests__/      # 10 archivos, 43 tests
-│   └── Dockerfile
-├── backend/           # Express + Sequelize
-│   ├── src/
-│   │   ├── controllers/
-│   │   ├── models/
-│   │   ├── routes/
-│   │   └── __tests__/      # 1 archivo (health), 3 tests
-│   └── Dockerfile
-├── database/          # Schema SQL
-├── .github/workflows/ # CI/CD pipeline
-└── docker-compose.yml
-```
+<p align="center">
+  <b>Desarrollado por</b><br />
+  <a href="https://github.com/AlexandroCamacho1000">Alejandro Camacho</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/AlexandroCamacho1000/FoodAppByAle?color=blue&label=última%20actualización" alt="Last commit" />
+  <img src="https://img.shields.io/github/repo-size/AlexandroCamacho1000/FoodAppByAle?color=blue&label=tamaño%20del%20repo" alt="Repo size" />
+</p>
