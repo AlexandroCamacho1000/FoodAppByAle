@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="200" height="200" alt="alesoft" src="https://github.com/user-attachments/assets/5a3c18a4-d5af-4634-bf93-49009260522d" />
+  <img width="200" height="200" alt="logoaledev" src="frontend/public/logoaledev.png" />
 </p>
 
 <p align="center">
