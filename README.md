@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="120" height="120" alt="logoaledev" src="./frontend/public/logoaledev2.png" />
+  <img width="200" height="200" alt="logoaledev" src="./frontend/public/logoaledev2.png" />
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 # FoodApp — Bolivian Market
 
 <p align="center">
-  <img src="./frontend/public/screenshot.png" alt="FoodApp screenshot" width="67%" />
+  <img src="./frontend/public/screenshot.png" alt="FoodApp screenshot" width="90%" />
 </p>
 
 ## 1. Overview
