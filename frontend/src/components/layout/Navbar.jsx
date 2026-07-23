@@ -43,7 +43,7 @@ export default function Navbar() {
             <Link to="/" className="flex items-center gap-3">
               <div className="relative">
                 <div className="animate-float w-10 h-10 bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-lg flex items-center justify-center">
-                  <img src="/alesoft.png" alt="AleSoft" className="w-28 h-8 object-contain" />
+                  <img src="/logoaledev26.png" alt="AleSoft" className="w-28 h-8 object-contain" />
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-fuchsia-500 rounded-full border-2 border-white"></div>
               </div>

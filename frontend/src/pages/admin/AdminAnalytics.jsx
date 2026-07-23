@@ -129,7 +129,7 @@ const AdminAnalytics = () => {
           </div>
           <div className="h-64 flex items-center justify-center bg-gray-50 dark:bg-[#0f172a] rounded-lg">
             <div className="text-center">
-              <img src="/alesoft.png" alt="AleSoft" className="w-12 h-12 object-contain mx-auto mb-4" />
+              <img src="/logoaledev26.png" alt="AleSoft" className="w-12 h-12 object-contain mx-auto mb-4" />
               <p className="text-gray-600 dark:text-gray-400">
                 {language === 'es' ? 'Gráfico de productos populares' : 'Popular products chart'}
               </p>
