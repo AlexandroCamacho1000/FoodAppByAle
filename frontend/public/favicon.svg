@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#D946EF"/>
+    </linearGradient>
+  </defs>
+  <!-- Bowl -->
+  <path d="M6 18 C6 26, 26 26, 26 18 L24 14 L8 14 Z" fill="url(#g)"/>
+  <!-- Top rim -->
+  <ellipse cx="16" cy="14" rx="10" ry="2" fill="url(#g)"/>
+  <!-- Steam 1 -->
+  <path d="M12 10 Q13 7, 12 5" stroke="#D946EF" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <!-- Steam 2 -->
+  <path d="M16 9 Q17 6, 16 3" stroke="#2563EB" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+  <!-- Steam 3 -->
+  <path d="M20 10 Q21 7, 20 5" stroke="#D946EF" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.8"/>
+</svg>
