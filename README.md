@@ -4,32 +4,20 @@
 
 <p align="center">
   <a href="https://food-app-by-ale.vercel.app">
-    <img src="https://img.shields.io/badge/🚀_LIVE_DEMO-🌐_food--app--by--ale.vercel.app-00C853?style=for-the-badge" alt="Live Demo" />
+    <img src="https://img.shields.io/badge/LIVE_DEMO-🌐_Ver_App-00C853?style=for-the-badge" alt="Live Demo" />
   </a>
 </p>
 
 <p align="center">
   <a href="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions/workflows/test.yml">
-    <img src="https://img.shields.io/badge/CI-✅_passing-4CAF50?style=for-the-badge&logo=githubactions&logoColor=white" alt="CI" />
+    <img src="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions/workflows/test.yml/badge.svg" alt="CI" />
   </a>
-  <img src="https://img.shields.io/badge/46_tests-✅-4CAF50?style=for-the-badge" alt="Tests" />
-  <img src="https://img.shields.io/badge/Docker-ready-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
-  <img src="https://img.shields.io/badge/Playwright-E2E-45ba4b?style=for-the-badge&logo=playwright&logoColor=white" alt="Playwright" />
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=white" alt="React" />
-  <img src="https://img.shields.io/badge/Vite-7-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white" alt="Tailwind" />
-  <img src="https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" />
-  <img src="https://img.shields.io/badge/Node-20-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node" />
-  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express" />
-  <img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" alt="PostgreSQL" />
-  <img src="https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=sequelize&logoColor=white" alt="Sequelize" />
-  <img src="https://img.shields.io/badge/Stripe-008CDD?style=for-the-badge&logo=stripe&logoColor=white" alt="Stripe" />
-  <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="GitHub Actions" />
-  <img src="https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
-  <img src="https://img.shields.io/badge/Railway-0B0D0E?style=for-the-badge&logo=railway&logoColor=white" alt="Railway" />
+  <img src="https://img.shields.io/badge/React_19-20232A?logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/Node_20-339933?logo=nodedotjs" alt="Node" />
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql" alt="PostgreSQL" />
+  <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker" />
+  <img src="https://img.shields.io/badge/Playwright-45ba4b?logo=playwright" alt="Playwright" />
+  <img src="https://img.shields.io/badge/46_tests-✅_passing-4CAF50" alt="46 tests passing" />
 </p>
 
 ---
