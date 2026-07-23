@@ -33,8 +33,8 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="text-center max-w-4xl mx-auto relative z-10">
             <div className="inline-block mb-6 animate-float">
-              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/20">
-                <img src="/logoaledev26.png" alt="AleSoft" className="w-20 h-20 object-contain" />
+              <div className="w-20 h-20 mx-auto bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-2xl flex items-center justify-center mb-4 shadow-lg shadow-blue-500/20 p-1">
+                <img src="/logoaledev26.png" alt="AleSoft" className="w-full h-full object-contain" />
               </div>
             </div>
             
