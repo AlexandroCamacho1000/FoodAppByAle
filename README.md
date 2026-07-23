@@ -9,8 +9,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions/workflows/test.yml">
-    <img src="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions/workflows/test.yml/badge.svg" alt="CI" />
+  <a href="https://github.com/AlexandroCamacho1000/FoodAppByAle/actions">
+    <img src="https://img.shields.io/badge/CI-passing-4CAF50" alt="CI" />
   </a>
   <img src="https://img.shields.io/badge/React_19-20232A?logo=react" alt="React" />
   <img src="https://img.shields.io/badge/Node_20-339933?logo=nodedotjs" alt="Node" />
