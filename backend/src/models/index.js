@@ -83,9 +83,8 @@ const createSuperAdmin = async () => {
 
 const createSampleProducts = async () => {
   try {
-    const productCount = await Product.count();
-    
     const sampleProducts = [
+      // === SALTEÑAS ===
       {
         name: 'Salteña Paceña',
         description: 'Deliciosa salteña tradicional paceña con jugoso relleno de carne, papa, arvejas y especias.',
@@ -97,6 +96,29 @@ const createSampleProducts = async () => {
         featured: true,
         active: true
       },
+      {
+        name: 'Salteña de Pollo',
+        description: 'Salteña jugosa rellena de pollo, papa, arvejas y huevo duro, horneada a la perfección.',
+        descriptionEn: 'Juicy salteña filled with chicken, potatoes, peas and hard-boiled egg, baked to perfection.',
+        price: 13.00,
+        image: 'https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=400&h=400&fit=crop',
+        category: 'salteñas',
+        stock: 45,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Salteña de Queso',
+        description: 'Salteña vegetariana con queso derretido, papa y especias, ideal para cualquier momento.',
+        descriptionEn: 'Vegetarian salteña with melted cheese, potato and spices, perfect anytime.',
+        price: 11.00,
+        image: 'https://images.unsplash.com/photo-1509358271058-acd22cc93898?w=400&h=400&fit=crop',
+        category: 'salteñas',
+        stock: 40,
+        featured: false,
+        active: true
+      },
+      // === PLATOS FUERTES ===
       {
         name: 'Anticuchos',
         description: 'Brochetas de corazón de res marinadas en ají y especias, acompañadas de papas y salsa de maní.',
@@ -153,6 +175,85 @@ const createSampleProducts = async () => {
         active: true
       },
       {
+        name: 'Chicharrón de Cerdo',
+        description: 'Cerdo frito crujiente acompañado de mote, papa y ensalada de cebolla, típico cochabambino.',
+        descriptionEn: 'Crispy fried pork served with hominy, potato and onion salad, typical from Cochabamba.',
+        price: 40.00,
+        image: 'https://images.unsplash.com/photo-1608501946425-cc07f5e0ad72?w=400&h=400&fit=crop',
+        category: 'platos_fuertes',
+        stock: 20,
+        featured: true,
+        active: true
+      },
+      {
+        name: 'Picante de Pollo',
+        description: 'Pollo cocido en salsa picante de ají amarillo, papa y arroz, un clásico de la cocina boliviana.',
+        descriptionEn: 'Chicken cooked in spicy yellow chili sauce, potato and rice, a Bolivian classic.',
+        price: 32.00,
+        image: 'https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=400&h=400&fit=crop',
+        category: 'platos_fuertes',
+        stock: 25,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Falso Conejo',
+        description: 'Carne de res molida empanizada con arroz, papa, huevo y ensalada, típico de La Paz.',
+        descriptionEn: 'Breaded ground beef served with rice, potato, egg and salad, typical from La Paz.',
+        price: 28.00,
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
+        category: 'platos_fuertes',
+        stock: 20,
+        featured: false,
+        active: true
+      },
+      // === CARNES ===
+      {
+        name: 'Churrasco a la Piedra',
+        description: 'Filete de res cocido en piedra caliente, servido con papas fritas y ensalada fresca.',
+        descriptionEn: 'Beef fillet cooked on hot stone, served with french fries and fresh salad.',
+        price: 55.00,
+        image: 'https://images.unsplash.com/photo-1600891964092-4316c288032e?w=400&h=400&fit=crop',
+        category: 'carnes',
+        stock: 15,
+        featured: true,
+        active: true
+      },
+      {
+        name: 'Lomo Montado',
+        description: 'Lomo de res con arroz, papa frita, plátano frito, huevo y ensalada, un plato completo.',
+        descriptionEn: 'Beef loin with rice, french fries, fried plantain, egg and salad, a complete dish.',
+        price: 50.00,
+        image: 'https://images.unsplash.com/photo-1558030006-450675393462?w=400&h=400&fit=crop',
+        category: 'carnes',
+        stock: 18,
+        featured: true,
+        active: true
+      },
+      {
+        name: 'Parrillada Boliviana',
+        description: 'Selección de carnes a la parrilla: chorizo, churrasco, pollo y costilla, con guarniciones.',
+        descriptionEn: 'Grilled meat selection: sausage, beef steak, chicken and ribs, with sides.',
+        price: 75.00,
+        image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=400&fit=crop',
+        category: 'carnes',
+        stock: 10,
+        featured: true,
+        active: true
+      },
+      {
+        name: 'Asado de Tira',
+        description: 'Costillas de res a la parrilla, marinadas en especias y cerveza, con chimichurri.',
+        descriptionEn: 'Grilled beef ribs, marinated in spices and beer, served with chimichurri.',
+        price: 60.00,
+        image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=400&h=400&fit=crop',
+        category: 'carnes',
+        stock: 12,
+        featured: false,
+        active: true
+      },
+      // === BEBIDAS ===
+      {
         name: 'Api con Pastel',
         description: 'Bebida caliente de maíz morado acompañada de pastel de queso o empanada de queso.',
         descriptionEn: 'Hot purple corn drink served with cheese pastry or cheese empanada.',
@@ -174,6 +275,40 @@ const createSampleProducts = async () => {
         featured: false,
         active: true
       },
+      {
+        name: 'Café de Altura Boliviano',
+        description: 'Café orgánico de los Yungas de La Paz, tueste medio, aroma intenso y sabor equilibrado.',
+        descriptionEn: 'Organic coffee from the Yungas of La Paz, medium roast, intense aroma and balanced flavor.',
+        price: 18.00,
+        image: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=400&h=400&fit=crop',
+        category: 'bebidas',
+        stock: 60,
+        featured: true,
+        active: true
+      },
+      {
+        name: 'Mate de Coca',
+        description: 'Infusión tradicional de hojas de coca, reconfortante y digestiva, ideal después de la comida.',
+        descriptionEn: 'Traditional coca leaf infusion, comforting and digestive, ideal after meals.',
+        price: 8.00,
+        image: 'https://images.unsplash.com/photo-1571934811356-5cc061b6821f?w=400&h=400&fit=crop',
+        category: 'bebidas',
+        stock: 70,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Refresco de Tamarindo',
+        description: 'Refrescante bebida natural de tamarindo, dulce y ácida, perfecta para el calor.',
+        descriptionEn: 'Refreshing natural tamarind drink, sweet and sour, perfect for hot weather.',
+        price: 10.00,
+        image: 'https://images.unsplash.com/photo-1544252890-c3e95e4d8bcf?w=400&h=400&fit=crop',
+        category: 'bebidas',
+        stock: 60,
+        featured: false,
+        active: true
+      },
+      // === ENTRADAS ===
       {
         name: 'Humintas',
         description: 'Choclo rallado envuelto en sus propias hojas, relleno de queso y anís.',
@@ -197,6 +332,40 @@ const createSampleProducts = async () => {
         active: true
       },
       {
+        name: 'Sopa de Quinoa',
+        description: 'Sopa nutritiva de quinoa con verduras frescas, papa y hierbas aromáticas.',
+        descriptionEn: 'Nutritious quinoa soup with fresh vegetables, potato and aromatic herbs.',
+        price: 16.00,
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop',
+        category: 'entradas',
+        stock: 30,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Choclo con Queso',
+        description: 'Mazorca de maíz tierno hervido, acompañada de queso fresco y ají picante opcional.',
+        descriptionEn: 'Boiled tender corn on the cob, served with fresh cheese and optional spicy chili.',
+        price: 14.00,
+        image: 'https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400&h=400&fit=crop',
+        category: 'entradas',
+        stock: 35,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Papas Rellenas',
+        description: 'Papas rellenas de carne molida, huevo y especias, fritas hasta dorar, con salsa de la casa.',
+        descriptionEn: 'Potatoes stuffed with ground beef, egg and spices, fried until golden, with house sauce.',
+        price: 12.00,
+        image: 'https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=400&h=400&fit=crop',
+        category: 'entradas',
+        stock: 30,
+        featured: false,
+        active: true
+      },
+      // === POSTRES ===
+      {
         name: 'Leche Asada',
         description: 'Postre tradicional boliviano a base de leche, huevos, azúcar y canela, horneado a la perfección.',
         descriptionEn: 'Traditional Bolivian dessert made with milk, eggs, sugar and cinnamon, baked to perfection.',
@@ -206,22 +375,106 @@ const createSampleProducts = async () => {
         stock: 30,
         featured: false,
         active: true
+      },
+      {
+        name: 'Arroz con Leche',
+        description: 'Arroz cocido lentamente en leche con canela, pasas y cáscara de naranja, servido frío o caliente.',
+        descriptionEn: 'Rice slowly cooked in milk with cinnamon, raisins and orange peel, served cold or hot.',
+        price: 14.00,
+        image: 'https://images.unsplash.com/photo-1567599758819-1a17e2981685?w=400&h=400&fit=crop',
+        category: 'postres',
+        stock: 35,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Mazamorra de Manzana',
+        description: 'Postre espeso de manzana con canela y clavo, adornado con pasas y canela espolvoreada.',
+        descriptionEn: 'Thick apple dessert with cinnamon and cloves, topped with raisins and sprinkled cinnamon.',
+        price: 12.00,
+        image: 'https://images.unsplash.com/photo-1551024506-0bccd828d307?w=400&h=400&fit=crop',
+        category: 'postres',
+        stock: 30,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Helado de Canela',
+        description: 'Helado artesanal de canela boliviana, cremoso y aromático, perfecto para el clima cálido.',
+        descriptionEn: 'Artisanal Bolivian cinnamon ice cream, creamy and aromatic, perfect for warm weather.',
+        price: 18.00,
+        image: 'https://images.unsplash.com/photo-1501443762994-82bd5dace89a?w=400&h=400&fit=crop',
+        category: 'postres',
+        stock: 40,
+        featured: true,
+        active: true
+      },
+      // === ESPECIALES ===
+      {
+        name: 'Plato Paceño',
+        description: 'Clásico plato de La Paz con choclo, habas, papa, queso y llajwa, servido con carne opcional.',
+        descriptionEn: 'Classic La Paz dish with corn, fava beans, potato, cheese and llajwa, optional meat.',
+        price: 38.00,
+        image: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&h=400&fit=crop',
+        category: 'especiales',
+        stock: 15,
+        featured: true,
+        active: true
+      },
+      {
+        name: 'Calapurca',
+        description: 'Sopa espesa de maíz molido con carne de res, papa, cebolla y hierbabuena, típica de Potosí.',
+        descriptionEn: 'Thick ground corn soup with beef, potato, onion and mint, typical from Potosí.',
+        price: 25.00,
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop',
+        category: 'especiales',
+        stock: 20,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Lawa de Maíz',
+        description: 'Sopa prehispánica de maíz molido con carne, ají y hierbas, tradición milenaria boliviana.',
+        descriptionEn: 'Pre-Hispanic ground corn soup with meat, chili and herbs, ancient Bolivian tradition.',
+        price: 22.00,
+        image: 'https://images.unsplash.com/photo-1547592166-23ac45744acd?w=400&h=400&fit=crop',
+        category: 'especiales',
+        stock: 20,
+        featured: false,
+        active: true
+      },
+      {
+        name: 'Charque de Llama',
+        description: 'Carne de llama deshidratada y rehidratada, guisada con papa, mote y ají, herencia andina.',
+        descriptionEn: 'Dehydrated and rehydrated llama meat, stewed with potato, hominy and chili, Andean heritage.',
+        price: 42.00,
+        image: 'https://images.unsplash.com/photo-1608501946425-cc07f5e0ad72?w=400&h=400&fit=crop',
+        category: 'especiales',
+        stock: 12,
+        featured: true,
+        active: true
       }
     ];
+
+    const productCount = await Product.count();
     
     if (productCount === 0) {
-      console.log('📦 Creando productos de ejemplo...');
+      console.log('📦 Creando todos los productos de ejemplo...');
       await Product.bulkCreate(sampleProducts);
-      console.log(`✅ ${sampleProducts.length} productos de ejemplo creados`);
+      console.log(`✅ ${sampleProducts.length} productos creados`);
     } else {
-      console.log(`✅ Ya existen ${productCount} productos. Actualizando descriptionEn...`);
+      console.log(`✅ Ya existen ${productCount} productos. Añadiendo nuevos si faltan...`);
+      let added = 0;
       for (const p of sampleProducts) {
-        await Product.update(
-          { descriptionEn: p.descriptionEn },
-          { where: { name: p.name, descriptionEn: null } }
-        );
+        const existing = await Product.findOne({ where: { name: p.name } });
+        if (!existing) {
+          await Product.create(p);
+          added++;
+        } else if (!existing.descriptionEn && p.descriptionEn) {
+          await existing.update({ descriptionEn: p.descriptionEn });
+        }
       }
-      console.log(`✅ ${sampleProducts.length} productos actualizados con descriptionEn`);
+      console.log(`✅ ${added} nuevos productos añadidos (${sampleProducts.length} total en catalogo)`);
     }
   } catch (error) {
     console.error('❌ Error creando productos de ejemplo:', error.message);
