@@ -82,7 +82,7 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
             {Array.from({ length: 3 }).map((_, i) => (
               <div key={i} className="bg-white dark:bg-[#1e293b] rounded-xl shadow-md dark:shadow-black/20 overflow-hidden">
                 <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-48 w-full" />
@@ -102,7 +102,7 @@ export default function Home() {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
             {featuredProducts.length > 0 ? (
               featuredProducts.map((product, i) => (
                 <div key={product.id} className="animate-slideUp" style={{ animationDelay: `${i * 0.1}s` }}>

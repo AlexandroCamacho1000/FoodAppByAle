@@ -106,7 +106,7 @@ export default function Menu() {
 
         {/* Loading State - SKELETON CARDS */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
             {Array.from({ length: 8 }).map((_, i) => (
               <div key={i} className="bg-white dark:bg-[#1e293b] rounded-xl shadow-md dark:shadow-black/20 overflow-hidden">
                 <div className="animate-pulse bg-gray-200 dark:bg-[#334155] h-48 w-full" />
@@ -143,7 +143,7 @@ export default function Menu() {
                 <p className="animate-fadeIn text-sm text-slate-500 dark:text-slate-400 mb-4">
                   {t('menu.showingPage', { current: currentPage, total: totalPages, count: filteredProducts.length })}
                 </p>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                   {paginatedProducts.map((product, i) => (
                     <div key={product.id} className="animate-slideUp" style={{ animationDelay: `${i * 0.08}s` }}>
                       <ProductCard product={product} />

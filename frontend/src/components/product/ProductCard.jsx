@@ -94,7 +94,7 @@ export default function ProductCard({ product }) {
       className="block bg-white dark:bg-[#1e293b] rounded-2xl shadow-[0_2px_12px_-4px_rgba(0,0,0,0.06)] dark:shadow-[0_2px_12px_-4px_rgba(0,0,0,0.3)] overflow-hidden border border-gray-100 dark:border-[#334155] hover:shadow-[0_8px_30px_-8px_rgba(0,0,0,0.12)] hover:border-blue-200/50 dark:hover:border-blue-500/30 transition-all duration-300 group hover:-translate-y-1"
     >
       <div className="relative">
-        <div className="aspect-square overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#1e293b] dark:to-[#0f172a]">
+        <div className="h-28 sm:h-32 overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100 dark:from-[#1e293b] dark:to-[#0f172a]">
           {productData.image && productData.image !== '/images/placeholder.jpg' ? (
             <img 
               src={productData.image} 
@@ -109,44 +109,44 @@ export default function ProductCard({ product }) {
           
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent pointer-events-none" />
           
-          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          <div className="absolute top-2 left-2 flex flex-col gap-1">
             {productData.featured && (
-              <span className="backdrop-blur-md bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-lg">
+              <span className="backdrop-blur-md bg-gradient-to-r from-purple-500/90 to-pink-500/90 text-white text-[9px] font-semibold px-2 py-0.5 rounded-full shadow-lg">
                 {t('featured')}
               </span>
             )}
-              <span className="backdrop-blur-md bg-white/80 dark:bg-[#1e293b]/80 text-gray-700 dark:text-gray-300 text-[10px] font-semibold px-2.5 py-1 rounded-full shadow-sm">
+              <span className="backdrop-blur-md bg-white/80 dark:bg-[#1e293b]/80 text-gray-700 dark:text-gray-300 text-[9px] font-semibold px-2 py-0.5 rounded-full shadow-sm">
               {productData.category}
             </span>
           </div>
           
-          <div className="absolute bottom-3 right-3">
-            <span className="backdrop-blur-md bg-white/90 dark:bg-[#1e293b]/90 text-gray-700 dark:text-gray-300 text-[10px] font-semibold px-2 py-0.5 rounded-full shadow-sm">
+          <div className="absolute bottom-2 right-2">
+            <span className="backdrop-blur-md bg-white/90 dark:bg-[#1e293b]/90 text-gray-700 dark:text-gray-300 text-[9px] font-semibold px-1.5 py-0.5 rounded-full shadow-sm">
               ★ {productData.rating}
             </span>
           </div>
         </div>
       </div>
       
-      <div className="p-4">
-        <h3 className="font-semibold text-sm text-gray-900 dark:text-gray-100 mb-1.5 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
+      <div className="p-3">
+        <h3 className="font-semibold text-xs sm:text-sm text-gray-900 dark:text-gray-100 mb-1 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors line-clamp-1">
           {productData.name}
         </h3>
-        <p className="text-xs text-gray-400 dark:text-gray-300 mb-3 line-clamp-2 leading-relaxed">
+        <p className="text-[11px] text-gray-400 dark:text-gray-300 mb-2 line-clamp-1 leading-relaxed">
           {productData.description}
         </p>
         
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between gap-1">
           <div className="flex items-baseline gap-0.5">
-            <span className="text-[10px] font-medium text-gray-400">Bs</span>
-            <span className="text-lg font-bold text-gray-900 dark:text-gray-100 tabular-nums">
+            <span className="text-[9px] font-medium text-gray-400">Bs</span>
+            <span className="text-sm sm:text-base font-bold text-gray-900 dark:text-gray-100 tabular-nums">
               {productData.price.toFixed(2)}
             </span>
           </div>
           
           <button 
             onClick={handleAddToCart}
-            className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 active:scale-95 ${
+            className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 active:scale-95 ${
               alreadyInCart
                 ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                 : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm hover:shadow-md'
