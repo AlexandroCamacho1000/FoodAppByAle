@@ -16,12 +16,12 @@ export default function Menu() {
  
   const categories = [
     { id: 'all', name: t('viewAll'), count: 0 },
-    { id: 'Salteñas', name: t('categories.saltenas'), count: 0 },
-    { id: 'Platos Fuertes', name: t('categories.platosFuertes'), count: 0 },
-    { id: 'Carnes', name: t('categories.carnes'), count: 0 },
-    { id: 'Bebidas', name: t('categories.bebidas'), count: 0 },
-    { id: 'Entradas', name: t('categories.entradas'), count: 0 },
-    { id: 'Postres', name: t('categories.postres'), count: 0 },
+    { id: 'salteñas', name: t('categories.saltenas'), count: 0 },
+    { id: 'platos_fuertes', name: t('categories.platosFuertes'), count: 0 },
+    { id: 'carnes', name: t('categories.carnes'), count: 0 },
+    { id: 'bebidas', name: t('categories.bebidas'), count: 0 },
+    { id: 'entradas', name: t('categories.entradas'), count: 0 },
+    { id: 'postres', name: t('categories.postres'), count: 0 },
   ];
 
 
