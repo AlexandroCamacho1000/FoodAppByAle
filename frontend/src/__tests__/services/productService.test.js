@@ -25,7 +25,7 @@ describe('productService', () => {
     const products = await productService.getProductsByCategory('Bebidas')
     expect(Array.isArray(products)).toBe(true)
     expect(products.length).toBeGreaterThan(0)
-    products.forEach(p => expect(p.category).toBe('Bebidas'))
+    products.forEach(p => expect(p.category.toLowerCase()).toBe('bebidas'))
   })
 
   test('getFeaturedProducts retorna solo productos destacados (max 4)', async () => {

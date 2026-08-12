@@ -22,6 +22,7 @@ export default function Menu() {
     { id: 'bebidas', name: t('categories.bebidas'), count: 0 },
     { id: 'entradas', name: t('categories.entradas'), count: 0 },
     { id: 'postres', name: t('categories.postres'), count: 0 },
+    { id: 'especiales', name: t('categories.especiales'), count: 0 },
   ];
 
 
@@ -43,7 +44,7 @@ export default function Menu() {
 
   const filteredProducts = selectedCategory === 'all' 
     ? products 
-    : products.filter(product => product.category === selectedCategory);
+    : products.filter(product => String(product.category).toLowerCase() === String(selectedCategory).toLowerCase());
 
   
   const indexOfLastItem = currentPage * itemsPerPage;

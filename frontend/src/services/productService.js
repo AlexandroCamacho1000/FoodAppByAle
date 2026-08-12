@@ -179,33 +179,52 @@ const initialProducts = [
   }
 ];
 
+const normalizeCategory = (category) => {
+  const map = {
+    'Salteñas': 'salteñas',
+    'Platos Fuertes': 'platos_fuertes',
+    'Carnes': 'carnes',
+    'Bebidas': 'bebidas',
+    'Entradas': 'entradas',
+    'Postres': 'postres'
+  };
+  return map[category] || category;
+};
+
+const normalizeProducts = (products) => {
+  return (Array.isArray(products) ? products : []).map(p => ({
+    ...p,
+    category: normalizeCategory(p.category)
+  }));
+};
+
 const loadProductsFromBackend = async () => {
   try {
     const response = await api.get('/products');
     const backendProducts = response.data.products || response.data;
     localStorage.setItem('backend_products_cache', JSON.stringify(backendProducts));
     localStorage.setItem('products_source', 'backend');
-    return Array.isArray(backendProducts) ? backendProducts : [backendProducts];
+    return normalizeProducts(backendProducts);
   } catch (error) {
     try {
       const cachedProducts = JSON.parse(localStorage.getItem('backend_products_cache') || '[]');
       if (cachedProducts.length > 0) {
         localStorage.setItem('products_source', 'cache');
-        return cachedProducts;
+        return normalizeProducts(cachedProducts);
       }
     } catch (cacheError) {
       // ignore
     }
     localStorage.setItem('products_source', 'initial');
-    return initialProducts;
+    return normalizeProducts(initialProducts);
   }
 };
 
 const getProductsByCategoryImpl = async (category) => {
   const products = await loadProductsFromBackend();
-  const filtered = category === 'all' 
-    ? products 
-    : products.filter(p => p.category === category);
+  const filtered = category === 'all'
+    ? products
+    : products.filter(p => String(p.category).toLowerCase() === String(category).toLowerCase());
   return filtered;
 };
 

@@ -14,8 +14,17 @@ const { syncModels } = require('./models');
 const app = express();
 
 // Configurar CORS para desarrollo
+const allowedOrigins = [
+  process.env.FRONTEND_URL,
+  'http://localhost',
+  'http://localhost:80',
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'https://food-app-by-ale.vercel.app'
+].filter(Boolean);
+
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']
