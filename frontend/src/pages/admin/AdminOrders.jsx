@@ -1,4 +1,3 @@
-// frontend/src/pages/admin/AdminOrders.jsx
 import React, { useState, useEffect } from 'react';
 import { FiPackage, FiUser, FiMapPin, FiCreditCard, FiCalendar, FiShoppingCart, FiDollarSign, FiTruck, FiCheckCircle, FiClock, FiXCircle } from 'react-icons/fi';
 import { useLanguage } from '../../context/LanguageContext';
@@ -56,7 +55,7 @@ const AdminOrders = () => {
       
       setOrders(formattedOrders);
       
-    } catch (error) {
+    } catch {
       setOrders([]);
     } finally {
       setLoading(false);
@@ -106,7 +105,6 @@ const AdminOrders = () => {
   const totalRevenue = orders.reduce((sum, order) => sum + (order.total || 0), 0);
   const uniqueCustomers = [...new Set(orders.map(order => order.email))].filter(email => email).length;
   const pendingOrders = orders.filter(order => order.status === 'pending').length;
-  const completedOrders = orders.filter(order => order.status === 'completed').length;
 
   const renderStatusBadge = (status) => {
     const statusConfig = {

@@ -1,4 +1,4 @@
-// frontend/src/pages/MyOrders.jsx
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
@@ -7,13 +7,20 @@ const MyOrders = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
 
-  // Obtener pedidos del localStorage (simulados)
-  const getOrders = () => {
-    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    return user?.role === 'superadmin' ? orders : orders.filter(order => order.userId === user?.id || order.userEmail === user?.email);
-  };
-
-  const orders = getOrders();
+  const [orders] = useState(() => {
+    const allOrders = JSON.parse(localStorage.getItem('orders') || '[]');
+    const userOrders = user?.role === 'superadmin'
+      ? allOrders
+      : allOrders.filter(order => order.userId === user?.id || order.userEmail === user?.email);
+    return userOrders.map(order => ({
+      ...order,
+      formattedDate: new Date(order.date || Date.now()).toLocaleDateString('es-BO', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      })
+    }));
+  });
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -28,11 +35,7 @@ const MyOrders = () => {
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">{t('orders.orderLabel')} #{order.id?.slice(-6) || `ORD${index + 1}`}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
-                    {new Date(order.date || Date.now()).toLocaleDateString('es-BO', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                    })}
+                    {order.formattedDate}
                   </p>
                 </div>
                 <div className="text-right">

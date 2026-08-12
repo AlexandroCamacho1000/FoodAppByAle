@@ -1,4 +1,3 @@
-// frontend/src/routes/index.jsx - VERSIÓN COMPLETA CON TODAS LAS RUTAS
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from '../components/layout/Layout';
 import Home from '../pages/Home';
@@ -13,7 +12,6 @@ import Profile from '../pages/Profile';
 import MyOrders from '../pages/MyOrders';        
 import NotFound from '../pages/NotFound';
 
-// Importa el Layout de Admin y sus páginas
 import AdminLayout from '../components/admin/AdminLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminOrders from '../pages/admin/AdminOrders';
@@ -22,10 +20,8 @@ import AdminCustomers from '../pages/admin/AdminCustomers';
 import AdminAnalytics from '../pages/admin/AdminAnalytics';
 import AdminSettings from '../pages/admin/AdminSettings';
 
-// Importa ProtectedRoute
 import { ProtectedRoute } from '../components/ProtectedRoute';
 
-// Importa la nueva página de invitaciones
 import CreateInvitePage from '../pages/admin/CreateInvitePage';
 
 const router = createBrowserRouter([
@@ -62,7 +58,6 @@ const router = createBrowserRouter([
         element: <OrderConfirmation />
       },
       
-      // ✅ RUTAS PROTEGIDAS PARA USUARIOS AUTENTICADOS
       {
         path: 'profile',
         element: (
@@ -88,7 +83,6 @@ const router = createBrowserRouter([
         )
       },
       
-      // ✅ NUEVA RUTA: GENERADOR DE INVITACIONES (solo superadmin)
       {
         path: 'create-invite',
         element: (
@@ -100,7 +94,6 @@ const router = createBrowserRouter([
     ],
   },
   
-  // ✅ RUTA ADMIN (accesible para admin y superadmin)
   {
     path: '/admin',
     element: (
@@ -121,7 +114,6 @@ const router = createBrowserRouter([
         path: 'products',
         element: <AdminProducts />,
       },
-      // ✅ NUEVAS RUTAS ADMIN
       {
         path: 'customers',
         element: <AdminCustomers />,
@@ -137,7 +129,6 @@ const router = createBrowserRouter([
     ],
   },
   
-  // ✅ 404
   {
     path: '*',
     element: <NotFound />,

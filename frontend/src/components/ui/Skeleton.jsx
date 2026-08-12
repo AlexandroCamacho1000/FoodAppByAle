@@ -1,4 +1,3 @@
-// frontend/src/components/ui/Skeleton.jsx
 const SkeletonBox = ({ className = '' }) => (
   <div className={`animate-pulse bg-gray-200 dark:bg-[#334155] rounded ${className}`} />
 );

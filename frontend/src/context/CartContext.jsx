@@ -33,7 +33,7 @@ export function CartProvider({ children }) {
       setError(null);
       const cartData = await getCart();
       setCart(cartData);
-    } catch (err) {
+    } catch {
       setError('Error al cargar el carrito');
     } finally {
       setLoading(false);
@@ -60,7 +60,7 @@ export function CartProvider({ children }) {
       setError(null);
       const updatedCart = await removeFromCartService(productId);
       setCart(updatedCart);
-    } catch (err) {
+    } catch {
       setError('Error al eliminar del carrito');
     }
   }, []);
@@ -70,7 +70,7 @@ export function CartProvider({ children }) {
       setError(null);
       const updatedCart = await updateCartItemQuantity(productId, quantity);
       setCart(updatedCart);
-    } catch (err) {
+    } catch {
       setError('Error al actualizar cantidad');
     }
   }, []);
@@ -80,7 +80,7 @@ export function CartProvider({ children }) {
       setError(null);
       await clearCartService();
       setCart([]);
-    } catch (err) {
+    } catch {
       setError('Error al vaciar el carrito');
     }
   }, []);

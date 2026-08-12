@@ -205,14 +205,14 @@ const loadProductsFromBackend = async () => {
     localStorage.setItem('backend_products_cache', JSON.stringify(backendProducts));
     localStorage.setItem('products_source', 'backend');
     return normalizeProducts(backendProducts);
-  } catch (error) {
+  } catch {
     try {
       const cachedProducts = JSON.parse(localStorage.getItem('backend_products_cache') || '[]');
       if (cachedProducts.length > 0) {
         localStorage.setItem('products_source', 'cache');
         return normalizeProducts(cachedProducts);
       }
-    } catch (cacheError) {
+    } catch {
       // ignore
     }
     localStorage.setItem('products_source', 'initial');
@@ -237,7 +237,7 @@ export const productService = {
     try {
       const response = await api.get(`/products/${id}`);
       return response.data.product || response.data;
-    } catch (error) {
+    } catch {
       // not found on backend, try local
     }
     const products = await loadProductsFromBackend();
@@ -280,11 +280,6 @@ export const productService = {
   
   saveProducts: (products) => {
     localStorage.setItem('admin_products', JSON.stringify(products));
-    try {
-      // api.post('/admin/products/bulk', { products });
-    } catch (error) {
-      // ignore
-    }
     return true;
   },
   

@@ -1,5 +1,4 @@
-import { useState, useEffect } from 'react';
-import { useLanguage } from '../../context/LanguageContext';
+import { useEffect } from 'react';
 
 export default function Toast({ message, type = 'success', show, onClose }) {
   useEffect(() => {

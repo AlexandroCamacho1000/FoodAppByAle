@@ -38,20 +38,17 @@ export const AuthProvider = ({ children }) => {
         const parsedUser = JSON.parse(savedUser);
         
         setUser(parsedUser);
-      } catch (error) {
-        
+      } catch {
         localStorage.removeItem(USER_STORAGE_KEY);
         localStorage.removeItem(TOKEN_STORAGE_KEY);
       }
-    } else {
-    
     }
     
     if (savedInviteCodes) {
       try {
         const parsedCodes = JSON.parse(savedInviteCodes);
         setInviteCodes(parsedCodes);
-      } catch (error) {
+      } catch {
         localStorage.removeItem(INVITE_CODES_STORAGE_KEY);
       }
     } else {
@@ -107,7 +104,7 @@ export const AuthProvider = ({ children }) => {
       setInviteCodes(updatedCodes);
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(updatedCodes));
       return newCode;
-    } catch (error) {
+    } catch {
       const newCode = {
         code: generateInviteCode(),
         createdBy: user.email,
@@ -134,7 +131,7 @@ export const AuthProvider = ({ children }) => {
         return { valid: true, message: 'Código válido' };
       }
       return { valid: false, message: response.data.message };
-    } catch (error) {
+    } catch {
       const inviteCode = inviteCodes.find(inv => inv.code === code);
       if (!inviteCode) return { valid: false, message: 'Código inválido' };
       if (inviteCode.used) return { valid: false, message: 'Este código ya ha sido utilizado' };
@@ -179,7 +176,7 @@ export const AuthProvider = ({ children }) => {
       setInviteCodes(formatted);
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(formatted));
       return formatted;
-    } catch (error) {
+    } catch {
       return inviteCodes;
     }
   };
@@ -193,7 +190,7 @@ export const AuthProvider = ({ children }) => {
       setInviteCodes(updatedCodes);
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(updatedCodes));
       return { success: true };
-    } catch (error) {
+    } catch {
       const updatedCodes = inviteCodes.filter(inv => inv.code !== code);
       setInviteCodes(updatedCodes);
       localStorage.setItem(INVITE_CODES_STORAGE_KEY, JSON.stringify(updatedCodes));
@@ -234,9 +231,7 @@ export const AuthProvider = ({ children }) => {
       
       throw new Error('Respuesta inválida del servidor');
       
-    } catch (error) {
-     
-      
+    } catch {
       const mockUsers = {
         superadmin: {
           id: 'superadmin-001',
@@ -311,9 +306,7 @@ export const AuthProvider = ({ children }) => {
         return { success: true, user: userData, token: data.token };
       }
       
-    } catch (error) {
-    
-      
+    } catch {
       const { inviteCode, ...userInfo } = userData;
       let userRole = 'user';
       

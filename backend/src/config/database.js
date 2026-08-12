@@ -4,10 +4,6 @@ require('dotenv').config();
 const isProduction = process.env.NODE_ENV === 'production';
 
 if (process.env.DATABASE_URL) {
-  console.log('🔧 Configurando PostgreSQL...');
-  console.log('   Entorno:', isProduction ? 'PRODUCCIÓN' : 'DESARROLLO');
-
-  // Conexión a PostgreSQL REAL
   const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     logging: isProduction ? false : console.log,
@@ -29,31 +25,17 @@ if (process.env.DATABASE_URL) {
   const testConnection = async () => {
     try {
       await sequelize.authenticate();
-      console.log('✅ PostgreSQL conectado exitosamente');
-      
-      // Mostrar info de conexión (sin contraseña)
-      const url = new URL(process.env.DATABASE_URL);
-      console.log(`   Host: ${url.hostname}`);
-      console.log(`   Database: ${url.pathname.replace('/', '')}`);
-      
+      console.log('PostgreSQL conectado');
       return true;
     } catch (error) {
-      console.error('❌ Error conectando a PostgreSQL:', error.message);
-      console.log('');
-      console.log('💡 SOLUCIÓN:');
-      console.log('   1. Verifica que PostgreSQL esté corriendo');
-      console.log('   2. psql -U postgres (para probar conexión)');
-      console.log('   3. CREATE DATABASE bolivianmarket_dev;');
-      console.log('   4. Revisa DATABASE_URL en .env');
-      
+      console.error('Error conectando a PostgreSQL:', error.message);
+      console.error('Verifica que PostgreSQL esté corriendo y que DATABASE_URL sea correcto.');
       return false;
     }
   };
 
   module.exports = { sequelize, testConnection };
 } else {
-  console.log('🔧 Usando SQLite local (sin DATABASE_URL)...');
-  
   const sequelize = new Sequelize({
     dialect: 'sqlite',
     storage: './database.sqlite',
@@ -63,10 +45,10 @@ if (process.env.DATABASE_URL) {
   const testConnection = async () => {
     try {
       await sequelize.authenticate();
-      console.log('✅ SQLite conectado exitosamente');
+      console.log('SQLite conectado');
       return true;
     } catch (error) {
-      console.error('❌ Error conectando a SQLite:', error.message);
+      console.error('Error conectando a SQLite:', error.message);
       return false;
     }
   };

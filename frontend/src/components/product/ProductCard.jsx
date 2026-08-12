@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function ProductCard({ product }) {
   const { t, language } = useLanguage();
-  const { addToCart, isInCart, getQuantity } = useCart();
+  const { addToCart, isInCart } = useCart();
 
   if (!product) {
     return null;
@@ -37,6 +37,8 @@ export default function ProductCard({ product }) {
       'carnes': 'carnes',
       'bebidas': 'bebidas',
       'entradas': 'entradas',
+      'postres': 'postres',
+      'especiales': 'especiales',
       'sopas': 'sopas'
     };
     
@@ -53,6 +55,8 @@ export default function ProductCard({ product }) {
       'carnes': 'Carnes',
       'bebidas': 'Bebidas',
       'entradas': 'Entradas',
+      'postres': 'Postres',
+      'especiales': 'Especiales',
       'sopas': 'Sopas'
     };
     
@@ -86,7 +90,6 @@ export default function ProductCard({ product }) {
   };
 
   const alreadyInCart = isInCart(productData.id);
-  const quantityInCart = getQuantity(productData.id);
 
   return (
     <Link 

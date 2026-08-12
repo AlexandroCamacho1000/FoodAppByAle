@@ -32,7 +32,8 @@ export default function Menu() {
         setLoading(true);
         const data = await getProducts();
         setProducts(data);
-      } catch (error) {
+      } catch {
+        // ignore
       } finally {
         setLoading(false);
       }

@@ -257,7 +257,7 @@ const { t, language } = useLanguage();
         setProducts(migrated);
         saveProducts(migrated);
       }
-    } catch (error) {
+    } catch {
       setProducts(initialProducts);
     } finally {
       setLoading(false);
@@ -267,7 +267,8 @@ const { t, language } = useLanguage();
   const saveProducts = (productsToSave) => {
     try {
       localStorage.setItem('admin_products', JSON.stringify(productsToSave));
-    } catch (error) {
+    } catch {
+      // ignore
     }
   };
 
@@ -294,7 +295,8 @@ const { t, language } = useLanguage();
       localStorage.setItem('products', JSON.stringify(menuProducts));
       
       window.dispatchEvent(new Event('products-updated'));
-    } catch (error) {
+    } catch {
+      // ignore
     }
   };
 

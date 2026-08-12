@@ -1,4 +1,3 @@
-// frontend/src/pages/admin/CreateInvitePage.jsx
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 

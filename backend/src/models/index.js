@@ -27,22 +27,21 @@ Product.hasMany(OrderItem, {
 const syncModels = async () => {
   try {
     const force = false;
-    
-    console.log('🔄 Sincronizando modelos...');
+
     await sequelize.sync({ force });
-    
+
     if (force) {
-      console.warn('⚠️  ¡ADVERTENCIA! Se usó force:true - Todos los datos fueron borrados');
+      console.warn('force:true usado - todos los datos fueron borrados');
     } else {
-      console.log('✅ Modelos sincronizados (sin borrar datos)');
+      console.log('Modelos sincronizados');
     }
-    
+
     await createSuperAdmin();
     await createSampleProducts();
-    
+
     return true;
   } catch (error) {
-    console.error('❌ Error sincronizando modelos:', error);
+    console.error('Error sincronizando modelos:', error);
     return false;
   }
 };
@@ -54,7 +53,7 @@ const createSuperAdmin = async () => {
     const superadminPassword = process.env.SUPERADMIN_PASSWORD || 'superadmin123';
     
     if (!superadminEmail || !superadminPassword) {
-      console.error('❌ Variables de superadmin no configuradas');
+      console.error('Variables de superadmin no configuradas');
       return;
     }
 
@@ -72,12 +71,12 @@ const createSuperAdmin = async () => {
     });
 
     if (created) {
-      console.log('✅ Superadmin creado:', superadminEmail);
+      console.log('Superadmin creado:', superadminEmail);
     } else {
-      console.log('✅ Superadmin ya existe:', superadminEmail);
+      console.log('Superadmin ya existe:', superadminEmail);
     }
   } catch (error) {
-    console.error('❌ Error creando superadmin:', error.message);
+    console.error('Error creando superadmin:', error.message);
   }
 };
 
@@ -459,11 +458,9 @@ const createSampleProducts = async () => {
     const productCount = await Product.count();
     
     if (productCount === 0) {
-      console.log('📦 Creando todos los productos de ejemplo...');
       await Product.bulkCreate(sampleProducts);
-      console.log(`✅ ${sampleProducts.length} productos creados`);
+      console.log(`${sampleProducts.length} productos creados`);
     } else {
-      console.log(`✅ Ya existen ${productCount} productos. Añadiendo nuevos si faltan...`);
       let added = 0;
       for (const p of sampleProducts) {
         const existing = await Product.findOne({ where: { name: p.name } });
@@ -474,10 +471,10 @@ const createSampleProducts = async () => {
           await existing.update({ descriptionEn: p.descriptionEn });
         }
       }
-      console.log(`✅ ${added} nuevos productos añadidos (${sampleProducts.length} total en catalogo)`);
+      console.log(`${added} nuevos productos añadidos (${sampleProducts.length} en catálogo)`);
     }
   } catch (error) {
-    console.error('❌ Error creando productos de ejemplo:', error.message);
+    console.error('Error creando productos de ejemplo:', error.message);
   }
 };
 
@@ -487,46 +484,42 @@ const checkExistingData = async () => {
     const productCount = await Product.count();
     const inviteCount = await InviteCode.count();
     
-    console.log('📊 ESTADÍSTICAS DE BASE DE DATOS:');
-    console.log(`   👤 Usuarios: ${userCount}`);
-    console.log(`   📦 Productos: ${productCount}`);
-    console.log(`   🔑 Invitaciones: ${inviteCount}`);
-    console.log('====================================');
+    console.log('Estadísticas de base de datos:');
+    console.log(`   Usuarios: ${userCount}`);
+    console.log(`   Productos: ${productCount}`);
+    console.log(`   Invitaciones: ${inviteCount}`);
   } catch (error) {
-    console.error('❌ Error verificando datos:', error);
+    console.error('Error verificando datos:', error);
   }
 };
 
 const safeReset = async () => {
   try {
-    console.log('🔄 Iniciando reset seguro...');
     await sequelize.sync({ force: true });
-    console.log('✅ Tablas recreadas');
-    
+    console.log('Tablas recreadas');
+
     await createSuperAdmin();
     await createSampleProducts();
-    
-    console.log('✅ Reset completado');
+
+    console.log('Reset completado');
   } catch (error) {
-    console.error('❌ Error en reset:', error);
+    console.error('Error en reset:', error);
   }
 };
 
 const startDatabase = async (options = {}) => {
   try {
-    console.log('🔄 Iniciando base de datos...');
-    
     if (options.safeReset) {
       await safeReset();
     } else {
       await syncModels();
     }
-    
+
     await checkExistingData();
-    
+
     return true;
   } catch (error) {
-    console.error('❌ Error iniciando base de datos:', error);
+    console.error('Error iniciando base de datos:', error);
     return false;
   }
 };

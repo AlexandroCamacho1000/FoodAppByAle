@@ -1,29 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FiTrendingUp, FiDollarSign, FiShoppingCart, FiUsers, FiPieChart, FiBarChart2 } from 'react-icons/fi';
 import { useLanguage } from '../../context/LanguageContext';
 
 const AdminAnalytics = () => {
   const { t, language } = useLanguage();
 
-  const [analytics, setAnalytics] = useState({
-    totalRevenue: 0,
-    totalOrders: 0,
-    uniqueCustomers: 0,
-    avgTicket: 0
-  });
-
-  useEffect(() => {
+  const [analytics] = useState(() => {
     const orders = JSON.parse(localStorage.getItem('orders') || '[]');
     const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
     const uniqueCustomers = new Set(orders.map(o => o.userId).filter(Boolean)).size;
-
-    setAnalytics({
+    return {
       totalRevenue,
       totalOrders: orders.length,
       uniqueCustomers,
       avgTicket: orders.length > 0 ? totalRevenue / orders.length : 0
-    });
-  }, []);
+    };
+  });
 
   return (
     <div className="p-6">

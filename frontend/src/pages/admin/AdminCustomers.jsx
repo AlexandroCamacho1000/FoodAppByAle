@@ -1,24 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { FiUsers, FiMail, FiCalendar, FiUser, FiEdit, FiTrash2, FiFilter } from 'react-icons/fi';
 import { useLanguage } from '../../context/LanguageContext';
 
 const AdminCustomers = () => {
   const { t, language } = useLanguage();
-  const [customers, setCustomers] = useState([]);
-  const [filteredCustomers, setFilteredCustomers] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [roleFilter, setRoleFilter] = useState('all');
 
-  useEffect(() => {
-    loadCustomers();
-  }, []);
-
-  const loadCustomers = () => {
+  const [customers] = useState(() => {
     const users = JSON.parse(localStorage.getItem('bolivian_market_users') || '[]');
     const orders = JSON.parse(localStorage.getItem('orders') || '[]');
 
-    // Calcular estadísticas por usuario desde las órdenes
     const orderStats = {};
     orders.forEach(o => {
       const uid = o.userId;
@@ -30,7 +22,15 @@ const AdminCustomers = () => {
       orderStats[uid].totalSpent += o.total || 0;
     });
 
-    const exampleCustomers = users.length === 0 ? [
+    if (users.length > 0) {
+      return users.map(u => ({
+        ...u,
+        orders: orderStats[u.id]?.orders || 0,
+        totalSpent: orderStats[u.id]?.totalSpent || 0
+      }));
+    }
+
+    return [
       {
         id: '1',
         name: 'Juan Pérez',
@@ -64,35 +64,17 @@ const AdminCustomers = () => {
         orders: 12,
         totalSpent: 3250
       }
-    ] : users.map(u => ({
-      ...u,
-      orders: orderStats[u.id]?.orders || 0,
-      totalSpent: orderStats[u.id]?.totalSpent || 0
-    }));
+    ];
+  });
 
-    setCustomers(exampleCustomers);
-    setFilteredCustomers(exampleCustomers);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    let result = customers;
-    
-    if (searchTerm) {
-      const term = searchTerm.toLowerCase();
-      result = result.filter(c => 
-        c.name?.toLowerCase().includes(term) ||
-        c.email?.toLowerCase().includes(term) ||
-        c.phone?.includes(term)
-      );
-    }
-    
-    if (roleFilter !== 'all') {
-      result = result.filter(c => c.role === roleFilter);
-    }
-    
-    setFilteredCustomers(result);
-  }, [searchTerm, roleFilter, customers]);
+  const filteredCustomers = customers.filter(c => {
+    const matchesSearch = !searchTerm ||
+      c.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.phone?.includes(searchTerm);
+    const matchesRole = roleFilter === 'all' || c.role === roleFilter;
+    return matchesSearch && matchesRole;
+  });
 
   const handleRoleColor = (role) => {
     switch(role) {
@@ -109,14 +91,6 @@ const AdminCustomers = () => {
       default: return 'Cliente';
     }
   };
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="p-6">

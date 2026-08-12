@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiPackage, FiDollarSign, FiUsers, FiShoppingCart, FiTrendingUp, FiAlertCircle } from 'react-icons/fi';
 import { useLanguage } from '../../context/LanguageContext';
@@ -6,36 +6,29 @@ import { useLanguage } from '../../context/LanguageContext';
 const AdminDashboard = () => {
   const { t } = useLanguage();
 
-  const [stats, setStats] = useState({
-    totalOrders: 0,
-    totalRevenue: 0,
-    totalCustomers: 0,
-    pendingOrders: 0
-  });
-  const [recentOrders, setRecentOrders] = useState([]);
-
-  useEffect(() => {
+  const [stats] = useState(() => {
     const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    
     const totalRevenue = orders.reduce((sum, o) => sum + (o.total || 0), 0);
     const uniqueCustomers = new Set(orders.map(o => o.userId).filter(Boolean));
-    
-    setStats({
+    return {
       totalOrders: orders.length,
-      totalRevenue: totalRevenue,
+      totalRevenue,
       totalCustomers: uniqueCustomers.size,
       pendingOrders: orders.filter(o => o.status === 'pending').length
-    });
+    };
+  });
 
+  const [recentOrders] = useState(() => {
+    const orders = JSON.parse(localStorage.getItem('orders') || '[]');
     const sorted = [...orders].sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
-    setRecentOrders(sorted.slice(0, 5).map(o => ({
+    return sorted.slice(0, 5).map(o => ({
       id: o.id || 'N/A',
       customer: o.shippingInfo?.fullName || o.userName || o.customerName || 'Cliente',
       amount: o.total || 0,
       status: o.status === 'completed' ? 'Completado' : o.status === 'pending' ? 'Pendiente' : 'En proceso',
       date: o.date ? new Date(o.date).toLocaleDateString() : ''
-    })));
-  }, []);
+    }));
+  });
 
   return (
     <div className="p-6">

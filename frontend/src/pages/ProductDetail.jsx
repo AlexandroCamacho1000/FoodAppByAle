@@ -22,7 +22,6 @@ import {
 const ProductDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  // 🔹 CAMBIO 1: Agregar language al destructuring
   const { t, language } = useLanguage();
   const { addToCart, isInCart, getQuantity } = useCart();
   
@@ -53,7 +52,7 @@ const ProductDetail = () => {
       setRelatedProducts(filteredRelated);
       
       setError(null);
-    } catch (err) {
+    } catch {
       setError('Producto no encontrado');
     } finally {
       setLoading(false);
@@ -76,7 +75,6 @@ const ProductDetail = () => {
     if (navigator.share && product) {
       navigator.share({
         title: product.name,
-        // 🔹 CAMBIO 2: t('app.lang') → language
         text: language === 'es' ? product.description : (product.descriptionEn || product.description),
         url: window.location.href,
       });
@@ -193,7 +191,7 @@ const ProductDetail = () => {
                   src={productImages[currentImageIndex]} 
                   alt={product.name}
                   className="w-full h-full object-cover"
-                  onError={(e) => { e.target.src = ''; e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class=\"w-full h-full flex items-center justify-center text-6xl opacity-30\">🍽️</div>'; }}
+                  onError={(e) => { e.target.src = ''; e.target.style.display = 'none'; e.target.parentElement.innerHTML = '<div class="w-full h-full flex items-center justify-center text-6xl opacity-30">🍽️</div>'; }}
                 />
                 
                 {productImages.length > 1 && (
@@ -278,7 +276,6 @@ const ProductDetail = () => {
               {product.name}
             </h1>
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6">
-              {/* 🔹 CAMBIO 3: t('app.lang') → language */}
               {language === 'es' ? product.description : (product.descriptionEn || product.description)}
             </p>
             

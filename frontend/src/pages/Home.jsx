@@ -15,7 +15,8 @@ export default function Home() {
         const products = await getProducts();
         const featured = products.filter(p => p.featured === true);
         setFeaturedProducts(featured);
-      } catch (error) {
+      } catch {
+        // ignore
       } finally {
         setLoading(false);
       }

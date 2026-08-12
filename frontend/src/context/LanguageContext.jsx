@@ -11,12 +11,11 @@ export function LanguageProvider({ children }) {
     return browserLang === 'en' ? 'en' : 'es';
   });
 
-  const [translations, setTranslations] = useState({});
+  const translations = localeData[language];
 
   useEffect(() => {
     localStorage.setItem('sabores_language', language);
     document.documentElement.lang = language;
-    setTranslations(localeData[language]);
   }, [language]);
 
   const toggleLanguage = () => {

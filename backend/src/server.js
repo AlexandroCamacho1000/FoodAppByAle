@@ -76,7 +76,7 @@ app.get('/', (req, res) => {
     version: '1.0.0',
     environment: process.env.NODE_ENV || 'development',
     database: 'PostgreSQL + Sequelize',
-    github: 'URL de tu repositorio'
+    github: 'https://github.com/AlexandroCamacho1000/FoodAppByAle'
   });
 });
 
@@ -94,7 +94,7 @@ app.use('*', (req, res) => {
     success: false,
     error: 'Ruta no encontrada',
     path: req.originalUrl,
-    available_routes: ['/', '/api/health', '/api/auth/*', '/api/products/*', '/api/cart/*', '/api/orders/*']  // ← ACTUALIZADO
+    available_routes: ['/', '/api/health', '/api/auth/*', '/api/products/*', '/api/cart/*', '/api/orders/*']
   });
 });
 
@@ -136,30 +136,10 @@ const startServer = async () => {
     const PORT = process.env.PORT || 5000;
     
     app.listen(PORT, () => {
-      console.log(`
-      🚀 BOLIVIAN MARKET API INICIADA
-      📍 Puerto: ${PORT}
-      🌍 Entorno: ${process.env.NODE_ENV || 'development'}
-      🗄️  Base de datos: ${dbConnected ? '✅ Conectada' : '❌ No conectada'}
-      🔗 Frontend: ${process.env.FRONTEND_URL || 'http://localhost:5173'}
-      📡 Endpoints activos: /api/auth/*, /api/products/*, /api/cart/*, /api/orders/*  // ← ACTUALIZADO
-      🕐 ${new Date().toLocaleString()}
-      `);
-      
-      console.log('');
-      console.log('🔍 PARA TESTEAR PRODUCTOS:');
-      console.log('   curl http://localhost:5000/api/products');
-      console.log('');
-      console.log('🔍 PARA TESTEAR PEDIDOS:');
-      console.log('   curl http://localhost:5000/api/orders \\');
-      console.log('     -H "Authorization: Bearer [TOKEN]"');
-      console.log('');
-      console.log('🔍 PARA TESTEAR CARRITO:');
-      console.log('   curl -X POST http://localhost:5000/api/cart/add \\');
-      console.log('     -H "Authorization: Bearer [TOKEN]" \\');
-      console.log('     -H "Content-Type: application/json" \\');
-      console.log('     -d \'{"productId":"ID_DEL_PRODUCTO","quantity":1}\'');
-      console.log('');
+      console.log(`\n🚀 Bolivian Market API corriendo en el puerto ${PORT}`);
+      console.log(`   Entorno: ${process.env.NODE_ENV || 'development'}`);
+      console.log(`   Base de datos: ${dbConnected ? 'conectada' : 'no conectada'}`);
+      console.log(`   Frontend: ${process.env.FRONTEND_URL || 'http://localhost:5173'}\n`);
     });
 
   } catch (error) {

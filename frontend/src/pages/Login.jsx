@@ -41,7 +41,7 @@ export default function Login() {
         
         setError(result.error || t('login.error.invalid'));
       }
-    } catch (error) {
+    } catch {
       setError(t('login.error.connection'));
     } finally {
       setIsLoading(false);

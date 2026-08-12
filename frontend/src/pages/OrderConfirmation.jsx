@@ -11,11 +11,9 @@ const OrderConfirmation = () => {
     orderDate = new Date().toLocaleDateString(), 
     total = 0,
     customerName = '',
-    address = '',
     items = 0,
     paymentMethod = 'cash',
-    cardDetails = null,
-    orderData = null
+    cardDetails = null
   } = location.state || {};
 
   return (

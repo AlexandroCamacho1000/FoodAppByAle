@@ -1,4 +1,3 @@
-// frontend/src/pages/Checkout.jsx
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
@@ -155,8 +154,7 @@ const Checkout = () => {
     shipping,
     tax,
     total,
-    isEmpty,
-    totalItems
+    isEmpty
   } = useCart();
   
   const [step, setStep] = useState(1);

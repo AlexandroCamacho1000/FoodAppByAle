@@ -133,7 +133,7 @@ const createProduct = async (req, res) => {
       name,
       description,
       price: parseFloat(price),
-      image: image || 'https://via.placeholder.com/300',
+      image: image || '',
       category: category || 'platos_fuertes',
       stock: stock ? parseInt(stock) : 0,
       featured: featured || false,

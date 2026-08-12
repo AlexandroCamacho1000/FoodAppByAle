@@ -1,4 +1,3 @@
-// frontend/src/pages/Register.jsx - VERSIÓN COMPLETA ACTUALIZADA
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';

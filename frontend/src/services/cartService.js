@@ -1,5 +1,3 @@
-// frontend/src/services/cartService.js - CON SOPORTE LOCALSTORAGE
-
 import api from './api';
 
 const CART_KEY = 'cart_items';

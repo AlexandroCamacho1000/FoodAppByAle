@@ -1,4 +1,3 @@
-// frontend/src/locales/index.js
 const translations = {
   es: {
     "nav.home": "Inicio",
@@ -403,8 +402,6 @@ const translations = {
   "admin.customers.searchPlaceholder": "Nombre, email o teléfono...",
   "admin.customers.filterRole": "Filtrar por rol",
   "admin.customers.roleAll": "Todos los roles",
-  "admin.customers.roleClient": "Clientes",
-  "admin.customers.roleAdmin": "Administradores",
   "admin.customers.roleSuperadmin": "Super Administradores",
   "admin.customers.apply": "Aplicar Filtros",
   "admin.customers.export": "Exportar Lista",
@@ -477,10 +474,7 @@ const translations = {
   "notFound.description": "La página que buscas no existe o ha sido movida.",
   "notFound.goHome": "Volver al inicio",
 
-  "categories.saltenas": "Salteñas",
   "categories.platos_fuertes": "Platos Fuertes",
-  "categories.bebidas": "Bebidas",
-  "categories.postres": "Postres",
   "categories.especiales": "Especiales",
 
   "menu.description": "Descubre los auténticos sabores de Bolivia",
@@ -492,7 +486,6 @@ const translations = {
   "app.country": "Bolivia",
   "app.tagline": "Tecnología y tradición",
   "featured": "Destacados",
-   "viewAll": "Ver todo",
   "addToCart": "Agregar al carrito",
 "price": "Precio",
     "category": "Categoría",
@@ -564,7 +557,6 @@ const translations = {
   en: {
 
   "menu.title": "Complete Menu",
-  "viewAll": "View all",
   "menu.categoryLabel": "Category",
   "menu.products": "products",
   "menu.showingPage": "Showing page {current} of {total} ({count} product(s))",
@@ -972,8 +964,6 @@ const translations = {
   "admin.customers.searchPlaceholder": "Name, email or phone...",
   "admin.customers.filterRole": "Filter by role",
   "admin.customers.roleAll": "All roles",
-  "admin.customers.roleClient": "Clients",
-  "admin.customers.roleAdmin": "Administrators",
   "admin.customers.roleSuperadmin": "Super Administrators",
   "admin.customers.apply": "Apply Filters",
   "admin.customers.export": "Export List",
@@ -1046,10 +1036,7 @@ const translations = {
   "notFound.description": "The page you are looking for does not exist or has been moved.",
   "notFound.goHome": "Back to home",
 
-  "categories.saltenas": "Salteñas",
   "categories.platos_fuertes": "Main Dishes",
-  "categories.bebidas": "Drinks",
-  "categories.postres": "Desserts",
   "categories.especiales": "Specialties",
 
   "menu.description": "Discover the authentic flavors of Bolivia",

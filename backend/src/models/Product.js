@@ -29,7 +29,7 @@ const Product = sequelize.define('Product', {
   image: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'https://via.placeholder.com/300'
+    defaultValue: ''
   },
   category: {
     type: DataTypes.ENUM('salteñas', 'platos_fuertes', 'carnes', 'bebidas', 'postres', 'entradas', 'especiales'),

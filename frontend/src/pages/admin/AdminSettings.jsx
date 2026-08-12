@@ -1,4 +1,3 @@
-// frontend/src/pages/admin/AdminSettings.jsx
 import { useState } from 'react';
 import { FiSettings, FiSave, FiBell, FiGlobe, FiShield, FiCreditCard, FiMail } from 'react-icons/fi';
 import Toast from '../../components/ui/Toast';
