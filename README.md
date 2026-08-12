@@ -16,8 +16,8 @@
   <img src="https://img.shields.io/badge/Node_20-339933?logo=nodedotjs" alt="Node" />
   <img src="https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql" alt="PostgreSQL" />
   <img src="https://img.shields.io/badge/Docker-ready-2496ED?logo=docker" alt="Docker" />
-  <img src="https://img.shields.io/badge/Playwright-45ba4b?logo=playwright" alt="Playwright" />
-  <img src="https://img.shields.io/badge/46_tests-✅_passing-4CAF50" alt="46 tests passing" />
+  <img src="https://img.shields.io/badge/E2E_Playwright-✅-45ba4b?logo=playwright" alt="E2E Playwright" />
+  <img src="https://img.shields.io/badge/49_tests-✅_passing-4CAF50" alt="49 tests passing" />
 </p>
 
 ---
@@ -29,7 +29,7 @@
 </p>
 
 ## 1. Overview
-Aplicación web full-stack tipo SaaS para e-commerce de comida tradicional boliviana. Bilingüe (ES/EN), modo oscuro, panel administrador, pagos con Stripe y autenticación JWT. Incluye 46 tests automatizados con CI/CD vía GitHub Actions, containerización con Docker, y deploy en producción en Vercel + Railway.
+Aplicación web full-stack tipo SaaS para e-commerce de comida tradicional boliviana. Bilingüe (ES/EN), modo oscuro, panel administrador, pagos con Stripe y autenticación JWT. Incluye 49 tests automatizados (unitarios + E2E con Playwright) con CI/CD vía GitHub Actions, containerización con Docker, y deploy en producción en Vercel + Railway.
 
 🔗 **Live Demo:** [food-app-by-ale.vercel.app](https://food-app-by-ale.vercel.app)  
 ⚙️ **Backend API:** [foodappbyale-production.up.railway.app/api](https://foodappbyale-production.up.railway.app/api/health)  
@@ -69,8 +69,11 @@ npm run dev             # http://localhost:5173
 
 **Tests:**
 ```bash
-# Frontend (43 tests)
+# Frontend - unit tests (43 tests)
 cd frontend && npm test
+
+# Frontend - E2E tests (3 tests, Playwright)
+cd frontend && npm run test:e2e
 
 # Backend (3 tests, requiere PostgreSQL corriendo)
 cd backend && npm test
