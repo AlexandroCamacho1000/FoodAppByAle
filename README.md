@@ -150,6 +150,8 @@ All tests run automatically in CI on every push to `main`.
 
 [Alejandro Camacho](https://github.com/AlexandroCamacho1000)
 
+Licensed under the [MIT License](./LICENSE).
+
 ---
 
 # Español
@@ -277,3 +279,5 @@ Todos los tests se ejecutan automáticamente en CI con cada push a `main`.
 ## Autor
 
 [Alejandro Camacho](https://github.com/AlexandroCamacho1000)
+
+Licenciado bajo la [Licencia MIT](./LICENSE).
