@@ -462,16 +462,27 @@ const createSampleProducts = async () => {
       console.log(`${sampleProducts.length} productos creados`);
     } else {
       let added = 0;
+      let updated = 0;
       for (const p of sampleProducts) {
         const existing = await Product.findOne({ where: { name: p.name } });
         if (!existing) {
           await Product.create(p);
           added++;
-        } else if (!existing.descriptionEn && p.descriptionEn) {
-          await existing.update({ descriptionEn: p.descriptionEn });
+        } else {
+          const changes = {};
+          if (!existing.descriptionEn && p.descriptionEn) {
+            changes.descriptionEn = p.descriptionEn;
+          }
+          if (existing.image !== p.image) {
+            changes.image = p.image;
+          }
+          if (Object.keys(changes).length > 0) {
+            await existing.update(changes);
+            updated++;
+          }
         }
       }
-      console.log(`${added} nuevos productos añadidos (${sampleProducts.length} en catálogo)`);
+      console.log(`${added} nuevos, ${updated} actualizados (${sampleProducts.length} en catálogo)`);
     }
   } catch (error) {
     console.error('Error creando productos de ejemplo:', error.message);
