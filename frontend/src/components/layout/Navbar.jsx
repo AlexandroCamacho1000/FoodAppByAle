@@ -47,7 +47,7 @@ export default function Navbar() {
                 </div>
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-fuchsia-500 rounded-full border-2 border-white"></div>
               </div>
-              <div className="hidden sm:block flex-shrink-0">
+              <div className="hidden sm:block w-48 md:w-56 flex-shrink-0">
                 <h1 className="text-lg md:text-xl font-bold whitespace-nowrap">
                   {t('app.name')} <span className="text-blue-400">{t('app.country')}</span>
                 </h1>
@@ -71,7 +71,7 @@ export default function Navbar() {
             
             <Link 
               to="/menu" 
-              className="hidden sm:flex text-gray-300 hover:text-white relative pb-1 transition-colors text-sm text-center group min-w-[48px] justify-center"
+              className="hidden sm:flex text-gray-300 hover:text-white relative pb-1 transition-colors text-sm text-center group min-w-20 justify-center"
             >
              {t('nav.menu')}
              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
@@ -83,7 +83,7 @@ export default function Navbar() {
             >
               <span className="relative flex items-center gap-1">
                  <span className="text-sm md:text-base">🛒</span>
-                  <span className="hidden md:inline min-w-[56px] text-left">{t('nav.cart')}</span>
+                  <span className="hidden md:inline-block min-w-24 text-center">{t('nav.cart')}</span>
                 {cart?.length > 0 && (
                   <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center animate-bounceIn">
                     {cart.length}
@@ -189,7 +189,7 @@ export default function Navbar() {
             ) : (
               <Link 
                 to="/login"
-                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-3 md:px-5 py-2 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0"
+                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-3 md:px-5 py-2 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 min-w-32 md:min-w-40"
               >
                 {t('nav.login')}
               </Link>

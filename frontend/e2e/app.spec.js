@@ -125,3 +125,25 @@ test('Agregar producto al carrito actualiza el contador', async ({ page }) => {
   await page.goto('/cart');
   await expect(page.locator('text=Salteña Paceña').first()).toBeVisible();
 });
+
+test('Cambiar idioma no desplaza el botón de idioma', async ({ page }) => {
+  await page.goto('/');
+
+  const languageButton = page.getByRole('button', { name: /Cambiar idioma|Switch language/i });
+  const loginLink = page.getByRole('link', { name: /^(Login|Iniciar Sesión)$/ });
+
+  await expect(languageButton).toBeVisible();
+  await expect(loginLink).toBeVisible();
+
+  const before = await languageButton.boundingBox();
+  const initialLabel = (await loginLink.textContent())?.trim();
+  expect(before).not.toBeNull();
+
+  await languageButton.click();
+  await expect.poll(async () => (await loginLink.textContent())?.trim()).not.toBe(initialLabel);
+  await page.waitForTimeout(400);
+
+  const after = await languageButton.boundingBox();
+  expect(after).not.toBeNull();
+  expect(Math.abs(after.x - before.x)).toBeLessThanOrEqual(1);
+});
