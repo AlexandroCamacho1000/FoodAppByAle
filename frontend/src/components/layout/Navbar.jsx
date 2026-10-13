@@ -38,15 +38,15 @@ export default function Navbar() {
     <nav className={`bg-gradient-to-r from-[#1E293B] to-[#334155] text-white sticky top-0 z-50 transition-shadow duration-300 ${
       scrolled ? 'shadow-xl' : 'shadow-none'
     }`}>
-      <div className="container mx-auto px-4 py-3">
-        <div className="flex justify-between items-center">
-          <div className="flex items-center gap-3 flex-shrink-0">
+      <div className="container mx-auto px-3 sm:px-4 py-2.5 sm:py-3">
+        <div className="flex justify-between items-center gap-2">
+          <div className="flex items-center gap-3 flex-shrink-0 min-w-0">
             <Link to="/" className="flex items-center gap-3">
-              <div className="relative">
-                <div className="animate-float w-20 h-10 bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-lg flex items-center justify-center p-2.5">
+              <div className="relative flex-shrink-0">
+                <div className="animate-float w-14 h-8 sm:w-20 sm:h-10 bg-gradient-to-br from-[#2563EB] to-[#D946EF] rounded-lg flex items-center justify-center p-1.5 sm:p-2.5">
                   <img src="/logoaledev26.png" alt="AleSoft" className="w-full h-full object-contain" />
                 </div>
-                <div className="absolute -top-1 -right-1 w-4 h-4 bg-fuchsia-500 rounded-full border-2 border-white"></div>
+                <div className="absolute -top-1 -right-1 w-3 h-3 sm:w-4 sm:h-4 bg-fuchsia-500 rounded-full border-2 border-white"></div>
               </div>
               <div className="hidden sm:block w-48 md:w-56 flex-shrink-0">
                 <h1 className="text-lg md:text-xl font-bold whitespace-nowrap">
@@ -57,14 +57,14 @@ export default function Navbar() {
             </Link>
           </div>
           
-          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 justify-end flex-1 min-w-0">
-            <div className="flex-shrink-0 origin-right mr-1">
+          <div className="flex items-center gap-1.5 sm:gap-4 md:gap-5 justify-end flex-1 min-w-0">
+            <div className="hidden sm:block flex-shrink-0 origin-right mr-1">
               <LanguageSwitch />
             </div>
 
             <button
               onClick={toggleDark}
-              className="text-gray-300 hover:text-white transition-colors text-lg flex-shrink-0 p-2 rounded-lg hover:bg-white/10"
+              className="hidden sm:block text-gray-300 hover:text-white transition-colors text-lg flex-shrink-0 p-2 rounded-lg hover:bg-white/10"
               aria-label={dark ? 'Light mode' : 'Dark mode'}
             >
               {dark ? '☀️' : '🌙'}
@@ -190,7 +190,7 @@ export default function Navbar() {
             ) : (
               <Link 
                 to="/login"
-                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-4 md:px-5 py-2.5 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 ml-1 min-w-0 sm:min-w-32 md:min-w-40"
+                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-3 sm:px-4 md:px-5 py-2 sm:py-2.5 text-[11px] sm:text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 ml-0.5 sm:ml-1 min-w-0 sm:min-w-32 md:min-w-40 max-w-[112px] sm:max-w-none truncate"
               >
                 {t('nav.login')}
               </Link>
@@ -216,10 +216,20 @@ export default function Navbar() {
         </div>
         {isMobileMenuOpen && (
           <div className="sm:hidden border-t border-gray-600 px-4 py-3 space-y-1 bg-[#1E293B]">
+            <div className="flex items-center gap-3 py-2 px-2 mb-1">
+              <LanguageSwitch />
+              <button
+                onClick={toggleDark}
+                className="text-gray-300 hover:text-white transition-colors text-lg p-2 rounded-lg hover:bg-white/10 border border-white/15 bg-white/5"
+                aria-label={dark ? 'Light mode' : 'Dark mode'}
+              >
+                {dark ? '☀️' : '🌙'}
+              </button>
+            </div>
             <Link
               to="/menu"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="block py-2 px-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium"
+              className="block py-2.5 px-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium"
             >
               {t('nav.menu')}
             </Link>
