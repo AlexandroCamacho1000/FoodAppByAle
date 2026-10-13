@@ -112,7 +112,7 @@ export default function Login() {
           </form>
           <div className="mt-6 space-y-2">
             <p className="text-sm text-center text-gray-500 dark:text-gray-400">{t('login.quickTest')}</p>
-            <div className="flex flex-col xs:flex-row sm:flex-row gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <button
                 type="button"
                 onClick={() => handleTestCredentials('cliente')}

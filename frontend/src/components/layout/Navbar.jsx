@@ -190,7 +190,7 @@ export default function Navbar() {
             ) : (
               <Link 
                 to="/login"
-                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-4 md:px-5 py-2.5 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 ml-1"
+                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-4 md:px-5 py-2.5 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 ml-1 min-w-0 sm:min-w-32 md:min-w-40"
               >
                 {t('nav.login')}
               </Link>
