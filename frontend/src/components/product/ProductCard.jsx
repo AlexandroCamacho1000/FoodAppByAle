@@ -102,6 +102,7 @@ export default function ProductCard({ product }) {
             <img 
               src={productData.image} 
               alt={productData.name}
+              loading="lazy"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
           ) : (
@@ -149,7 +150,7 @@ export default function ProductCard({ product }) {
           
           <button 
             onClick={handleAddToCart}
-            className={`px-3 py-1.5 rounded-lg text-[11px] font-semibold transition-all duration-200 active:scale-95 ${
+            className={`px-3 py-2 min-h-[36px] rounded-lg text-[11px] font-semibold transition-all duration-200 active:scale-95 ${
               alreadyInCart
                 ? 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100'
                 : 'bg-gray-900 text-white hover:bg-gray-800 shadow-sm hover:shadow-md'

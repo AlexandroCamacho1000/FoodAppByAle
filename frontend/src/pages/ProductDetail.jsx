@@ -174,7 +174,7 @@ const ProductDetail = () => {
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0f172a] dark:to-[#0f172a] pt-20 pb-16">
       <div className="container mx-auto px-4">
         
-        <nav className="flex items-center text-sm text-slate-500 dark:text-slate-400 mb-8">
+        <nav className="flex flex-wrap items-center gap-y-1 text-sm text-slate-500 dark:text-slate-400 mb-8 break-words">
           <Link to="/" className="hover:text-blue-600">{t('product.home')}</Link>
           <span className="mx-2">›</span>
           <Link to="/menu" className="hover:text-blue-600">{t('product.menu')}</Link>
@@ -272,7 +272,7 @@ const ProductDetail = () => {
               </div>
             </div>
             
-            <h1 className="text-3xl lg:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-slate-900 dark:text-gray-100 mb-4 leading-tight break-words">
               {product.name}
             </h1>
             <p className="text-lg text-slate-600 dark:text-slate-400 mb-6">
@@ -303,7 +303,7 @@ const ProductDetail = () => {
             </div>
             
             <div className="mb-10">
-              <div className="flex items-center gap-6">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
                 <div className="flex items-center border border-slate-300 dark:border-[#475569] rounded-lg">
                   <button
                     onClick={() => handleQuantityChange(-1)}
@@ -327,7 +327,7 @@ const ProductDetail = () => {
                 <button
                   onClick={handleAddToCart}
                   disabled={alreadyInCart && totalInCart > (product.stock || 10)}
-                  className={`flex-1 flex items-center justify-center gap-3 py-4 px-8 rounded-lg font-bold text-lg transition-all ${
+                  className={`w-full sm:w-auto flex-1 flex items-center justify-center gap-2 sm:gap-3 py-3 sm:py-4 px-4 sm:px-8 rounded-lg font-bold text-base sm:text-lg transition-all ${
                     alreadyInCart
                       ? 'bg-gradient-to-r from-green-600 to-emerald-500 text-white hover:from-green-700 hover:to-emerald-600'
                       : 'bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white hover:from-blue-700 hover:to-fuchsia-700'
@@ -362,8 +362,8 @@ const ProductDetail = () => {
               )}
             </div>
             
-            <div className="border-b border-slate-200 dark:border-[#334155] mb-6">
-              <div className="flex gap-6">
+            <div className="border-b border-slate-200 dark:border-[#334155] mb-6 overflow-x-auto">
+              <div className="flex gap-4 sm:gap-6 whitespace-nowrap pb-1 min-w-max sm:min-w-0">
                 {['description', 'ingredients', 'reviews'].map((tab) => (
                   <button
                     key={tab}

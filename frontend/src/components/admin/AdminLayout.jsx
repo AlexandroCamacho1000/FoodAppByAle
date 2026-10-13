@@ -212,7 +212,7 @@ const AdminLayout = () => {
         </aside>
 
         <div className="flex-1">
-          <header className="bg-white dark:bg-[#1e293b] border-b border-gray-200 dark:border-[#334155] px-6 py-4">
+          <header className="bg-white dark:bg-[#1e293b] border-b border-gray-200 dark:border-[#334155] px-4 sm:px-6 py-3 sm:py-4 sticky top-0 z-30">
             <div className="flex items-center justify-between">
               <button 
                 onClick={() => setSidebarOpen(true)}
@@ -290,10 +290,10 @@ const AdminLayout = () => {
             </div>
           </header>
 
-          <main className="p-6">
+          <main className="p-4 sm:p-6 overflow-x-hidden">
             {user?.role === 'superadmin' && location.pathname !== '/create-invite' && (
               <div className="mb-6 bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-900/30 dark:to-pink-900/30 border border-purple-200 dark:border-purple-800 rounded-xl p-4">
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                       <FiKey className="text-white text-lg" />

@@ -23,10 +23,10 @@ const Profile = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-[#1E293B] dark:text-gray-100 mb-2">{t('profile.title')}</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold text-[#1E293B] dark:text-gray-100 mb-2 leading-tight">{t('profile.title')}</h1>
       <p className="text-[#64748B] dark:text-gray-300 mb-8">{t('profile.subtitle')}</p>
       
-      <div className="grid md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
         <div className="md:col-span-1 bg-white dark:bg-[#1e293b] rounded-xl shadow-lg dark:shadow-black/20 p-6 border border-[#E2E8F0] dark:border-[#334155]">
           <div className="text-center">
             <img
@@ -34,8 +34,8 @@ const Profile = () => {
               alt={user.name || 'Profile'}
               className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-blue-400/20 dark:border-blue-300/20"
             />
-            <h2 className="text-xl font-bold text-[#1E293B] dark:text-gray-100">{user.name}</h2>
-            <p className="text-[#64748B] dark:text-gray-300">{user.email}</p>
+            <h2 className="text-xl font-bold text-[#1E293B] dark:text-gray-100 break-words px-2">{user.name}</h2>
+            <p className="text-[#64748B] dark:text-gray-300 break-all text-sm px-2">{user.email}</p>
             
             <div className={`inline-block mt-3 px-4 py-1 rounded-full text-sm font-medium ${
               user.role === 'admin' 
@@ -64,7 +64,7 @@ const Profile = () => {
         
         <div className="md:col-span-2">
           <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-lg dark:shadow-black/20 p-6 border border-[#E2E8F0] dark:border-[#334155]">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-center mb-6">
               <h3 className="text-lg font-semibold text-[#1E293B] dark:text-gray-100">
                 {isEditing ? t('profile.editTitle') : t('profile.personalInfo')}
               </h3>
@@ -82,7 +82,7 @@ const Profile = () => {
             
             {isEditing ? (
               <form onSubmit={handleSubmit}>
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-[#475569] dark:text-gray-300 mb-1">{t('profile.nameLabel')}</label>
                     <input
@@ -148,7 +148,7 @@ const Profile = () => {
               </form>
             ) : (
               <div className="space-y-4">
-                <div className="grid md:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-[#64748B] dark:text-gray-300">{t('profile.viewName')}</p>
                     <p className="font-medium text-gray-900 dark:text-gray-100">{user.name}</p>

@@ -56,17 +56,17 @@ export default function Menu() {
   
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0f172a] dark:to-[#0f172a] pt-20 pb-16">
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white dark:from-[#0f172a] dark:to-[#0f172a] pt-10 sm:pt-20 pb-16 overflow-x-hidden">
       <div className="container mx-auto px-4">
         
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="animate-slideUp text-4xl md:text-5xl font-extrabold mb-4">
+          <h1 className="animate-slideUp text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-900">
               {t('menu.title')}
             </span>
           </h1>
-          <p className="animate-fadeIn text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto" style={{ animationDelay: '0.15s' }}>
+          <p className="animate-fadeIn text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto px-2" style={{ animationDelay: '0.15s' }}>
             {t('menu.description')}
           </p>
         </div>
@@ -178,11 +178,11 @@ export default function Menu() {
 
         {/* Paginación */}
         {totalPages > 1 && (
-          <div className="animate-fadeIn flex justify-center items-center gap-2 mt-16" style={{ animationDelay: '0.2s' }}>
+          <div className="animate-fadeIn flex flex-wrap justify-center items-center gap-2 mt-16 px-2" style={{ animationDelay: '0.2s' }}>
             <button
               onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
               disabled={currentPage === 1}
-              className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-medium hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200"
+              className="px-4 sm:px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-medium hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 text-sm sm:text-base"
             >
               ← {t('menu.previous')}
             </button>
@@ -202,7 +202,7 @@ export default function Menu() {
             <button
               onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
               disabled={currentPage === totalPages}
-              className="px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-medium hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200"
+              className="px-4 sm:px-5 py-2.5 border-2 border-slate-200 text-slate-700 rounded-xl font-medium hover:border-blue-400 hover:text-blue-600 hover:shadow-md hover:shadow-blue-500/10 hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 transition-all duration-200 text-sm sm:text-base"
             >
               {t('menu.next')} →
             </button>

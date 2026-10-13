@@ -142,11 +142,11 @@ const AdminOrders = () => {
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6 overflow-x-hidden">
       {showDetailsModal && selectedOrder && (
         <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#1e293b] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
+          <div className="bg-white dark:bg-[#1e293b] rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto mx-2">
+            <div className="p-4 sm:p-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">{t('admin.orders.modal.title')}</h2>
@@ -236,7 +236,7 @@ const AdminOrders = () => {
                 </div>
               </div>
 
-              <div className="flex justify-end gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-[#334155]">
+              <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 mt-8 pt-6 border-t border-gray-200 dark:border-[#334155]">
                 <button
                   onClick={() => setShowDetailsModal(false)}
                   className="px-6 py-2 border border-gray-300 dark:border-[#475569] rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-[#334155]"
@@ -286,7 +286,7 @@ const AdminOrders = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6 mb-8">
         <div className="bg-gradient-to-br from-blue-50 to-white dark:from-blue-900/20 dark:to-[#1e293b] rounded-xl shadow-sm p-6 border border-blue-100">
           <div className="flex items-center justify-between">
             <div>
@@ -400,43 +400,43 @@ const AdminOrders = () => {
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-[#0f172a]">
                 <tr>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.id')}</th>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.client')}</th>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.date')}</th>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.total')}</th>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.payment')}</th>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.status')}</th>
-                  <th className="py-4 px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.actions')}</th>
+                  <th className="py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.id')}</th>
+                  <th className="py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.client')}</th>
+                  <th className="hidden md:table-cell py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.date')}</th>
+                  <th className="py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.total')}</th>
+                  <th className="hidden lg:table-cell py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.payment')}</th>
+                  <th className="py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.status')}</th>
+                  <th className="py-3 sm:py-4 px-3 sm:px-6 text-left text-sm font-medium text-gray-700 dark:text-gray-300">{t('admin.orders.table.actions')}</th>
                 </tr>
               </thead>
               <tbody>
                 {filteredOrders.map(order => (
                   <tr key={order.orderId} className="border-t border-gray-200 dark:border-[#334155] hover:bg-gray-50 dark:hover:bg-[#334155]">
-                    <td className="py-4 px-6">
-                      <div className="font-medium text-gray-900 dark:text-gray-100">#{order.orderId}</div>
+                    <td className="py-3 sm:py-4 px-3 sm:px-6">
+                      <div className="font-medium text-gray-900 dark:text-gray-100 break-all">#{order.orderId}</div>
                       <div className="text-sm text-gray-500 dark:text-gray-400">{t('admin.orders.items', { count: order.itemCount })}</div>
                     </td>
-                    <td className="py-4 px-6">
-                      <div className="font-medium">{order.customerName}</div>
-                      <div className="text-sm text-gray-500 dark:text-gray-400">{order.email}</div>
+                    <td className="py-3 sm:py-4 px-3 sm:px-6">
+                      <div className="font-medium truncate max-w-[120px] sm:max-w-none">{order.customerName}</div>
+                      <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-[120px] sm:max-w-none">{order.email}</div>
                     </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center gap-2">
-                        <FiCalendar className="text-gray-400 dark:text-gray-500" />
+                    <td className="hidden md:table-cell py-3 sm:py-4 px-3 sm:px-6">
+                      <div className="flex items-center gap-2 whitespace-nowrap">
+                        <FiCalendar className="text-gray-400 dark:text-gray-500 flex-shrink-0" />
                         <span>{order.orderDate}</span>
                       </div>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-3 sm:py-4 px-3 sm:px-6 whitespace-nowrap">
                       <span className="font-bold text-blue-600">Bs. {order.total.toFixed(2)}</span>
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="hidden lg:table-cell py-3 sm:py-4 px-3 sm:px-6">
                       {renderPaymentMethod(order.paymentMethod)}
                     </td>
-                    <td className="py-4 px-6">
+                    <td className="py-3 sm:py-4 px-3 sm:px-6">
                       {renderStatusBadge(order.status)}
                     </td>
-                    <td className="py-4 px-6">
-                      <div className="flex gap-2">
+                    <td className="py-3 sm:py-4 px-3 sm:px-6">
+                      <div className="flex flex-wrap gap-2">
                         <button
                           onClick={() => handleViewDetails(order)}
                           className="text-blue-600 hover:text-blue-800 font-medium px-3 py-1 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded"

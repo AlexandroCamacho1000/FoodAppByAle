@@ -23,22 +23,22 @@ const MyOrders = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t('orders.title')}</h1>
+    <div className="max-w-6xl mx-auto px-4 py-6 sm:py-8 overflow-x-hidden">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">{t('orders.title')}</h1>
       <p className="text-gray-500 dark:text-gray-400 mb-8">{t('orders.subtitle')}</p>
       
       {orders.length > 0 ? (
         <div className="space-y-4">
           {orders.map((order, index) => (
-            <div key={index} className="bg-white dark:bg-[#1e293b] rounded-xl shadow border border-gray-200 dark:border-[#334155] p-6">
-              <div className="flex justify-between items-start mb-4">
+            <div key={index} className="bg-white dark:bg-[#1e293b] rounded-xl shadow border border-gray-200 dark:border-[#334155] p-4 sm:p-6">
+              <div className="flex flex-col sm:flex-row gap-3 sm:justify-between sm:items-start mb-4">
                 <div>
                   <h3 className="font-bold text-lg text-gray-900 dark:text-gray-100">{t('orders.orderLabel')} #{order.id?.slice(-6) || `ORD${index + 1}`}</h3>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {order.formattedDate}
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="text-left sm:text-right">
                   <p className="font-bold text-lg text-gray-900 dark:text-gray-100">Bs. {order.total?.toFixed(2) || '0.00'}</p>
                   <span className={`px-3 py-1 rounded-full text-sm ${
                     order.status === 'completed' 

@@ -59,11 +59,11 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-[70vh] bg-gray-50 dark:bg-[#0f172a] flex items-center justify-center px-4">
+    <div className="min-h-[70vh] bg-gray-50 dark:bg-[#0f172a] flex items-center justify-center px-4 py-8">
       <div className="max-w-md w-full">
-        <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl p-8 border border-gray-200 dark:border-[#334155]">
-          <div className="text-center mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">{t('login.title')}</h1>
+        <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl p-5 sm:p-8 border border-gray-200 dark:border-[#334155]">
+          <div className="text-center mb-6 sm:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">{t('login.title')}</h1>
             <p className="text-gray-500 dark:text-gray-400">{t('login.subtitle')}</p>
           </div>
           
@@ -112,7 +112,7 @@ export default function Login() {
           </form>
           <div className="mt-6 space-y-2">
             <p className="text-sm text-center text-gray-500 dark:text-gray-400">{t('login.quickTest')}</p>
-            <div className="flex gap-2">
+            <div className="flex flex-col xs:flex-row sm:flex-row gap-2">
               <button
                 type="button"
                 onClick={() => handleTestCredentials('cliente')}

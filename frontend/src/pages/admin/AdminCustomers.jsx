@@ -93,8 +93,8 @@ const AdminCustomers = () => {
   };
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-8">
+    <div className="p-4 sm:p-6 overflow-x-hidden">
+      <div className="flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center mb-8">
         <div className="flex items-center gap-3">
           <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
             <FiUsers className="text-white text-xl" />
@@ -113,7 +113,7 @@ const AdminCustomers = () => {
       <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] mb-6">
         <div className="p-4 border-b border-gray-200 dark:border-[#334155]">
           <div className="flex flex-wrap gap-4">
-            <div className="flex-1 min-w-[250px]">
+            <div className="flex-1 min-w-0 sm:min-w-[250px] w-full">
               <div className="relative">
                 <FiUsers className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500" />
                 <input

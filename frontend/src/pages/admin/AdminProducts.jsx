@@ -531,11 +531,11 @@ const { t, language } = useLanguage();
   };
 
   return (
-    <div className="p-6">
+    <div className="p-4 sm:p-6 overflow-x-hidden">
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70 flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#1e293b] rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6">
+          <div className="bg-white dark:bg-[#1e293b] rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto mx-2">
+            <div className="p-4 sm:p-6">
               <div className="flex justify-between items-start mb-6">
                 <div>
                   <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
@@ -803,7 +803,7 @@ const { t, language } = useLanguage();
                 </div>
               </div>
 
-              <div className="flex justify-end gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-[#334155]">
+              <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 sm:gap-4 mt-8 pt-6 border-t border-gray-200 dark:border-[#334155]">
                 <button
                   onClick={() => setShowModal(false)}
                   className="px-6 py-3 border border-gray-300 dark:border-[#475569] text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-[#334155] font-medium"

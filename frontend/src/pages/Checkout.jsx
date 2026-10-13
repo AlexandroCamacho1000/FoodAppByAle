@@ -38,7 +38,8 @@ const CardPaymentForm = ({ total, onSuccess, onError }) => {
 
       const token = localStorage.getItem('token');
 
-      const response = await fetch('http://localhost:5000/api/payments/create-payment-intent', {
+      const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+      const response = await fetch(`${API_URL}/payments/create-payment-intent`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -417,7 +418,7 @@ const Checkout = () => {
             ← {t('checkout.backToCart')}
           </button>
           
-          <h1 className="text-3xl font-bold text-slate-900 dark:text-gray-100 mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-gray-100 mb-2 leading-tight">
             {step === 1 ? t('checkout.step.shipping') : 
              step === 2 ? t('checkout.step.payment') : 
              t('checkout.step.review')}
@@ -428,10 +429,10 @@ const Checkout = () => {
              t('checkout.desc.review')}
           </p>
           
-          <div className="flex items-center justify-between mt-8 mb-12 relative">
+          <div className="flex items-start justify-between gap-1 sm:gap-2 mt-8 mb-12 relative px-1">
             {[1, 2, 3].map((stepNumber) => (
-              <div key={stepNumber} className="flex flex-col items-center relative z-10">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${
+              <div key={stepNumber} className="flex flex-col items-center relative z-10 flex-1 min-w-0">
+                <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center mb-2 flex-shrink-0 ${
                   step === stepNumber 
                     ? 'bg-gradient-to-r from-blue-600 to-fuchsia-600 text-white' 
                     : step > stepNumber 
@@ -444,7 +445,7 @@ const Checkout = () => {
                     <span className="font-bold">{stepNumber}</span>
                   )}
                 </div>
-                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">
+                <span className="text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-300 text-center leading-tight px-1">
                   {stepNumber === 1 ? t('checkout.stepper.shipping') : 
                    stepNumber === 2 ? t('checkout.stepper.payment') : 
                    t('checkout.stepper.review')}
@@ -463,7 +464,7 @@ const Checkout = () => {
         <div className="max-w-4xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2">
             {step === 1 && (
-              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-8 border border-slate-200 dark:border-[#334155]">
+              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-4 sm:p-8 border border-slate-200 dark:border-[#334155]">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                   {t('checkout.section.shipping')}
                 </h2>
@@ -611,13 +612,13 @@ const Checkout = () => {
             )}
             
             {step === 2 && (
-              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-8 border border-slate-200 dark:border-[#334155]">
+              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-4 sm:p-8 border border-slate-200 dark:border-[#334155]">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                   {t('checkout.section.payment')}
                 </h2>
                 
                 <div className="space-y-4">
-                  <div className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                  <div className={`p-4 sm:p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     paymentMethod === 'cash' 
                       ? 'border-blue-500 bg-blue-50' 
                       : 'border-slate-200 hover:border-slate-300'
@@ -627,16 +628,16 @@ const Checkout = () => {
                     setCardPaymentSuccess(false);
                   }}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0 text-xl sm:text-2xl ${
                           paymentMethod === 'cash' ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300' : 'bg-slate-100 dark:bg-[#334155] text-slate-600 dark:text-slate-400'
                         }`}>
                           💵
                         </div>
-                        <div>
-                          <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100">{t('checkout.payment.cash')}</h3>
-                          <p className="text-slate-600 dark:text-slate-400">{t('checkout.payment.cashDesc')}</p>
+                        <div className="min-w-0">
+                          <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-gray-100 leading-tight">{t('checkout.payment.cash')}</h3>
+                          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-snug">{t('checkout.payment.cashDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'cash' && (
@@ -647,7 +648,7 @@ const Checkout = () => {
                     </div>
                   </div>
                   
-                  <div className={`p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                  <div className={`p-4 sm:p-6 border-2 rounded-xl cursor-pointer transition-all ${
                     paymentMethod === 'qr' 
                       ? 'border-blue-500 bg-blue-50' 
                       : 'border-slate-200 hover:border-slate-300'
@@ -657,16 +658,16 @@ const Checkout = () => {
                     setCardPaymentSuccess(false);
                   }}
                   >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0 text-xl sm:text-2xl ${
                           paymentMethod === 'qr' ? 'bg-blue-100 text-blue-600' : 'bg-slate-100 text-slate-600'
                         }`}>
                           📱
                         </div>
-                        <div>
-                          <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100">{t('checkout.payment.qr')}</h3>
-                          <p className="text-slate-600 dark:text-slate-400">{t('checkout.payment.qrDesc')}</p>
+                        <div className="min-w-0">
+                          <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-gray-100 leading-tight">{t('checkout.payment.qr')}</h3>
+                          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-snug">{t('checkout.payment.qrDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'qr' && (
@@ -679,7 +680,7 @@ const Checkout = () => {
                     {paymentMethod === 'qr' && (
                       <div className="mt-6 p-4 bg-white dark:bg-[#1e293b] border border-slate-300 dark:border-[#334155] rounded-lg text-center">
                         <p className="text-sm text-slate-600 mb-3">{t('checkout.payment.qrInstruction')}</p>
-                        <div className="w-48 h-48 mx-auto bg-gradient-to-br from-blue-100 to-fuchsia-100 flex items-center justify-center rounded-lg">
+                        <div className="w-40 h-40 sm:w-48 sm:h-48 max-w-full mx-auto bg-gradient-to-br from-blue-100 to-fuchsia-100 flex items-center justify-center rounded-lg">
                           <div className="text-center">
                             <div className="text-4xl mb-2">📱</div>
                             <p className="text-xs text-slate-500">{t('checkout.payment.qrSimulated')}</p>
@@ -690,27 +691,27 @@ const Checkout = () => {
                     )}
                   </div>
                   
-                  <div className={`p-6 border-2 rounded-xl transition-all ${
+                  <div className={`p-4 sm:p-6 border-2 rounded-xl transition-all ${
                     paymentMethod === 'card' 
                       ? 'border-purple-500 bg-purple-50' 
                       : 'border-slate-200'
                   }`}>
                     <div 
-                      className="flex items-center justify-between cursor-pointer"
+                      className="flex items-center justify-between gap-3 cursor-pointer"
                       onClick={() => {
                         setPaymentMethod('card');
                         setCardPaymentSuccess(false);
                       }}
                     >
-                      <div className="flex items-center gap-4">
-                        <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                      <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+                        <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-lg flex items-center justify-center flex-shrink-0 text-xl sm:text-2xl ${
                           paymentMethod === 'card' ? 'bg-purple-100 text-purple-600' : 'bg-slate-100 text-slate-600'
                         }`}>
                           💳
                         </div>
-                        <div>
-                          <h3 className="font-bold text-lg text-slate-900 dark:text-gray-100">{t('checkout.payment.card')}</h3>
-                          <p className="text-slate-600 dark:text-slate-400">{t('checkout.payment.cardDesc')}</p>
+                        <div className="min-w-0">
+                          <h3 className="font-bold text-base sm:text-lg text-slate-900 dark:text-gray-100 leading-tight">{t('checkout.payment.card')}</h3>
+                          <p className="text-sm sm:text-base text-slate-600 dark:text-slate-400 leading-snug">{t('checkout.payment.cardDesc')}</p>
                         </div>
                       </div>
                       {paymentMethod === 'card' && (
@@ -757,7 +758,7 @@ const Checkout = () => {
             )}
             
             {step === 3 && (
-              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-8 border border-slate-200 dark:border-[#334155]">
+              <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-4 sm:p-8 border border-slate-200 dark:border-[#334155]">
                 <h2 className="text-2xl font-bold text-slate-900 dark:text-gray-100 mb-6">
                   {t('checkout.section.review')}
                 </h2>
@@ -834,7 +835,7 @@ const Checkout = () => {
           </div>
           
           <div className="lg:col-span-1">
-            <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-6 border border-slate-200 dark:border-[#334155] sticky top-24">
+            <div className="bg-white dark:bg-[#1e293b] rounded-2xl shadow-xl dark:shadow-black/20 p-4 sm:p-6 border border-slate-200 dark:border-[#334155] lg:sticky lg:top-24">
               <h2 className="text-xl font-bold text-slate-900 dark:text-gray-100 mb-6">{t('checkout.yourOrder')}</h2>
               
               <div className="space-y-4 mb-6">

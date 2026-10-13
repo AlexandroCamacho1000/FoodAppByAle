@@ -47,7 +47,7 @@ export default function Cart() {
 
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
-      <h1 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2 leading-tight">
         {t('cart.title')}
       </h1>
       <p className="text-gray-600 dark:text-gray-400 mb-8">
@@ -165,7 +165,7 @@ export default function Cart() {
 
         {/* Resumen del pedido */}
         <div className="lg:col-span-1">
-          <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-6 sticky top-6">
+          <div className="bg-white dark:bg-[#1e293b] rounded-xl shadow-sm border border-gray-200 dark:border-[#334155] p-4 sm:p-6 lg:sticky lg:top-6">
             <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-6">
               {t('cart.summary')}
             </h2>

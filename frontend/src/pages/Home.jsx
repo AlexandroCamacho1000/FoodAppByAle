@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-fuchsia-50 dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e1b2a] animate-gradient py-20 md:py-28">
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 via-white to-fuchsia-50 dark:from-[#1e293b] dark:via-[#0f172a] dark:to-[#1e1b2a] animate-gradient py-14 sm:py-20 md:py-28">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-200/20 via-transparent to-fuchsia-200/20 dark:from-blue-500/10 dark:via-transparent dark:to-fuchsia-500/10 pointer-events-none" />
         
         <div className="container mx-auto px-4">
@@ -39,19 +39,19 @@ export default function Home() {
               </div>
             </div>
             
-            <h1 className="animate-slideUp text-4xl md:text-5xl font-extrabold mb-6">
+            <h1 className="animate-slideUp text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 leading-tight">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600">
                 {t('home.title')}
               </span>
             </h1>
             
-            <p className="animate-fadeIn text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10" style={{ animationDelay: '0.15s' }}>
+            <p className="animate-fadeIn text-base sm:text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-10 px-2" style={{ animationDelay: '0.15s' }}>
               {t('home.subtitle')}
             </p>
             
             <Link 
               to="/menu"
-              className="animate-fadeIn inline-block bg-gradient-to-r from-blue-700 to-blue-900 text-white px-10 py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-900/25 hover:shadow-xl hover:shadow-blue-900/30 hover:scale-105 active:scale-95 transition-all duration-300"
+              className="animate-fadeIn inline-block bg-gradient-to-r from-blue-700 to-blue-900 text-white px-8 sm:px-10 py-3 sm:py-3.5 rounded-xl font-semibold shadow-lg shadow-blue-900/25 hover:shadow-xl hover:shadow-blue-900/30 hover:scale-105 active:scale-95 transition-all duration-300 max-w-full"
               style={{ animationDelay: '0.3s' }}
             >
               {t('home.cta')}
@@ -62,7 +62,7 @@ export default function Home() {
 
       {/* Sección Destacados */}
       <div className="container mx-auto px-4 py-16">
-        <div className="animate-slideUp flex justify-between items-center mb-8">
+        <div className="animate-slideUp flex flex-col sm:flex-row gap-4 sm:justify-between sm:items-center mb-8">
           <div>
             <h2 className="text-2xl font-extrabold">
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 dark:from-blue-400 dark:to-blue-600">

@@ -12,6 +12,7 @@ export default function Navbar() {
   const { cart } = useCart();
   const { dark, toggle: toggleDark } = useDarkMode();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
@@ -56,14 +57,14 @@ export default function Navbar() {
             </Link>
           </div>
           
-          <div className="flex items-center gap-3 md:gap-6 justify-end flex-1 min-w-0">
-            <div className="flex-shrink-0 scale-75 md:scale-100 origin-right">
+          <div className="flex items-center gap-3 sm:gap-4 md:gap-5 justify-end flex-1 min-w-0">
+            <div className="flex-shrink-0 origin-right mr-1">
               <LanguageSwitch />
             </div>
 
             <button
               onClick={toggleDark}
-              className="text-gray-300 hover:text-white transition-colors text-lg flex-shrink-0"
+              className="text-gray-300 hover:text-white transition-colors text-lg flex-shrink-0 p-2 rounded-lg hover:bg-white/10"
               aria-label={dark ? 'Light mode' : 'Dark mode'}
             >
               {dark ? '☀️' : '🌙'}
@@ -71,21 +72,21 @@ export default function Navbar() {
             
             <Link 
               to="/menu" 
-              className="hidden sm:flex text-gray-300 hover:text-white relative pb-1 transition-colors text-sm text-center group min-w-20 justify-center"
+              className="hidden sm:flex text-gray-300 hover:text-white relative pb-1 px-2 transition-colors text-sm text-center group min-w-20 justify-center"
             >
              {t('nav.menu')}
-             <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full" />
             </Link>
-            
+
             <Link 
               to="/cart" 
-              className="relative text-gray-300 hover:text-white pb-1 transition-all text-sm text-center group flex-shrink-0"
+              className="relative text-gray-300 hover:text-white p-2 rounded-lg hover:bg-white/10 transition-all text-sm text-center group flex-shrink-0"
             >
               <span className="relative flex items-center gap-1">
-                 <span className="text-sm md:text-base">🛒</span>
+                 <span className="text-base md:text-lg leading-none">🛒</span>
                   <span className="hidden md:inline-block min-w-24 text-center">{t('nav.cart')}</span>
                 {cart?.length > 0 && (
-                  <span className="absolute -top-1.5 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center animate-bounceIn">
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full min-w-4 h-4 px-1 flex items-center justify-center animate-bounceIn">
                     {cart.length}
                   </span>
                 )}
@@ -94,15 +95,15 @@ export default function Navbar() {
             </Link>
             
             {user ? (
-              <div className="relative flex-shrink-0" ref={dropdownRef}>
+              <div className="relative flex-shrink-0 ml-1" ref={dropdownRef}>
                 <button 
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="text-gray-300 hover:text-white flex items-center justify-center gap-1"
+                  className="text-gray-300 hover:text-white flex items-center justify-center gap-1.5 p-2 rounded-lg hover:bg-white/10"
                 >
                   <img 
                     src={user.avatar} 
                     alt={user.name || 'User'}
-                    className="w-6 h-6 rounded-full border border-white flex-shrink-0"
+                    className="w-7 h-7 rounded-full border border-white flex-shrink-0"
                   />
                   <span className="hidden md:inline truncate text-sm max-w-[80px]">{user.name.split(' ')[0]}</span>
                   <span className={`hidden md:inline text-xs flex-shrink-0 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`}>
@@ -189,13 +190,63 @@ export default function Navbar() {
             ) : (
               <Link 
                 to="/login"
-                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-3 md:px-5 py-2 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 min-w-32 md:min-w-40"
+                className="bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white rounded-lg hover:shadow-lg hover:shadow-blue-500/25 hover:scale-105 active:scale-95 transition-all duration-300 px-4 md:px-5 py-2.5 text-xs md:text-sm text-center font-medium whitespace-nowrap flex-shrink-0 ml-1"
               >
                 {t('nav.login')}
               </Link>
             )}
+
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="sm:hidden ml-2 p-2.5 rounded-lg border border-white/15 bg-white/5 text-gray-200 hover:text-white hover:bg-white/10 flex-shrink-0"
+              aria-label="Menu"
+              aria-expanded={isMobileMenuOpen}
+            >
+              {isMobileMenuOpen ? (
+                <span className="block w-5 text-lg leading-none">✕</span>
+              ) : (
+                <span className="block">
+                  <span className="block w-5 h-0.5 bg-current mb-1.5" />
+                  <span className="block w-5 h-0.5 bg-current mb-1.5" />
+                  <span className="block w-5 h-0.5 bg-current" />
+                </span>
+              )}
+            </button>
           </div>
         </div>
+        {isMobileMenuOpen && (
+          <div className="sm:hidden border-t border-gray-600 px-4 py-3 space-y-1 bg-[#1E293B]">
+            <Link
+              to="/menu"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block py-2 px-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium"
+            >
+              {t('nav.menu')}
+            </Link>
+            <Link
+              to="/cart"
+              onClick={() => setIsMobileMenuOpen(false)}
+              className="block py-2 px-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg text-sm font-medium"
+            >
+              {t('nav.cart')}
+            </Link>
+            {user && (
+              <>
+                <Link to="/profile" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 px-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                  {t('nav.profile')}
+                </Link>
+                <Link to="/my-orders" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 px-2 text-gray-200 hover:text-white hover:bg-white/5 rounded-lg text-sm">
+                  {t('nav.myOrders')}
+                </Link>
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setIsMobileMenuOpen(false)} className="block py-2 px-2 text-yellow-300 hover:bg-white/5 rounded-lg text-sm font-semibold">
+                    {t('nav.admin')}
+                  </Link>
+                )}
+              </>
+            )}
+          </div>
+        )}
       </div>
     </nav>
   );
